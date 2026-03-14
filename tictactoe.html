@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jane Rahn Stampe</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a2e;
+      font-family: 'Segoe UI', sans-serif;
+      color: #eee;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #e0e0e0;
+    }
+
+    #status {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      min-height: 1.6rem;
+      color: #a0c4ff;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(3, 110px);
+      grid-template-rows: repeat(3, 110px);
+      gap: 10px;
+    }
+
+    .cell {
+      background: #16213e;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      user-select: none;
+      border: 2px solid #0f3460;
+    }
+
+    .cell:hover:not(.taken) {
+      background: #0f3460;
+      transform: scale(1.05);
+    }
+
+    .cell.x {
+      color: #ff6b6b;
+    }
+
+    .cell.o {
+      color: #4ecdc4;
+    }
+
+    .cell.win {
+      background: #0f3460;
+      border-color: #a0c4ff;
+      animation: pulse 0.5s ease;
+    }
+
+    @keyframes pulse {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    #reset {
+      margin-top: 2rem;
+      padding: 0.7rem 2.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: #0f3460;
+      color: #a0c4ff;
+      border: 2px solid #a0c4ff;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    #reset:hover {
+      background: #a0c4ff;
+      color: #0f3460;
+    }
+
+    #scoreboard {
+      display: flex;
+      gap: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .score-box {
+      text-align: center;
+    }
+
+    .score-box .label {
+      font-size: 0.75rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .score-box .value {
+      font-size: 2rem;
+    }
+
+    #score-x .value { color: #ff6b6b; }
+    #score-o .value { color: #4ecdc4; }
+    #score-draw .value { color: #aaa; }
+  </style>
+</head>
+<body>
+  <h1>Jane Rahn Stampe</h1>
+
+  <div id="scoreboard">
+    <div class="score-box" id="score-x">
+      <div class="label">X Wins</div>
+      <div class="value" id="x-count">0</div>
+    </div>
+    <div class="score-box" id="score-draw">
+      <div class="label">Draws</div>
+      <div class="value" id="draw-count">0</div>
+    </div>
+    <div class="score-box" id="score-o">
+      <div class="label">O Wins</div>
+      <div class="value" id="o-count">0</div>
+    </div>
+  </div>
+
+  <div id="status">Player X's turn</div>
+
+  <div id="board">
+    <div class="cell" data-index="0"></div>
+    <div class="cell" data-index="1"></div>
+    <div class="cell" data-index="2"></div>
+    <div class="cell" data-index="3"></div>
+    <div class="cell" data-index="4"></div>
+    <div class="cell" data-index="5"></div>
+    <div class="cell" data-index="6"></div>
+    <div class="cell" data-index="7"></div>
+    <div class="cell" data-index="8"></div>
+  </div>
+
+  <button id="reset">New Game</button>
+
+  <script>
+    const WINNING_COMBOS = [
+      [0,1,2],[3,4,5],[6,7,8], // rows
+      [0,3,6],[1,4,7],[2,5,8], // cols
+      [0,4,8],[2,4,6]          // diagonals
+    ];
+
+    let board, currentPlayer, gameOver;
+    let scores = { X: 0, O: 0, Draw: 0 };
+
+    const cells = document.querySelectorAll('.cell');
+    const status = document.getElementById('status');
+    const xCount = document.getElementById('x-count');
+    const oCount = document.getElementById('o-count');
+    const drawCount = document.getElementById('draw-count');
+
+    function init() {
+      board = Array(9).fill(null);
+      currentPlayer = 'X';
+      gameOver = false;
+      cells.forEach(cell => {
+        cell.textContent = '';
+        cell.className = 'cell';
+      });
+      status.textContent = "Player X's turn";
+    }
+
+    function checkWinner() {
+      for (const [a, b, c] of WINNING_COMBOS) {
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return { winner: board[a], combo: [a, b, c] };
+        }
+      }
+      if (board.every(v => v !== null)) return { winner: 'Draw' };
+      return null;
+    }
+
+    function handleClick(e) {
+      const cell = e.currentTarget;
+      const index = parseInt(cell.dataset.index);
+      if (gameOver || board[index]) return;
+
+      board[index] = currentPlayer;
+      cell.textContent = currentPlayer;
+      cell.classList.add(currentPlayer.toLowerCase(), 'taken');
+
+      const result = checkWinner();
+
+      if (result) {
+        gameOver = true;
+        if (result.winner === 'Draw') {
+          status.textContent = "It's a draw!";
+          scores.Draw++;
+          drawCount.textContent = scores.Draw;
+        } else {
+          status.textContent = `Player ${result.winner} wins!`;
+          result.combo.forEach(i => cells[i].classList.add('win'));
+          scores[result.winner]++;
+          if (result.winner === 'X') xCount.textContent = scores.X;
+          else oCount.textContent = scores.O;
+        }
+      } else {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        status.textContent = `Player ${currentPlayer}'s turn`;
+      }
+    }
+
+    cells.forEach(cell => cell.addEventListener('click', handleClick));
+    document.getElementById('reset').addEventListener('click', init);
+
+    init();
+  </script>
+</body>
+</html>
