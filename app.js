@@ -85,65 +85,23 @@ function renderCarousel() {
   track.innerHTML = items + items; // duplicated for seamless loop
 }
 
-function renderChampionship() {
-  const c = SITE_DATA.championship;
-  const seasonLabel = document.getElementById('champ-season-label');
-  const position = document.getElementById('champ-position');
-  const points = document.getElementById('champ-points');
-  const wins = document.getElementById('champ-wins');
-  const rounds = document.getElementById('champ-rounds');
-  const lead = document.getElementById('champ-lead');
-  if (seasonLabel) seasonLabel.textContent = c.seasonLabel;
-  if (position) position.textContent = c.position;
-  if (points) points.textContent = c.points;
-  if (wins) wins.textContent = c.wins;
-  if (rounds) rounds.textContent = `${c.roundsCompleted}/${c.totalRounds}`;
-  if (lead) lead.textContent = `+${c.pointsLead} pts lead`;
-
-  const standingsContainer = document.getElementById('standings-container');
-  if (standingsContainer) {
-    standingsContainer.innerHTML = c.standings.map(row => `
-      <div class="standing-row">
-        <div class="standing-pos${row.pos === 1 ? ' ' + row.cls : ''}">${row.pos}</div>
-        <div class="standing-name">${row.name}</div>
-        <div class="standing-bar-track">
-          <div class="standing-bar-fill ${row.cls}" data-bar-width="${row.barPct}%"></div>
-        </div>
-        <div class="standing-pts">${row.points} pts</div>
-      </div>
-    `).join('');
-  }
-}
-
 function renderResultsTable() {
   const tbody = document.getElementById('results-tbody');
   if (!tbody) return;
-  tbody.innerHTML = SITE_DATA.raceResults.map(r => {
-    const roundNum = String(r.round).padStart(2, '0');
-    if (r.upcoming) {
+  tbody.innerHTML = SITE_DATA.raceResults
+    .filter(r => !r.upcoming)
+    .map(r => {
+      const roundNum = String(r.round).padStart(2, '0');
       return `
-        <tr class="upcoming">
-          <td><span class="round-num" style="color:var(--gold);">${roundNum}</span></td>
-          <td>
-            <span class="track-name">${r.track}</span>
-            <span class="badge badge-gold" style="margin-left:8px; font-size:9px;">UPCOMING</span>
-          </td>
-          <td>${r.flag} ${r.country}</td>
-          <td>${r.shortDate}</td>
-          <td><span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">TBD</span></td>
-          <td style="color:var(--text-3);">—</td>
-        </tr>`;
-    }
-    return `
       <tr>
         <td><span class="round-num">${roundNum}</span></td>
         <td><span class="track-name">${r.track}</span></td>
         <td>${r.flag} ${r.country}</td>
         <td>${r.shortDate}</td>
+        <td>${r.championship}</td>
         <td><span class="pos-badge pos-${r.pos}">P${r.pos}</span></td>
-        <td style="font-weight:600; color:var(--text);">${r.points}</td>
       </tr>`;
-  }).join('');
+    }).join('');
 }
 
 function renderCalendar() {
@@ -368,7 +326,6 @@ function renderAllData() {
   renderSeasonMetrics();
   renderHomeHighlights();
   renderCarousel();
-  renderChampionship();
   renderResultsTable();
   renderCalendar();
   renderMedia();

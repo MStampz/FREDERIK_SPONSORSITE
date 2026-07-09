@@ -10,10 +10,10 @@
      seasonMetrics  — home page season counters
      homeHighlights — home page "Race Highlights" cards (top 3)
      carouselLogos  — home page scrolling sponsor logo strip
-     championship   — results page header stats + standings
      raceResults    — the season's races: single source of truth used
-                      by both the Results page table and the Calendar
-                      page's race grid / next-race hero
+                      by both the Results page table (completed races
+                      only) and the Calendar page's race grid /
+                      next-race hero
      calendar       — calendar page next-race extras (badges, note,
                       countdown target) — venue/date/etc. are derived
                       from raceResults so the two pages can't drift
@@ -29,13 +29,13 @@ const SITE_DATA = {
 
   site: {
     name: 'FREDERIK RAHN STAMPE',
-    tagline: '#74 · EMX250 · Sweden'
+    tagline: '#215 · MX2 · Denmark'
   },
 
   contact: {
-    email: 'management@frederiksracing.com',
-    phone: '+46 70 123 45 67',
-    location: 'Gothenburg, Sweden'
+    email: 'info@frederikstampe.com',
+    phone: '+61 472 625 887',
+    location: 'Melbourne, Australia'
   },
 
   seasonMetrics: {
@@ -82,37 +82,25 @@ const SITE_DATA = {
 
   carouselLogos: ['FOX RACING', 'KTM', 'RED BULL', 'ALPINESTARS', 'ACERBIS', 'DUNLOP', 'ÖHLINS', 'MXGP'],
 
-  championship: {
-    seasonLabel: 'EMX250 Championship Standings 2025',
-    position: 'P1',
-    points: 187,
-    wins: 8,
-    roundsCompleted: 8,
-    totalRounds: 9,
-    pointsLead: 12,
-    standings: [
-      { pos: 1, name: 'Frederik Rahn Stampe', points: 187, barPct: 100, cls: 'p1' },
-      { pos: 2, name: 'Luca Rossi', points: 175, barPct: 91, cls: 'p2' },
-      { pos: 3, name: 'Tom Jacobs', points: 158, barPct: 83, cls: 'p3' },
-      { pos: 4, name: 'Mikkel Hansen', points: 135, barPct: 72, cls: 'p4' }
-    ]
-  },
-
   /* The season's races — season 2025, 8 of 9 rounds complete.
-     Feeds both the Results page table (short date, padded round
-     number) and the Calendar page's race grid + next-race hero
-     (full date, "Round N" label, win badge derived from pos === 1).
-     Add a new round here and both pages update together. */
+     Feeds both the Results page table (completed races only: date,
+     championship, pos) and the Calendar page's race grid + next-race
+     hero (full date, "Round N" label, win badge derived from
+     pos === 1). Add a new round here and both pages update together.
+
+     `championship` — TODO: placeholder value 'EMX250' on every row.
+     Frederik competes across different championships, so update each
+     race's `championship` to the actual series it belongs to. */
   raceResults: [
-    { round: 1, track: 'Västerås SX', flag: '🇸🇪', country: 'Sweden', shortDate: 'Mar 15', fullDate: 'March 15, 2025', pos: 3, points: 16 },
-    { round: 2, track: 'Genk MX', flag: '🇧🇪', country: 'Belgium', shortDate: 'Apr 5', fullDate: 'April 5, 2025', pos: 1, points: 25 },
-    { round: 3, track: 'Valkenswaard', flag: '🇳🇱', country: 'Netherlands', shortDate: 'Apr 26', fullDate: 'April 26, 2025', pos: 2, points: 22 },
-    { round: 4, track: 'Ernée', flag: '🇫🇷', country: 'France', shortDate: 'May 17', fullDate: 'May 17, 2025', pos: 1, points: 25 },
-    { round: 5, track: 'Teutschenthal', flag: '🇩🇪', country: 'Germany', shortDate: 'Jun 7', fullDate: 'June 7, 2025', pos: 4, points: 13 },
-    { round: 6, track: 'Ottobiano', flag: '🇮🇹', country: 'Italy', shortDate: 'Jun 28', fullDate: 'June 28, 2025', pos: 3, points: 16 },
-    { round: 7, track: 'Loket', flag: '🇨🇿', country: 'Czech Republic', shortDate: 'Jul 19', fullDate: 'July 19, 2025', pos: 2, points: 22 },
-    { round: 8, track: 'Matterley Basin', flag: '🇬🇧', country: 'United Kingdom', shortDate: 'Aug 9', fullDate: 'August 9, 2025', pos: 1, points: 25 },
-    { round: 9, track: 'Uddevalla', flag: '🇸🇪', country: 'Sweden', shortDate: 'Sep 6', fullDate: 'September 6, 2025', pos: null, points: null, upcoming: true }
+    { round: 1, track: 'Västerås SX', flag: '🇸🇪', country: 'Sweden', shortDate: 'Mar 15', fullDate: 'March 15, 2025', championship: 'EMX250', pos: 3, points: 16 },
+    { round: 2, track: 'Genk MX', flag: '🇧🇪', country: 'Belgium', shortDate: 'Apr 5', fullDate: 'April 5, 2025', championship: 'EMX250', pos: 1, points: 25 },
+    { round: 3, track: 'Valkenswaard', flag: '🇳🇱', country: 'Netherlands', shortDate: 'Apr 26', fullDate: 'April 26, 2025', championship: 'EMX250', pos: 2, points: 22 },
+    { round: 4, track: 'Ernée', flag: '🇫🇷', country: 'France', shortDate: 'May 17', fullDate: 'May 17, 2025', championship: 'EMX250', pos: 1, points: 25 },
+    { round: 5, track: 'Teutschenthal', flag: '🇩🇪', country: 'Germany', shortDate: 'Jun 7', fullDate: 'June 7, 2025', championship: 'EMX250', pos: 4, points: 13 },
+    { round: 6, track: 'Ottobiano', flag: '🇮🇹', country: 'Italy', shortDate: 'Jun 28', fullDate: 'June 28, 2025', championship: 'EMX250', pos: 3, points: 16 },
+    { round: 7, track: 'Loket', flag: '🇨🇿', country: 'Czech Republic', shortDate: 'Jul 19', fullDate: 'July 19, 2025', championship: 'EMX250', pos: 2, points: 22 },
+    { round: 8, track: 'Matterley Basin', flag: '🇬🇧', country: 'United Kingdom', shortDate: 'Aug 9', fullDate: 'August 9, 2025', championship: 'EMX250', pos: 1, points: 25 },
+    { round: 9, track: 'Uddevalla', flag: '🇸🇪', country: 'Sweden', shortDate: 'Sep 6', fullDate: 'September 6, 2025', championship: 'EMX250', pos: null, points: null, upcoming: true }
   ],
 
   /* Extra display info for the next race that isn't part of the
