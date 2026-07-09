@@ -20,7 +20,7 @@
 <nav id="nav">
   <div class="nav-inner">
     <div class="nav-logo">
-      <span class="nav-logo-name">FREDERIK RAHN STAMPE</span>
+      <span class="nav-logo-name" data-field="site-name">FREDERIK RAHN STAMPE</span>
       <span class="nav-logo-badge">#74</span>
     </div>
 
@@ -119,7 +119,7 @@
           <div class="hp-metric-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="20" width="22" height="3" rx="1.5" fill="currentColor" opacity=".3"/><rect x="7" y="13" width="4" height="10" rx="1" fill="currentColor" opacity=".6"/><rect x="12" y="8" width="4" height="15" rx="1" fill="currentColor"/><rect x="17" y="4" width="4" height="19" rx="1" fill="currentColor" opacity=".8"/></svg>
           </div>
-          <div class="hp-metric-val"><span class="counter" data-target="9">0</span></div>
+          <div class="hp-metric-val"><span class="counter" id="metric-races" data-target="9">0</span></div>
           <div class="hp-metric-label">Races This Season</div>
         </div>
 
@@ -127,7 +127,7 @@
           <div class="hp-metric-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 3L17.5 10L25 11L19.5 16.5L21 24L14 20.5L7 24L8.5 16.5L3 11L10.5 10L14 3Z" fill="currentColor" opacity=".9"/></svg>
           </div>
-          <div class="hp-metric-val"><span class="counter" data-target="17">0</span></div>
+          <div class="hp-metric-val"><span class="counter" id="metric-podiums" data-target="17">0</span></div>
           <div class="hp-metric-label">Podiums</div>
         </div>
 
@@ -135,7 +135,7 @@
           <div class="hp-metric-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M7 6H21V16C21 19.3 17.9 22 14 22C10.1 22 7 19.3 7 16V6Z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 10H4C4 10 4 15 7 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 10H24C24 10 24 15 21 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="11" y="22" width="6" height="3" rx="1" fill="currentColor" opacity=".5"/><rect x="9" y="25" width="10" height="2" rx="1" fill="currentColor" opacity=".4"/></svg>
           </div>
-          <div class="hp-metric-val"><span class="counter" data-target="8">0</span></div>
+          <div class="hp-metric-val"><span class="counter" id="metric-wins" data-target="8">0</span></div>
           <div class="hp-metric-label">Race Wins</div>
         </div>
 
@@ -143,7 +143,7 @@
           <div class="hp-metric-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="6" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="14" cy="14" r="4" fill="currentColor" opacity=".7"/><circle cx="14" cy="14" r="1.5" fill="currentColor"/></svg>
           </div>
-          <div class="hp-metric-val">45<span style="font-size:0.55em;color:var(--text-2);">K</span></div>
+          <div class="hp-metric-val" id="metric-reach">45<span style="font-size:0.55em;color:var(--text-2);">K</span></div>
           <div class="hp-metric-label">Monthly Social Reach</div>
         </div>
 
@@ -151,7 +151,7 @@
           <div class="hp-metric-icon">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="6" width="22" height="16" rx="3" fill="currentColor" opacity=".2"/><path d="M12 10L19 14L12 18V10Z" fill="currentColor"/></svg>
           </div>
-          <div class="hp-metric-val">280<span style="font-size:0.55em;color:var(--text-2);">K</span></div>
+          <div class="hp-metric-val" id="metric-views">280<span style="font-size:0.55em;color:var(--text-2);">K</span></div>
           <div class="hp-metric-label">Video Views</div>
         </div>
 
@@ -233,45 +233,7 @@
         <button class="btn btn-outline" data-goto="results">View All Results</button>
       </div>
 
-      <div class="hp-highlights-grid">
-
-        <div class="hp-race-card animate-fade-up">
-          <div class="hp-race-img-wrap">
-            <img src="https://picsum.photos/seed/mxrace-uk/800/500" alt="Matterley Basin Race" loading="lazy" />
-            <div class="hp-race-result hp-result-1">P1</div>
-          </div>
-          <div class="hp-race-body">
-            <div class="hp-race-meta">Round 8 &nbsp;·&nbsp; Matterley Basin, UK &nbsp;·&nbsp; Aug 16</div>
-            <h3 class="hp-race-name">MATTERLEY BASIN EMX250</h3>
-            <p class="hp-race-summary">A dominant wire-to-wire win in wet, technical conditions. Stampe led from gate to flag and extended his championship lead to 24 points.</p>
-          </div>
-        </div>
-
-        <div class="hp-race-card animate-fade-up animate-delay-1">
-          <div class="hp-race-img-wrap">
-            <img src="https://picsum.photos/seed/mxrace-cz/800/500" alt="Loket Race" loading="lazy" />
-            <div class="hp-race-result hp-result-2">P2</div>
-          </div>
-          <div class="hp-race-body">
-            <div class="hp-race-meta">Round 7 &nbsp;·&nbsp; Loket, Czech Republic &nbsp;·&nbsp; Jul 26</div>
-            <h3 class="hp-race-name">LOKET EMX250 ROUND</h3>
-            <p class="hp-race-summary">Strong runner-up finish on a sandy track after a mid-race charge from P5. Consistent points scoring keeps the championship lead intact.</p>
-          </div>
-        </div>
-
-        <div class="hp-race-card animate-fade-up animate-delay-2">
-          <div class="hp-race-img-wrap">
-            <img src="https://picsum.photos/seed/mxrace-it/800/500" alt="Ottobiano Race" loading="lazy" />
-            <div class="hp-race-result hp-result-3">P3</div>
-          </div>
-          <div class="hp-race-body">
-            <div class="hp-race-meta">Round 6 &nbsp;·&nbsp; Ottobiano, Italy &nbsp;·&nbsp; Jul 5</div>
-            <h3 class="hp-race-name">OTTOBIANO EMX250 ROUND</h3>
-            <p class="hp-race-summary">Third in challenging hard-pack conditions after qualifying fastest. A calculated race management secured vital championship points.</p>
-          </div>
-        </div>
-
-      </div>
+      <div class="hp-highlights-grid" id="home-highlights-container"></div>
     </div>
   </section>
 
@@ -281,26 +243,7 @@
       <div class="section-label" style="justify-content:center;">Our Partners</div>
     </div>
     <div class="hp-carousel-wrap">
-      <div class="hp-carousel-track">
-        <!-- First set -->
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">FOX RACING</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">KTM</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">RED BULL</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">ALPINESTARS</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">ACERBIS</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">DUNLOP</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">ÖHLINS</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">MXGP</div></div>
-        <!-- Duplicate for seamless loop -->
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">FOX RACING</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">KTM</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">RED BULL</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">ALPINESTARS</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">ACERBIS</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">DUNLOP</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">ÖHLINS</div></div>
-        <div class="hp-carousel-item"><div class="hp-carousel-logo">MXGP</div></div>
-      </div>
+      <div class="hp-carousel-track" id="carousel-track"></div>
     </div>
   </section>
 
@@ -308,8 +251,8 @@
   <footer>
     <div class="footer-inner">
       <div>
-        <div class="footer-brand-name">FREDERIK RAHN STAMPE</div>
-        <div class="footer-brand-sub">#74 · EMX250 · Sweden</div>
+        <div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div>
+        <div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div>
         <div class="footer-socials">
           <div class="footer-social" title="Instagram">📸</div>
           <div class="footer-social" title="TikTok">🎵</div>
@@ -339,7 +282,7 @@
         <div class="footer-nav-section">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="mailto:management@frederiksracing.com">Email Us</a></li>
+            <li><a href="mailto:management@frederiksracing.com" id="mailto-email-link">Email Us</a></li>
             <li><a class="nav-link" data-page="media">Press Kit</a></li>
             <li><a class="nav-link" data-page="contact">Packages</a></li>
           </ul>
@@ -347,9 +290,9 @@
       </div>
       <div class="footer-contact">
         <h4>Management</h4>
-        <p>management@frederiksracing.com</p>
-        <p>+46 70 123 45 67</p>
-        <p>Gothenburg, Sweden</p>
+        <p data-field="contact-email">management@frederiksracing.com</p>
+        <p data-field="contact-phone">+46 70 123 45 67</p>
+        <p data-field="contact-location">Gothenburg, Sweden</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -751,73 +694,7 @@
       <h2 class="section-title">SPONSORSHIP PACKAGES</h2>
       <p class="section-subtitle">Three tiers to match your goals. All packages are customisable.</p>
 
-      <div class="sv-pkg-grid">
-
-        <!-- SUPPORT PARTNER -->
-        <div class="sv-pkg-card animate-fade-up">
-          <div class="sv-pkg-tier-label">Support Partner</div>
-          <div class="sv-pkg-price">From <strong>€3,000</strong><span>/season</span></div>
-          <p class="sv-pkg-intro">A solid entry point for brands looking to associate with grassroots European motocross and reach the action sports demographic.</p>
-          <div class="sv-pkg-sep"></div>
-          <ul class="sv-pkg-list">
-            <li class="sv-feat-y">Jersey logo — arm / back placement</li>
-            <li class="sv-feat-y">Website — sponsors section</li>
-            <li class="sv-feat-y">1× dedicated social post / month</li>
-            <li class="sv-feat-y">Race-day story mentions</li>
-            <li class="sv-feat-y">Quarterly analytics report</li>
-            <li class="sv-feat-y">Season media pack (digital)</li>
-            <li class="sv-feat-n">Helmet branding</li>
-            <li class="sv-feat-n">Bike plastics</li>
-            <li class="sv-feat-n">Paddock branding</li>
-            <li class="sv-feat-n">Brand integration content</li>
-          </ul>
-          <button class="btn btn-outline sv-pkg-cta" data-goto="contact">Get Started</button>
-        </div>
-
-        <!-- MAJOR PARTNER (featured) -->
-        <div class="sv-pkg-card sv-pkg-featured animate-fade-up animate-delay-1">
-          <div class="sv-pkg-popular-badge">Recommended</div>
-          <div class="sv-pkg-tier-label">Major Partner</div>
-          <div class="sv-pkg-price">From <strong>€8,000</strong><span>/season</span></div>
-          <p class="sv-pkg-intro">Maximum visibility across both physical race events and digital content — the optimal balance of reach and value.</p>
-          <div class="sv-pkg-sep"></div>
-          <ul class="sv-pkg-list">
-            <li class="sv-feat-y">Jersey logo — chest placement</li>
-            <li class="sv-feat-y">Bike plastics — side panel branding</li>
-            <li class="sv-feat-y">Race paddock — banner presence</li>
-            <li class="sv-feat-y">2× dedicated social posts / month</li>
-            <li class="sv-feat-y">Website — featured partners section</li>
-            <li class="sv-feat-y">Monthly analytics report</li>
-            <li class="sv-feat-y">Full season media pack (hi-res)</li>
-            <li class="sv-feat-y">2× brand integration videos / season</li>
-            <li class="sv-feat-n">Helmet branding</li>
-            <li class="sv-feat-n">Transport vehicle wrap</li>
-          </ul>
-          <button class="btn btn-primary sv-pkg-cta" data-goto="contact">Partner With Us</button>
-        </div>
-
-        <!-- TITLE PARTNER -->
-        <div class="sv-pkg-card animate-fade-up animate-delay-2">
-          <div class="sv-pkg-tier-label">Title Partner</div>
-          <div class="sv-pkg-price">From <strong>€20,000</strong><span>/season</span></div>
-          <p class="sv-pkg-intro">Full-brand integration as the primary partner. Your name alongside the athlete on every surface, screen and podium step in Europe.</p>
-          <div class="sv-pkg-sep"></div>
-          <ul class="sv-pkg-list">
-            <li class="sv-feat-y">Helmet — full front &amp; rear branding</li>
-            <li class="sv-feat-y">Jersey — chest logo (largest position)</li>
-            <li class="sv-feat-y">Bike plastics — full panel coverage</li>
-            <li class="sv-feat-y">Race transport — full vehicle wrap</li>
-            <li class="sv-feat-y">Paddock canopy — title branding</li>
-            <li class="sv-feat-y">4× dedicated social posts / month</li>
-            <li class="sv-feat-y">Website — homepage feature placement</li>
-            <li class="sv-feat-y">Weekly analytics report</li>
-            <li class="sv-feat-y">Full content rights for all media</li>
-            <li class="sv-feat-y">3× athlete appearances / year</li>
-          </ul>
-          <button class="btn btn-outline sv-pkg-cta" data-goto="contact">Enquire Now</button>
-        </div>
-
-      </div>
+      <div class="sv-pkg-grid" id="sv-packages-container"></div>
 
       <p class="sv-pkg-note">All packages are fully customisable. Custom activations, co-branded campaigns and event appearances available on request.</p>
     </div>
@@ -842,8 +719,8 @@
   <footer>
     <div class="footer-inner">
       <div>
-        <div class="footer-brand-name">FREDERIK RAHN STAMPE</div>
-        <div class="footer-brand-sub">#74 · EMX250 · Sweden</div>
+        <div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div>
+        <div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div>
         <div class="footer-socials">
           <div class="footer-social">📸</div>
           <div class="footer-social">🎵</div>
@@ -856,7 +733,7 @@
         <div class="footer-nav-section"><h4>Partnership</h4><ul><li><a class="nav-link" data-page="sponsor-value">Sponsor Value</a></li><li><a class="nav-link" data-page="contact">Packages</a></li></ul></div>
         <div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li><li><a class="nav-link" data-page="sponsors">Partners</a></li></ul></div>
       </div>
-      <div class="footer-contact"><h4>Management</h4><p>management@frederiksracing.com</p><p>+46 70 123 45 67</p></div>
+      <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">management@frederiksracing.com</p><p data-field="contact-phone">+46 70 123 45 67</p></div>
     </div>
     <div class="footer-bottom">
       <span class="footer-bottom-text">© 2025 Frederik Rahn Stampe Racing. All rights reserved.</span>
@@ -887,22 +764,22 @@
       <!-- Championship Header -->
       <div class="championship-header animate-fade-up">
         <div>
-          <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-3); margin-bottom:20px;">EMX250 Championship Standings 2025</div>
+          <div id="champ-season-label" style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-3); margin-bottom:20px;">EMX250 Championship Standings 2025</div>
           <div class="champ-stat-row">
             <div class="champ-stat">
-              <div class="champ-stat-num">P1</div>
+              <div class="champ-stat-num" id="champ-position">P1</div>
               <div class="champ-stat-label">Position</div>
             </div>
             <div class="champ-stat">
-              <div class="champ-stat-num">187</div>
+              <div class="champ-stat-num" id="champ-points">187</div>
               <div class="champ-stat-label">Points</div>
             </div>
             <div class="champ-stat">
-              <div class="champ-stat-num">8</div>
+              <div class="champ-stat-num" id="champ-wins">8</div>
               <div class="champ-stat-label">Wins</div>
             </div>
             <div class="champ-stat">
-              <div class="champ-stat-num">8/9</div>
+              <div class="champ-stat-num" id="champ-rounds">8/9</div>
               <div class="champ-stat-label">Rounds</div>
             </div>
           </div>
@@ -910,45 +787,14 @@
         <div class="champ-badge-area">
           <span class="badge badge-gold" style="font-size:12px; padding:8px 18px;">Championship Leader</span>
           <span class="badge badge-sand">EMX250 · Season 2025</span>
-          <span class="badge badge-green">+12 pts lead</span>
+          <span class="badge badge-green" id="champ-lead">+12 pts lead</span>
         </div>
       </div>
 
       <!-- Standings -->
       <div class="standings-section animate-fade-up animate-bars">
         <div class="standings-title">Top 4 Championship Standings</div>
-        <div class="standing-row">
-          <div class="standing-pos p1">1</div>
-          <div class="standing-name">Frederik Rahn Stampe</div>
-          <div class="standing-bar-track">
-            <div class="standing-bar-fill p1" data-bar-width="100%"></div>
-          </div>
-          <div class="standing-pts">187 pts</div>
-        </div>
-        <div class="standing-row">
-          <div class="standing-pos">2</div>
-          <div class="standing-name">Luca Rossi</div>
-          <div class="standing-bar-track">
-            <div class="standing-bar-fill p2" data-bar-width="91%"></div>
-          </div>
-          <div class="standing-pts">175 pts</div>
-        </div>
-        <div class="standing-row">
-          <div class="standing-pos">3</div>
-          <div class="standing-name">Tom Jacobs</div>
-          <div class="standing-bar-track">
-            <div class="standing-bar-fill p3" data-bar-width="83%"></div>
-          </div>
-          <div class="standing-pts">158 pts</div>
-        </div>
-        <div class="standing-row">
-          <div class="standing-pos">4</div>
-          <div class="standing-name">Mikkel Hansen</div>
-          <div class="standing-bar-track">
-            <div class="standing-bar-fill p4" data-bar-width="72%"></div>
-          </div>
-          <div class="standing-pts">135 pts</div>
-        </div>
+        <div id="standings-container"></div>
       </div>
 
       <!-- Results Table -->
@@ -964,83 +810,7 @@
               <th>Pts</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><span class="round-num">01</span></td>
-              <td><span class="track-name">Västerås SX</span></td>
-              <td>🇸🇪 Sweden</td>
-              <td>Mar 15</td>
-              <td><span class="pos-badge pos-3">P3</span></td>
-              <td style="font-weight:600; color:var(--text);">16</td>
-            </tr>
-            <tr>
-              <td><span class="round-num">02</span></td>
-              <td><span class="track-name">Genk MX</span></td>
-              <td>🇧🇪 Belgium</td>
-              <td>Apr 5</td>
-              <td><span class="pos-badge pos-1">P1</span></td>
-              <td style="font-weight:600; color:var(--text);">25</td>
-            </tr>
-            <tr>
-              <td><span class="round-num">03</span></td>
-              <td><span class="track-name">Valkenswaard</span></td>
-              <td>🇳🇱 Netherlands</td>
-              <td>Apr 26</td>
-              <td><span class="pos-badge pos-2">P2</span></td>
-              <td style="font-weight:600; color:var(--text);">22</td>
-            </tr>
-            <tr>
-              <td><span class="round-num">04</span></td>
-              <td><span class="track-name">Ernée</span></td>
-              <td>🇫🇷 France</td>
-              <td>May 17</td>
-              <td><span class="pos-badge pos-1">P1</span></td>
-              <td style="font-weight:600; color:var(--text);">25</td>
-            </tr>
-            <tr>
-              <td><span class="round-num">05</span></td>
-              <td><span class="track-name">Teutschenthal</span></td>
-              <td>🇩🇪 Germany</td>
-              <td>Jun 7</td>
-              <td><span class="pos-badge pos-4">P4</span></td>
-              <td style="font-weight:600; color:var(--text);">13</td>
-            </tr>
-            <tr>
-              <td><span class="round-num">06</span></td>
-              <td><span class="track-name">Ottobiano</span></td>
-              <td>🇮🇹 Italy</td>
-              <td>Jun 28</td>
-              <td><span class="pos-badge pos-3">P3</span></td>
-              <td style="font-weight:600; color:var(--text);">16</td>
-            </tr>
-            <tr>
-              <td><span class="round-num">07</span></td>
-              <td><span class="track-name">Loket</span></td>
-              <td>🇨🇿 Czech Republic</td>
-              <td>Jul 19</td>
-              <td><span class="pos-badge pos-2">P2</span></td>
-              <td style="font-weight:600; color:var(--text);">22</td>
-            </tr>
-            <tr>
-              <td><span class="round-num">08</span></td>
-              <td><span class="track-name">Matterley Basin</span></td>
-              <td>🇬🇧 United Kingdom</td>
-              <td>Aug 9</td>
-              <td><span class="pos-badge pos-1">P1</span></td>
-              <td style="font-weight:600; color:var(--text);">25</td>
-            </tr>
-            <tr class="upcoming">
-              <td><span class="round-num" style="color:var(--gold);">09</span></td>
-              <td>
-                <span class="track-name">Uddevalla</span>
-                <span class="badge badge-gold" style="margin-left:8px; font-size:9px;">UPCOMING</span>
-              </td>
-              <td>🇸🇪 Sweden</td>
-              <td>Sep 6</td>
-              <td><span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">TBD</span></td>
-              <td style="color:var(--text-3);">—</td>
-            </tr>
-          </tbody>
+          <tbody id="results-tbody"></tbody>
         </table>
       </div>
 
@@ -1049,9 +819,9 @@
 
   <footer>
     <div class="footer-inner">
-      <div><div class="footer-brand-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
+      <div><div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="calendar">Calendar</a></li><li><a class="nav-link" data-page="media">Media</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner With Us</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Team</h4><ul><li><a class="nav-link" data-page="sponsors">Sponsors</a></li></ul></div></div>
-      <div class="footer-contact"><h4>Management</h4><p>management@frederiksracing.com</p><p>+46 70 123 45 67</p></div>
+      <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">management@frederiksracing.com</p><p data-field="contact-phone">+46 70 123 45 67</p></div>
     </div>
     <div class="footer-bottom"><span class="footer-bottom-text">© 2025 Frederik Rahn Stampe Racing.</span><span class="footer-bottom-text">Stampe Racing · EMX250 · #74</span></div>
   </footer>
@@ -1079,88 +849,27 @@
       <!-- Media Stats -->
       <div class="media-stats animate-fade-up">
         <div class="media-stat">
-          <div class="media-stat-num">120+</div>
+          <div class="media-stat-num" id="media-stat-photos">120+</div>
           <div class="media-stat-label">Photos</div>
         </div>
         <div class="media-stat">
           <div style="width:1px; height:32px; background:rgba(255,255,255,0.08);"></div>
         </div>
         <div class="media-stat">
-          <div class="media-stat-num">18</div>
+          <div class="media-stat-num" id="media-stat-videos">18</div>
           <div class="media-stat-label">Videos</div>
         </div>
         <div class="media-stat">
           <div style="width:1px; height:32px; background:rgba(255,255,255,0.08);"></div>
         </div>
         <div class="media-stat">
-          <div class="media-stat-num">8</div>
+          <div class="media-stat-num" id="media-stat-press">8</div>
           <div class="media-stat-label">Press Features</div>
         </div>
       </div>
 
       <!-- Gallery Grid -->
-      <div class="gallery-grid animate-fade-up">
-        <!-- Item 1 - Large -->
-        <div class="gallery-item large">
-          <img src="https://picsum.photos/seed/mx1/800/600" alt="Race action mx1" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Race Day — Genk MX</span></div>
-        </div>
-        <!-- Item 2 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx2/800/600" alt="Race action mx2" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Training Session</span></div>
-        </div>
-        <!-- Item 3 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx3/800/600" alt="Race action mx3" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Podium Celebration</span></div>
-        </div>
-        <!-- Item 4 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx4/800/600" alt="Race action mx4" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Pit Lane Prep</span></div>
-        </div>
-        <!-- Item 5 - Large -->
-        <div class="gallery-item large">
-          <img src="https://picsum.photos/seed/mx5/800/600" alt="Race action mx5" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Matterley Basin — Round 8 Win</span></div>
-        </div>
-        <!-- Item 6 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx6/800/600" alt="Race action mx6" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Swedish Landscape</span></div>
-        </div>
-        <!-- Item 7 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx7/800/600" alt="Race action mx7" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Behind the Helmet</span></div>
-        </div>
-        <!-- Item 8 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx8/800/600" alt="Race action mx8" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Championship Leader</span></div>
-        </div>
-        <!-- Item 9 - Large -->
-        <div class="gallery-item large">
-          <img src="https://picsum.photos/seed/mx9/800/600" alt="Race action mx9" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Start Gate — Ernée France</span></div>
-        </div>
-        <!-- Item 10 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx10/800/600" alt="Race action mx10" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Whoops Section</span></div>
-        </div>
-        <!-- Item 11 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx11/800/600" alt="Race action mx11" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Bike Setup</span></div>
-        </div>
-        <!-- Item 12 -->
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/mx12/800/600" alt="Race action mx12" loading="lazy" />
-          <div class="gallery-item-overlay"><span class="gallery-item-label">Season Finale Preview</span></div>
-        </div>
-      </div>
+      <div class="gallery-grid animate-fade-up" id="gallery-container"></div>
 
       <!-- Press Kit Bar -->
       <div class="press-kit-bar animate-fade-up">
@@ -1178,9 +887,9 @@
 
   <footer>
     <div class="footer-inner">
-      <div><div class="footer-brand-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
+      <div><div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Team</h4><ul><li><a class="nav-link" data-page="sponsors">Sponsors</a></li></ul></div></div>
-      <div class="footer-contact"><h4>Management</h4><p>management@frederiksracing.com</p><p>+46 70 123 45 67</p></div>
+      <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">management@frederiksracing.com</p><p data-field="contact-phone">+46 70 123 45 67</p></div>
     </div>
     <div class="footer-bottom"><span class="footer-bottom-text">© 2025 Frederik Rahn Stampe Racing.</span></div>
   </footer>
@@ -1207,18 +916,18 @@
       <div class="next-race-hero animate-fade-up">
         <div>
           <div class="next-race-badge">Next Race</div>
-          <div class="next-race-title">UDDEVALLA</div>
+          <div class="next-race-title" id="next-race-venue">UDDEVALLA</div>
           <div class="next-race-meta">
-            <span>🇸🇪 Sweden</span>
+            <span id="next-race-country">🇸🇪 Sweden</span>
             <span>·</span>
-            <span>Round 9 of 9</span>
+            <span id="next-race-round">Round 9 of 9</span>
             <span>·</span>
-            <span>September 6, 2026</span>
+            <span id="next-race-date">September 6, 2026</span>
           </div>
-          <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+          <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;" id="next-race-badges">
             <span class="badge badge-gold">Season Finale</span>
             <span class="badge badge-sand">Home Race</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);">Uddevalla MX Park — Championship decider</span>
+            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);" id="next-race-note">Uddevalla MX Park — Championship decider</span>
           </div>
         </div>
         <div class="next-race-countdown">
@@ -1242,143 +951,15 @@
       </div>
 
       <!-- Race Grid -->
-      <div class="race-grid">
-        <div class="race-card completed animate-fade-up">
-          <div class="race-card-header">
-            <span class="race-round">Round 1</span>
-            <span class="race-status status-completed">Completed</span>
-          </div>
-          <div class="race-venue">Västerås</div>
-          <div class="race-location">🇸🇪 Sweden</div>
-          <div class="race-date">March 22, 2026</div>
-          <div class="race-result">
-            <span class="race-result-pos">P3</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">16 points</span>
-          </div>
-        </div>
-
-        <div class="race-card completed animate-fade-up animate-delay-1">
-          <div class="race-card-header">
-            <span class="race-round">Round 2</span>
-            <span class="race-status status-completed">Completed</span>
-          </div>
-          <div class="race-venue">Genk MX</div>
-          <div class="race-location">🇧🇪 Belgium</div>
-          <div class="race-date">April 12, 2026</div>
-          <div class="race-result">
-            <span class="race-result-pos">P1</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">25 points</span>
-            <span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>
-          </div>
-        </div>
-
-        <div class="race-card completed animate-fade-up animate-delay-2">
-          <div class="race-card-header">
-            <span class="race-round">Round 3</span>
-            <span class="race-status status-completed">Completed</span>
-          </div>
-          <div class="race-venue">Valkenswaard</div>
-          <div class="race-location">🇳🇱 Netherlands</div>
-          <div class="race-date">May 3, 2026</div>
-          <div class="race-result">
-            <span class="race-result-pos">P2</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">22 points</span>
-          </div>
-        </div>
-
-        <div class="race-card completed animate-fade-up animate-delay-1">
-          <div class="race-card-header">
-            <span class="race-round">Round 4</span>
-            <span class="race-status status-completed">Completed</span>
-          </div>
-          <div class="race-venue">Ernée</div>
-          <div class="race-location">🇫🇷 France</div>
-          <div class="race-date">May 24, 2026</div>
-          <div class="race-result">
-            <span class="race-result-pos">P1</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">25 points</span>
-            <span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>
-          </div>
-        </div>
-
-        <div class="race-card completed animate-fade-up animate-delay-2">
-          <div class="race-card-header">
-            <span class="race-round">Round 5</span>
-            <span class="race-status status-completed">Completed</span>
-          </div>
-          <div class="race-venue">Teutschenthal</div>
-          <div class="race-location">🇩🇪 Germany</div>
-          <div class="race-date">June 14, 2026</div>
-          <div class="race-result">
-            <span class="race-result-pos" style="color:var(--text-2);">P4</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">13 points</span>
-          </div>
-        </div>
-
-        <div class="race-card completed animate-fade-up animate-delay-3">
-          <div class="race-card-header">
-            <span class="race-round">Round 6</span>
-            <span class="race-status status-completed">Completed</span>
-          </div>
-          <div class="race-venue">Ottobiano</div>
-          <div class="race-location">🇮🇹 Italy</div>
-          <div class="race-date">July 5, 2026</div>
-          <div class="race-result">
-            <span class="race-result-pos">P3</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">16 points</span>
-          </div>
-        </div>
-
-        <div class="race-card completed animate-fade-up animate-delay-1">
-          <div class="race-card-header">
-            <span class="race-round">Round 7</span>
-            <span class="race-status status-completed">Completed</span>
-          </div>
-          <div class="race-venue">Loket</div>
-          <div class="race-location">🇨🇿 Czech Republic</div>
-          <div class="race-date">July 26, 2026</div>
-          <div class="race-result">
-            <span class="race-result-pos">P2</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">22 points</span>
-          </div>
-        </div>
-
-        <div class="race-card completed animate-fade-up animate-delay-2">
-          <div class="race-card-header">
-            <span class="race-round">Round 8</span>
-            <span class="race-status status-completed">Completed</span>
-          </div>
-          <div class="race-venue">Matterley Basin</div>
-          <div class="race-location">🇬🇧 United Kingdom</div>
-          <div class="race-date">August 16, 2026</div>
-          <div class="race-result">
-            <span class="race-result-pos">P1</span>
-            <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">25 points</span>
-            <span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>
-          </div>
-        </div>
-
-        <div class="race-card next animate-fade-up animate-delay-3">
-          <div class="race-card-header">
-            <span class="race-round" style="color:var(--gold);">Round 9</span>
-            <span class="race-status status-next">Next Race</span>
-          </div>
-          <div class="race-venue" style="color:var(--gold);">Uddevalla</div>
-          <div class="race-location">🇸🇪 Sweden</div>
-          <div class="race-date" style="color:var(--text);">September 6, 2026</div>
-          <div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(196,151,62,0.15);">
-            <span class="badge badge-gold" style="font-size:10px;">Season Finale · Home Race</span>
-          </div>
-        </div>
-      </div>
+      <div class="race-grid" id="race-grid-container"></div>
     </div>
   </section>
 
   <footer>
     <div class="footer-inner">
-      <div><div class="footer-brand-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
+      <div><div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
-      <div class="footer-contact"><h4>Management</h4><p>management@frederiksracing.com</p><p>+46 70 123 45 67</p></div>
+      <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">management@frederiksracing.com</p><p data-field="contact-phone">+46 70 123 45 67</p></div>
     </div>
     <div class="footer-bottom"><span class="footer-bottom-text">© 2025 Frederik Rahn Stampe Racing.</span></div>
   </footer>
@@ -1509,9 +1090,9 @@
 
   <footer>
     <div class="footer-inner">
-      <div><div class="footer-brand-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
+      <div><div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="results">Results</a></li><li><a class="nav-link" data-page="calendar">Calendar</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
-      <div class="footer-contact"><h4>Management</h4><p>management@frederiksracing.com</p><p>+46 70 123 45 67</p></div>
+      <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">management@frederiksracing.com</p><p data-field="contact-phone">+46 70 123 45 67</p></div>
     </div>
     <div class="footer-bottom"><span class="footer-bottom-text">© 2025 Frederik Rahn Stampe Racing.</span></div>
   </footer>
@@ -1539,74 +1120,19 @@
         <!-- Title Sponsor -->
         <div>
           <div class="sponsor-tier-label">Title Sponsor</div>
-          <div class="title-sponsor-card animate-fade-up">
-            <div>
-              <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">Title Partner · Season 2025</div>
-              <div class="sponsor-logo-text">FOX RACING</div>
-              <p class="sponsor-desc">Fox Racing provides full gear integration — helmet, jersey, pants, boots and gloves. As our title partner, Fox branding appears on all race equipment, team media, and across all social channels.</p>
-              <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-                <span class="badge badge-gold">Title Partner</span>
-                <span class="badge badge-sand">Full Gear Supplier</span>
-                <span class="badge badge-sand">Digital Partner</span>
-              </div>
-            </div>
-            <div style="text-align:center; padding:32px; background:rgba(196,151,62,0.06); border:1px solid rgba(196,151,62,0.15); border-radius:12px; min-width:180px;">
-              <div style="font-family:'Bebas Neue',sans-serif; font-size:80px; color:rgba(196,151,62,0.4); line-height:1; letter-spacing:0.04em;">F</div>
-              <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; margin-top:8px;">Fox Racing</div>
-            </div>
-          </div>
+          <div class="title-sponsor-card animate-fade-up" id="title-sponsor-container"></div>
         </div>
 
         <!-- Official Partners -->
         <div>
           <div class="sponsor-tier-label">Official Partners</div>
-          <div class="partners-grid">
-            <div class="partner-card animate-fade-up">
-              <div style="font-size:40px; margin-bottom:12px;">🏍️</div>
-              <div class="partner-logo-text">KTM</div>
-              <div class="partner-type">Bike Manufacturer</div>
-              <p style="font-size:13px; color:var(--text-2); margin-top:12px; line-height:1.6;">Official KTM 250 SX-F factory support, technical assistance, and bike supply throughout the season.</p>
-              <div style="margin-top:16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                <span class="badge badge-sand">Factory Support</span>
-              </div>
-            </div>
-            <div class="partner-card animate-fade-up animate-delay-1">
-              <div style="font-size:40px; margin-bottom:12px;">⚡</div>
-              <div class="partner-logo-text">RED BULL</div>
-              <div class="partner-type">Energy &amp; Lifestyle</div>
-              <p style="font-size:13px; color:var(--text-2); margin-top:12px; line-height:1.6;">Energy drink partner providing athlete support, content collaboration, and Red Bull athlete network access.</p>
-              <div style="margin-top:16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                <span class="badge badge-sand">Content Partner</span>
-              </div>
-            </div>
-          </div>
+          <div class="partners-grid" id="official-partners-container"></div>
         </div>
 
         <!-- Supporting Sponsors -->
         <div>
           <div class="sponsor-tier-label">Supporting Sponsors</div>
-          <div class="supporting-grid">
-            <div class="supporting-card animate-fade-up">
-              <div style="font-size:24px; margin-bottom:8px;">🦁</div>
-              <div class="supporting-logo">ALPINESTARS</div>
-              <div class="supporting-type">Protective Gear</div>
-            </div>
-            <div class="supporting-card animate-fade-up animate-delay-1">
-              <div style="font-size:24px; margin-bottom:8px;">🔷</div>
-              <div class="supporting-logo">ACERBIS</div>
-              <div class="supporting-type">Plastics &amp; Guards</div>
-            </div>
-            <div class="supporting-card animate-fade-up animate-delay-2">
-              <div style="font-size:24px; margin-bottom:8px;">⭕</div>
-              <div class="supporting-logo">DUNLOP</div>
-              <div class="supporting-type">Tire Supplier</div>
-            </div>
-            <div class="supporting-card animate-fade-up animate-delay-3">
-              <div style="font-size:24px; margin-bottom:8px;">🔧</div>
-              <div class="supporting-logo">ÖHLINS</div>
-              <div class="supporting-type">Suspension</div>
-            </div>
-          </div>
+          <div class="supporting-grid" id="supporting-sponsors-container"></div>
         </div>
 
       </div>
@@ -1626,9 +1152,9 @@
 
   <footer>
     <div class="footer-inner">
-      <div><div class="footer-brand-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
+      <div><div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
-      <div class="footer-contact"><h4>Management</h4><p>management@frederiksracing.com</p><p>+46 70 123 45 67</p></div>
+      <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">management@frederiksracing.com</p><p data-field="contact-phone">+46 70 123 45 67</p></div>
     </div>
     <div class="footer-bottom"><span class="footer-bottom-text">© 2025 Frederik Rahn Stampe Racing.</span></div>
   </footer>
@@ -1660,31 +1186,7 @@
         <!-- Sidebar -->
         <div class="dashboard-sidebar animate-fade-up">
           <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-3); margin-bottom:4px; padding:0 4px;">Key Metrics</div>
-          <div class="sidebar-metric">
-            <div class="sidebar-metric-label">Total Impressions</div>
-            <div class="sidebar-metric-value"><span class="counter" data-target="45200">0</span></div>
-            <div class="sidebar-metric-change">↑ +12% vs last month</div>
-          </div>
-          <div class="sidebar-metric">
-            <div class="sidebar-metric-label">Engagement Rate</div>
-            <div class="sidebar-metric-value">8.2<span style="font-size:0.6em;">%</span></div>
-            <div class="sidebar-metric-change">↑ +0.4% vs avg</div>
-          </div>
-          <div class="sidebar-metric">
-            <div class="sidebar-metric-label">Link Clicks</div>
-            <div class="sidebar-metric-value"><span class="counter" data-target="1340">0</span></div>
-            <div class="sidebar-metric-change">↑ +8% vs last month</div>
-          </div>
-          <div class="sidebar-metric">
-            <div class="sidebar-metric-label">Story Views</div>
-            <div class="sidebar-metric-value">12.8<span style="font-size:0.6em;">K</span></div>
-            <div class="sidebar-metric-change">↑ +19% vs last month</div>
-          </div>
-          <div class="sidebar-metric">
-            <div class="sidebar-metric-label">Race Mentions</div>
-            <div class="sidebar-metric-value"><span class="counter" data-target="240">0</span></div>
-            <div class="sidebar-metric-change">This season</div>
-          </div>
+          <div id="dashboard-sidebar-container"></div>
         </div>
 
         <!-- Main Content -->
@@ -1707,38 +1209,7 @@
               </div>
               <span class="badge badge-green">+23% YoY</span>
             </div>
-            <div class="bar-chart-area">
-              <div class="bar-chart-col">
-                <div class="chart-bar-value">28K</div>
-                <div class="chart-bar" data-bar-height="52%"></div>
-                <div class="chart-bar-label">Mar</div>
-              </div>
-              <div class="bar-chart-col">
-                <div class="chart-bar-value">33K</div>
-                <div class="chart-bar" data-bar-height="62%"></div>
-                <div class="chart-bar-label">Apr</div>
-              </div>
-              <div class="bar-chart-col">
-                <div class="chart-bar-value">38K</div>
-                <div class="chart-bar" data-bar-height="72%"></div>
-                <div class="chart-bar-label">May</div>
-              </div>
-              <div class="bar-chart-col">
-                <div class="chart-bar-value">41K</div>
-                <div class="chart-bar" data-bar-height="78%"></div>
-                <div class="chart-bar-label">Jun</div>
-              </div>
-              <div class="bar-chart-col">
-                <div class="chart-bar-value">43K</div>
-                <div class="chart-bar" data-bar-height="82%"></div>
-                <div class="chart-bar-label">Jul</div>
-              </div>
-              <div class="bar-chart-col">
-                <div class="chart-bar-value" style="color:var(--gold);">45K</div>
-                <div class="chart-bar" data-bar-height="100%" style="background: linear-gradient(to top, var(--gold-dark), var(--gold-light));"></div>
-                <div class="chart-bar-label" style="color:var(--gold);">Aug</div>
-              </div>
-            </div>
+            <div class="bar-chart-area" id="monthly-chart-container"></div>
           </div>
 
           <!-- Platform Breakdown -->
@@ -1754,36 +1225,7 @@
                   <th>Growth</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><span class="platform-name">📸 Instagram</span></td>
-                  <td>12,400</td>
-                  <td>18,200</td>
-                  <td>8.2%</td>
-                  <td style="color:var(--success);">+320 / mo</td>
-                </tr>
-                <tr>
-                  <td><span class="platform-name">🎵 TikTok</span></td>
-                  <td>18,700</td>
-                  <td>22,400</td>
-                  <td>11.4%</td>
-                  <td style="color:var(--success);">+890 / mo</td>
-                </tr>
-                <tr>
-                  <td><span class="platform-name">▶ YouTube</span></td>
-                  <td>4,200</td>
-                  <td>3,800</td>
-                  <td>5.1%</td>
-                  <td style="color:var(--success);">+140 / mo</td>
-                </tr>
-                <tr>
-                  <td><span class="platform-name">📘 Facebook</span></td>
-                  <td>3,100</td>
-                  <td>2,600</td>
-                  <td>3.2%</td>
-                  <td style="color:var(--text-3);">+45 / mo</td>
-                </tr>
-              </tbody>
+              <tbody id="platform-tbody"></tbody>
             </table>
           </div>
 
@@ -1800,29 +1242,7 @@
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><span class="platform-name">Round 8 Race Coverage</span></td>
-                  <td>24,800</td>
-                  <td>640</td>
-                  <td>2.6%</td>
-                  <td><span class="badge badge-green" style="font-size:9px;">Active</span></td>
-                </tr>
-                <tr>
-                  <td><span class="platform-name">Fox Racing Gear Feature</span></td>
-                  <td>18,200</td>
-                  <td>420</td>
-                  <td>2.3%</td>
-                  <td><span class="badge badge-green" style="font-size:9px;">Active</span></td>
-                </tr>
-                <tr>
-                  <td><span class="platform-name">Championship Leader Story</span></td>
-                  <td>31,400</td>
-                  <td>890</td>
-                  <td>2.8%</td>
-                  <td><span class="badge badge-sand" style="font-size:9px;">Completed</span></td>
-                </tr>
-              </tbody>
+              <tbody id="campaign-tbody"></tbody>
             </table>
           </div>
 
@@ -1852,9 +1272,9 @@
 
   <footer>
     <div class="footer-inner">
-      <div><div class="footer-brand-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
+      <div><div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
-      <div class="footer-contact"><h4>Management</h4><p>management@frederiksracing.com</p><p>+46 70 123 45 67</p></div>
+      <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">management@frederiksracing.com</p><p data-field="contact-phone">+46 70 123 45 67</p></div>
     </div>
     <div class="footer-bottom"><span class="footer-bottom-text">© 2025 Frederik Rahn Stampe Racing.</span></div>
   </footer>
@@ -1878,59 +1298,7 @@
       </div>
 
       <!-- Packages -->
-      <div class="package-grid animate-fade-up">
-
-        <div class="package-card">
-          <div class="package-tier">Associate</div>
-          <div class="package-price">From €3,000</div>
-          <div class="package-price-sub">per season</div>
-          <ul class="package-features">
-            <li>Logo on race gear (gloves / goggles)</li>
-            <li>2 social media mentions per month</li>
-            <li>Race day photo content featuring your brand</li>
-            <li>Website partner listing</li>
-            <li>Monthly performance report</li>
-            <li>1 season (9 rounds)</li>
-          </ul>
-          <button class="btn btn-outline" style="width:100%;" data-goto="contact">Enquire Now</button>
-        </div>
-
-        <div class="package-card featured">
-          <div class="package-popular">Most Popular</div>
-          <div class="package-tier" style="color:var(--gold);">Official Partner</div>
-          <div class="package-price">From €8,000</div>
-          <div class="package-price-sub">per season</div>
-          <ul class="package-features">
-            <li>Featured logo placement on jersey &amp; helmet</li>
-            <li>8 social media posts per month</li>
-            <li>Full content package (photo + video)</li>
-            <li>Featured website partner section</li>
-            <li>Dedicated race-day activation space</li>
-            <li>Monthly analytics dashboard access</li>
-            <li>Branded content stories x4/month</li>
-            <li>End-of-season report</li>
-          </ul>
-          <button class="btn btn-primary" style="width:100%;" data-goto="contact">Get Started</button>
-        </div>
-
-        <div class="package-card">
-          <div class="package-tier">Title Sponsor</div>
-          <div class="package-price">From €20,000</div>
-          <div class="package-price-sub">per season</div>
-          <ul class="package-features">
-            <li>Full branding integration across all assets</li>
-            <li>Team name includes your brand</li>
-            <li>Exclusive content creation programme</li>
-            <li>Personal appearances &amp; brand events</li>
-            <li>Unlimited social media content</li>
-            <li>Premium analytics &amp; custom reports</li>
-            <li>Bike graphics &amp; team livery</li>
-            <li>First right of refusal for 2026</li>
-          </ul>
-          <button class="btn btn-outline" style="width:100%;" data-goto="contact">Talk to Management</button>
-        </div>
-
-      </div>
+      <div class="package-grid animate-fade-up" id="contact-packages-container"></div>
 
       <!-- Contact Form + Info -->
       <div class="contact-grid animate-fade-up">
@@ -1992,21 +1360,21 @@
               <div class="contact-info-icon">✉️</div>
               <div>
                 <div class="contact-info-label">Management Email</div>
-                <div class="contact-info-value">management@frederiksracing.com</div>
+                <div class="contact-info-value" data-field="contact-email">management@frederiksracing.com</div>
               </div>
             </div>
             <div class="contact-info-item">
               <div class="contact-info-icon">📞</div>
               <div>
                 <div class="contact-info-label">Phone</div>
-                <div class="contact-info-value">+46 70 123 45 67</div>
+                <div class="contact-info-value" data-field="contact-phone">+46 70 123 45 67</div>
               </div>
             </div>
             <div class="contact-info-item">
               <div class="contact-info-icon">📍</div>
               <div>
                 <div class="contact-info-label">Base Location</div>
-                <div class="contact-info-value">Gothenburg, Sweden 🇸🇪</div>
+                <div class="contact-info-value" data-field="contact-location-flag">Gothenburg, Sweden 🇸🇪</div>
               </div>
             </div>
           </div>
@@ -2039,9 +1407,9 @@
 
   <footer>
     <div class="footer-inner">
-      <div><div class="footer-brand-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
+      <div><div class="footer-brand-name" data-field="site-name">FREDERIK RAHN STAMPE</div><div class="footer-brand-sub" data-field="site-sub">#74 · EMX250 · Sweden</div><div class="footer-socials"><div class="footer-social">📸</div><div class="footer-social">🎵</div><div class="footer-social">▶</div></div></div>
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li><li><a class="nav-link" data-page="calendar">Calendar</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="sponsor-value">Sponsor Value</a></li><li><a class="nav-link" data-page="sponsors">Partners</a></li><li><a class="nav-link" data-page="dashboard">Analytics</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
-      <div class="footer-contact"><h4>Management</h4><p>management@frederiksracing.com</p><p>+46 70 123 45 67</p><p>Gothenburg, Sweden</p></div>
+      <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">management@frederiksracing.com</p><p data-field="contact-phone">+46 70 123 45 67</p><p data-field="contact-location">Gothenburg, Sweden</p></div>
     </div>
     <div class="footer-bottom"><span class="footer-bottom-text">© 2025 Frederik Rahn Stampe Racing. All rights reserved.</span><span class="footer-bottom-text">Stampe Racing · EMX250 · #74</span></div>
   </footer>
@@ -2053,6 +1421,7 @@
   .page { transition: opacity 0.35s ease, transform 0.35s ease; }
 </style>
 
+<script src="data.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

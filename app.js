@@ -23,6 +23,351 @@ let currentPage = 'home';
 let mobileNavOpen = false;
 
 /* ============================================================
+   DATA-DRIVEN RENDERING
+   Populates DOM containers from SITE_DATA (data.js). All content
+   that changes over a season lives in data.js — edit values there,
+   not here.
+   ============================================================ */
+
+function bindField(field, value) {
+  document.querySelectorAll(`[data-field="${field}"]`).forEach(el => { el.textContent = value; });
+}
+
+function renderIdentity() {
+  const { site, contact } = SITE_DATA;
+  bindField('site-name', site.name);
+  bindField('site-sub', site.tagline);
+  bindField('contact-email', contact.email);
+  bindField('contact-phone', contact.phone);
+  bindField('contact-location', contact.location);
+  bindField('contact-location-flag', `${contact.location} 🇸🇪`);
+
+  const mailto = document.getElementById('mailto-email-link');
+  if (mailto) mailto.href = `mailto:${contact.email}`;
+}
+
+function renderSeasonMetrics() {
+  const m = SITE_DATA.seasonMetrics;
+  const races = document.getElementById('metric-races');
+  const podiums = document.getElementById('metric-podiums');
+  const wins = document.getElementById('metric-wins');
+  const reach = document.getElementById('metric-reach');
+  const views = document.getElementById('metric-views');
+  if (races) races.dataset.target = m.races;
+  if (podiums) podiums.dataset.target = m.podiums;
+  if (wins) wins.dataset.target = m.wins;
+  if (reach) reach.innerHTML = `${m.socialReach}<span style="font-size:0.55em;color:var(--text-2);">${m.socialReachSuffix}</span>`;
+  if (views) views.innerHTML = `${m.videoViews}<span style="font-size:0.55em;color:var(--text-2);">${m.videoViewsSuffix}</span>`;
+}
+
+function renderHomeHighlights() {
+  const container = document.getElementById('home-highlights-container');
+  if (!container) return;
+  container.innerHTML = SITE_DATA.homeHighlights.map((race, i) => `
+    <div class="hp-race-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+      <div class="hp-race-img-wrap">
+        <img src="https://picsum.photos/seed/${race.imageSeed}/800/500" alt="${race.title} race photo" loading="lazy" />
+        <div class="hp-race-result ${race.resultClass}">${race.posLabel}</div>
+      </div>
+      <div class="hp-race-body">
+        <div class="hp-race-meta">${race.metaLine}</div>
+        <h3 class="hp-race-name">${race.title}</h3>
+        <p class="hp-race-summary">${race.summary}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCarousel() {
+  const track = document.getElementById('carousel-track');
+  if (!track) return;
+  const items = SITE_DATA.carouselLogos.map(name => `<div class="hp-carousel-item"><div class="hp-carousel-logo">${name}</div></div>`).join('');
+  track.innerHTML = items + items; // duplicated for seamless loop
+}
+
+function renderChampionship() {
+  const c = SITE_DATA.championship;
+  const seasonLabel = document.getElementById('champ-season-label');
+  const position = document.getElementById('champ-position');
+  const points = document.getElementById('champ-points');
+  const wins = document.getElementById('champ-wins');
+  const rounds = document.getElementById('champ-rounds');
+  const lead = document.getElementById('champ-lead');
+  if (seasonLabel) seasonLabel.textContent = c.seasonLabel;
+  if (position) position.textContent = c.position;
+  if (points) points.textContent = c.points;
+  if (wins) wins.textContent = c.wins;
+  if (rounds) rounds.textContent = `${c.roundsCompleted}/${c.totalRounds}`;
+  if (lead) lead.textContent = `+${c.pointsLead} pts lead`;
+
+  const standingsContainer = document.getElementById('standings-container');
+  if (standingsContainer) {
+    standingsContainer.innerHTML = c.standings.map(row => `
+      <div class="standing-row">
+        <div class="standing-pos${row.pos === 1 ? ' ' + row.cls : ''}">${row.pos}</div>
+        <div class="standing-name">${row.name}</div>
+        <div class="standing-bar-track">
+          <div class="standing-bar-fill ${row.cls}" data-bar-width="${row.barPct}%"></div>
+        </div>
+        <div class="standing-pts">${row.points} pts</div>
+      </div>
+    `).join('');
+  }
+}
+
+function renderResultsTable() {
+  const tbody = document.getElementById('results-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = SITE_DATA.raceResults.map(r => {
+    if (r.upcoming) {
+      return `
+        <tr class="upcoming">
+          <td><span class="round-num" style="color:var(--gold);">${r.round}</span></td>
+          <td>
+            <span class="track-name">${r.track}</span>
+            <span class="badge badge-gold" style="margin-left:8px; font-size:9px;">UPCOMING</span>
+          </td>
+          <td>${r.flag} ${r.country}</td>
+          <td>${r.date}</td>
+          <td><span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">TBD</span></td>
+          <td style="color:var(--text-3);">—</td>
+        </tr>`;
+    }
+    return `
+      <tr>
+        <td><span class="round-num">${r.round}</span></td>
+        <td><span class="track-name">${r.track}</span></td>
+        <td>${r.flag} ${r.country}</td>
+        <td>${r.date}</td>
+        <td><span class="pos-badge pos-${r.pos}">P${r.pos}</span></td>
+        <td style="font-weight:600; color:var(--text);">${r.points}</td>
+      </tr>`;
+  }).join('');
+}
+
+function renderCalendar() {
+  const cal = SITE_DATA.calendar;
+  const venue = document.getElementById('next-race-venue');
+  const country = document.getElementById('next-race-country');
+  const round = document.getElementById('next-race-round');
+  const date = document.getElementById('next-race-date');
+  if (venue) venue.textContent = cal.nextRace.venue;
+  if (country) country.textContent = cal.nextRace.country;
+  if (round) round.textContent = cal.nextRace.roundLabel;
+  if (date) date.textContent = cal.nextRace.dateLabel;
+
+  const badgesEl = document.getElementById('next-race-badges');
+  if (badgesEl) {
+    badgesEl.innerHTML = cal.nextRace.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('')
+      + `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);" id="next-race-note">${cal.nextRace.note}</span>`;
+  }
+
+  const grid = document.getElementById('race-grid-container');
+  if (grid) {
+    grid.innerHTML = cal.races.map((race, i) => {
+      const isNext = race.status === 'next';
+      const delay = i === 0 ? '' : ` animate-delay-${((i - 1) % 3) + 1}`;
+      const goldStyle = isNext ? ' style="color:var(--gold);"' : '';
+      const resultOrFinale = isNext
+        ? `<div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(196,151,62,0.15);">
+             <span class="badge badge-gold" style="font-size:10px;">Season Finale · Home Race</span>
+           </div>`
+        : `<div class="race-result">
+             <span class="race-result-pos"${race.pos === 'P4' ? ' style="color:var(--text-2);"' : ''}>${race.pos}</span>
+             <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">${race.points} points</span>
+             ${race.win ? '<span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>' : ''}
+           </div>`;
+      return `
+        <div class="race-card ${isNext ? 'next' : 'completed'} animate-fade-up${delay}">
+          <div class="race-card-header">
+            <span class="race-round"${goldStyle}>Round ${race.round}</span>
+            <span class="race-status ${isNext ? 'status-next' : 'status-completed'}">${isNext ? 'Next Race' : 'Completed'}</span>
+          </div>
+          <div class="race-venue"${goldStyle}>${race.venue}</div>
+          <div class="race-location">${race.country}</div>
+          <div class="race-date"${isNext ? ' style="color:var(--text);"' : ''}>${race.dateLabel}</div>
+          ${resultOrFinale}
+        </div>`;
+    }).join('');
+  }
+}
+
+function renderMedia() {
+  const m = SITE_DATA.media;
+  const photos = document.getElementById('media-stat-photos');
+  const videos = document.getElementById('media-stat-videos');
+  const press = document.getElementById('media-stat-press');
+  if (photos) photos.textContent = m.stats.photos;
+  if (videos) videos.textContent = m.stats.videos;
+  if (press) press.textContent = m.stats.pressFeatures;
+
+  const gallery = document.getElementById('gallery-container');
+  if (gallery) {
+    gallery.innerHTML = m.gallery.map(item => `
+      <div class="gallery-item${item.size === 'large' ? ' large' : ''}">
+        <img src="https://picsum.photos/seed/${item.seed}/800/600" alt="Race action ${item.seed}" loading="lazy" />
+        <div class="gallery-item-overlay"><span class="gallery-item-label">${item.label}</span></div>
+      </div>
+    `).join('');
+  }
+}
+
+function toTitleCase(str) {
+  return str.split(' ').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ');
+}
+
+function renderSponsors() {
+  const s = SITE_DATA.sponsors;
+
+  const titleContainer = document.getElementById('title-sponsor-container');
+  if (titleContainer) {
+    const badgesHtml = s.title.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('');
+    titleContainer.innerHTML = `
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">${s.title.tagline}</div>
+        <div class="sponsor-logo-text">${s.title.name}</div>
+        <p class="sponsor-desc">${s.title.desc}</p>
+        <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">${badgesHtml}</div>
+      </div>
+      <div style="text-align:center; padding:32px; background:rgba(196,151,62,0.06); border:1px solid rgba(196,151,62,0.15); border-radius:12px; min-width:180px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:80px; color:rgba(196,151,62,0.4); line-height:1; letter-spacing:0.04em;">${s.title.initial}</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; margin-top:8px;">${toTitleCase(s.title.name)}</div>
+      </div>`;
+  }
+
+  const officialContainer = document.getElementById('official-partners-container');
+  if (officialContainer) {
+    officialContainer.innerHTML = s.official.map((p, i) => `
+      <div class="partner-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        <div style="font-size:40px; margin-bottom:12px;">${p.icon}</div>
+        <div class="partner-logo-text">${p.name}</div>
+        <div class="partner-type">${p.type}</div>
+        <p style="font-size:13px; color:var(--text-2); margin-top:12px; line-height:1.6;">${p.desc}</p>
+        <div style="margin-top:16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+          <span class="badge badge-sand">${p.badge}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const supportingContainer = document.getElementById('supporting-sponsors-container');
+  if (supportingContainer) {
+    supportingContainer.innerHTML = s.supporting.map((p, i) => `
+      <div class="supporting-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        <div style="font-size:24px; margin-bottom:8px;">${p.icon}</div>
+        <div class="supporting-logo">${p.name}</div>
+        <div class="supporting-type">${p.type}</div>
+      </div>
+    `).join('');
+  }
+}
+
+function renderPackages() {
+  const p = SITE_DATA.packages;
+
+  const svContainer = document.getElementById('sv-packages-container');
+  if (svContainer) {
+    svContainer.innerHTML = p.sponsorValue.map((pkg, i) => `
+      <div class="sv-pkg-card${pkg.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        ${pkg.featured ? `<div class="sv-pkg-popular-badge">${pkg.badge}</div>` : ''}
+        <div class="sv-pkg-tier-label">${pkg.tier}</div>
+        <div class="sv-pkg-price">From <strong>${pkg.price}</strong><span>${pkg.priceSuffix}</span></div>
+        <p class="sv-pkg-intro">${pkg.intro}</p>
+        <div class="sv-pkg-sep"></div>
+        <ul class="sv-pkg-list">
+          ${pkg.features.map(f => `<li class="${f.included ? 'sv-feat-y' : 'sv-feat-n'}">${f.text}</li>`).join('')}
+        </ul>
+        <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" data-goto="contact">${pkg.ctaLabel}</button>
+      </div>
+    `).join('');
+  }
+
+  const contactContainer = document.getElementById('contact-packages-container');
+  if (contactContainer) {
+    contactContainer.innerHTML = p.contact.map(pkg => `
+      <div class="package-card${pkg.featured ? ' featured' : ''}">
+        ${pkg.featured ? `<div class="package-popular">${pkg.badge}</div>` : ''}
+        <div class="package-tier"${pkg.featured ? ' style="color:var(--gold);"' : ''}>${pkg.tier}</div>
+        <div class="package-price">${pkg.price}</div>
+        <div class="package-price-sub">${pkg.priceSuffix}</div>
+        <ul class="package-features">
+          ${pkg.features.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+        <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'}" style="width:100%;" data-goto="contact">${pkg.ctaLabel}</button>
+      </div>
+    `).join('');
+  }
+}
+
+function renderDashboard() {
+  const d = SITE_DATA.dashboard;
+
+  const sidebar = document.getElementById('dashboard-sidebar-container');
+  if (sidebar) {
+    sidebar.innerHTML = d.sidebarMetrics.map(m => `
+      <div class="sidebar-metric">
+        <div class="sidebar-metric-label">${m.label}</div>
+        <div class="sidebar-metric-value">${m.type === 'counter'
+          ? `<span class="counter" data-target="${m.value}">0</span>`
+          : `${m.value}<span style="font-size:0.6em;">${m.suffix}</span>`}</div>
+        <div class="sidebar-metric-change">${m.change}</div>
+      </div>
+    `).join('');
+  }
+
+  const chart = document.getElementById('monthly-chart-container');
+  if (chart) {
+    chart.innerHTML = d.monthlyReach.map(bar => `
+      <div class="bar-chart-col">
+        <div class="chart-bar-value"${bar.highlight ? ' style="color:var(--gold);"' : ''}>${bar.value}</div>
+        <div class="chart-bar" data-bar-height="${bar.heightPct}%"${bar.highlight ? ' style="background: linear-gradient(to top, var(--gold-dark), var(--gold-light));"' : ''}></div>
+        <div class="chart-bar-label"${bar.highlight ? ' style="color:var(--gold);"' : ''}>${bar.month}</div>
+      </div>
+    `).join('');
+  }
+
+  const platformTbody = document.getElementById('platform-tbody');
+  if (platformTbody) {
+    platformTbody.innerHTML = d.platforms.map(p => `
+      <tr>
+        <td><span class="platform-name">${p.icon} ${p.name}</span></td>
+        <td>${p.followers}</td>
+        <td>${p.reach}</td>
+        <td>${p.engagement}</td>
+        <td style="color:var(--${p.growthColor === 'success' ? 'success' : 'text-3'});">${p.growth}</td>
+      </tr>
+    `).join('');
+  }
+
+  const campaignTbody = document.getElementById('campaign-tbody');
+  if (campaignTbody) {
+    campaignTbody.innerHTML = d.campaigns.map(c => `
+      <tr>
+        <td><span class="platform-name">${c.name}</span></td>
+        <td>${c.impressions}</td>
+        <td>${c.clicks}</td>
+        <td>${c.ctr}</td>
+        <td><span class="badge badge-${c.statusColor === 'green' ? 'green' : 'sand'}" style="font-size:9px;">${c.status}</span></td>
+      </tr>
+    `).join('');
+  }
+}
+
+function renderAllData() {
+  renderIdentity();
+  renderSeasonMetrics();
+  renderHomeHighlights();
+  renderCarousel();
+  renderChampionship();
+  renderResultsTable();
+  renderCalendar();
+  renderMedia();
+  renderSponsors();
+  renderPackages();
+  renderDashboard();
+}
+
+/* ============================================================
    SPA ROUTER
    ============================================================ */
 function navigateTo(pageId, pushState = true) {
@@ -247,7 +592,7 @@ function initCounters() {
    COUNTDOWN TIMER
    ============================================================ */
 function initCountdown() {
-  const target = new Date('2026-09-06T09:00:00');
+  const target = new Date(SITE_DATA.calendar.nextRace.countdownTarget);
 
   function update() {
     const now = new Date();
@@ -409,6 +754,11 @@ function initPackageButtons() {
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  // Render all data-driven content first so subsequent init steps
+  // (counters, bar animations, gallery lightbox, package buttons)
+  // can find the elements they need.
+  renderAllData();
+
   // Set initial page
   const initialPage = getPageFromHash();
 
