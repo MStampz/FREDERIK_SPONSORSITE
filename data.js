@@ -11,8 +11,12 @@
      homeHighlights — home page "Race Highlights" cards (top 3)
      carouselLogos  — home page scrolling sponsor logo strip
      championship   — results page header stats + standings
-     raceResults    — results page results table (season 2025)
-     calendar       — calendar page next-race hero + race grid (2026 season)
+     raceResults    — the season's races: single source of truth used
+                      by both the Results page table and the Calendar
+                      page's race grid / next-race hero
+     calendar       — calendar page next-race extras (badges, note,
+                      countdown target) — venue/date/etc. are derived
+                      from raceResults so the two pages can't drift
      media          — media page stats + gallery items
      sponsors       — sponsors page title/official/supporting partners
      packages       — sponsorship packages (separate lists for the
@@ -94,44 +98,32 @@ const SITE_DATA = {
     ]
   },
 
-  /* Results table on the Results page — season 2025. */
+  /* The season's races — season 2025, 8 of 9 rounds complete.
+     Feeds both the Results page table (short date, padded round
+     number) and the Calendar page's race grid + next-race hero
+     (full date, "Round N" label, win badge derived from pos === 1).
+     Add a new round here and both pages update together. */
   raceResults: [
-    { round: '01', track: 'Västerås SX', flag: '🇸🇪', country: 'Sweden', date: 'Mar 15', pos: 3, points: 16 },
-    { round: '02', track: 'Genk MX', flag: '🇧🇪', country: 'Belgium', date: 'Apr 5', pos: 1, points: 25 },
-    { round: '03', track: 'Valkenswaard', flag: '🇳🇱', country: 'Netherlands', date: 'Apr 26', pos: 2, points: 22 },
-    { round: '04', track: 'Ernée', flag: '🇫🇷', country: 'France', date: 'May 17', pos: 1, points: 25 },
-    { round: '05', track: 'Teutschenthal', flag: '🇩🇪', country: 'Germany', date: 'Jun 7', pos: 4, points: 13 },
-    { round: '06', track: 'Ottobiano', flag: '🇮🇹', country: 'Italy', date: 'Jun 28', pos: 3, points: 16 },
-    { round: '07', track: 'Loket', flag: '🇨🇿', country: 'Czech Republic', date: 'Jul 19', pos: 2, points: 22 },
-    { round: '08', track: 'Matterley Basin', flag: '🇬🇧', country: 'United Kingdom', date: 'Aug 9', pos: 1, points: 25 },
-    { round: '09', track: 'Uddevalla', flag: '🇸🇪', country: 'Sweden', date: 'Sep 6', pos: null, points: null, upcoming: true }
+    { round: 1, track: 'Västerås SX', flag: '🇸🇪', country: 'Sweden', shortDate: 'Mar 15', fullDate: 'March 15, 2025', pos: 3, points: 16 },
+    { round: 2, track: 'Genk MX', flag: '🇧🇪', country: 'Belgium', shortDate: 'Apr 5', fullDate: 'April 5, 2025', pos: 1, points: 25 },
+    { round: 3, track: 'Valkenswaard', flag: '🇳🇱', country: 'Netherlands', shortDate: 'Apr 26', fullDate: 'April 26, 2025', pos: 2, points: 22 },
+    { round: 4, track: 'Ernée', flag: '🇫🇷', country: 'France', shortDate: 'May 17', fullDate: 'May 17, 2025', pos: 1, points: 25 },
+    { round: 5, track: 'Teutschenthal', flag: '🇩🇪', country: 'Germany', shortDate: 'Jun 7', fullDate: 'June 7, 2025', pos: 4, points: 13 },
+    { round: 6, track: 'Ottobiano', flag: '🇮🇹', country: 'Italy', shortDate: 'Jun 28', fullDate: 'June 28, 2025', pos: 3, points: 16 },
+    { round: 7, track: 'Loket', flag: '🇨🇿', country: 'Czech Republic', shortDate: 'Jul 19', fullDate: 'July 19, 2025', pos: 2, points: 22 },
+    { round: 8, track: 'Matterley Basin', flag: '🇬🇧', country: 'United Kingdom', shortDate: 'Aug 9', fullDate: 'August 9, 2025', pos: 1, points: 25 },
+    { round: 9, track: 'Uddevalla', flag: '🇸🇪', country: 'Sweden', shortDate: 'Sep 6', fullDate: 'September 6, 2025', pos: null, points: null, upcoming: true }
   ],
 
-  /* Calendar page — 2026 season. Note: this currently carries a
-     different set of dates than raceResults (2025 season) — that
-     mismatch predates this refactor; flagging here rather than
-     silently reconciling it. */
+  /* Extra display info for the next race that isn't part of the
+     raceResults record itself (venue/date/round come from the
+     raceResults entry with upcoming: true). */
   calendar: {
     nextRace: {
-      venue: 'UDDEVALLA',
-      country: '🇸🇪 Sweden',
-      roundLabel: 'Round 9 of 9',
-      dateLabel: 'September 6, 2026',
       badges: ['Season Finale', 'Home Race'],
       note: 'Uddevalla MX Park — Championship decider',
-      countdownTarget: '2026-09-06T09:00:00'
-    },
-    races: [
-      { round: 1, venue: 'Västerås', country: '🇸🇪 Sweden', dateLabel: 'March 22, 2026', status: 'completed', pos: 'P3', points: 16, win: false },
-      { round: 2, venue: 'Genk MX', country: '🇧🇪 Belgium', dateLabel: 'April 12, 2026', status: 'completed', pos: 'P1', points: 25, win: true },
-      { round: 3, venue: 'Valkenswaard', country: '🇳🇱 Netherlands', dateLabel: 'May 3, 2026', status: 'completed', pos: 'P2', points: 22, win: false },
-      { round: 4, venue: 'Ernée', country: '🇫🇷 France', dateLabel: 'May 24, 2026', status: 'completed', pos: 'P1', points: 25, win: true },
-      { round: 5, venue: 'Teutschenthal', country: '🇩🇪 Germany', dateLabel: 'June 14, 2026', status: 'completed', pos: 'P4', points: 13, win: false },
-      { round: 6, venue: 'Ottobiano', country: '🇮🇹 Italy', dateLabel: 'July 5, 2026', status: 'completed', pos: 'P3', points: 16, win: false },
-      { round: 7, venue: 'Loket', country: '🇨🇿 Czech Republic', dateLabel: 'July 26, 2026', status: 'completed', pos: 'P2', points: 22, win: false },
-      { round: 8, venue: 'Matterley Basin', country: '🇬🇧 United Kingdom', dateLabel: 'August 16, 2026', status: 'completed', pos: 'P1', points: 25, win: true },
-      { round: 9, venue: 'Uddevalla', country: '🇸🇪 Sweden', dateLabel: 'September 6, 2026', status: 'next', pos: null, points: null, win: false }
-    ]
+      countdownTarget: '2025-09-06T09:00:00'
+    }
   },
 
   media: {
@@ -172,13 +164,12 @@ const SITE_DATA = {
     ]
   },
 
-  /* Sponsorship packages. NOTE: the sponsor-value page and the
-     contact page have always shown their own independent wording
-     for tier names and feature bullets (e.g. "Support Partner" vs
-     "Associate") — that predates this refactor. Both lists are
-     centralized here so pricing/tiers only need updating in one
-     file, but the two are still separate arrays since their copy
-     genuinely differs. */
+  /* Sponsorship packages. The sponsor-value page (detailed, with a
+     included/excluded feature matrix) and the contact page (simple,
+     included-features-only) show the same three tiers with
+     different levels of detail — tier/badge names below are shared
+     so the two pages can't drift out of sync again; feature bullet
+     wording is still page-specific by design (long-form vs short). */
   packages: {
     sponsorValue: [
       {
@@ -235,7 +226,7 @@ const SITE_DATA = {
     ],
     contact: [
       {
-        tier: 'Associate', price: 'From €3,000', priceSuffix: 'per season',
+        tier: 'Support Partner', price: 'From €3,000', priceSuffix: 'per season',
         featured: false, ctaLabel: 'Enquire Now', ctaStyle: 'outline',
         features: [
           'Logo on race gear (gloves / goggles)',
@@ -247,8 +238,8 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'Official Partner', price: 'From €8,000', priceSuffix: 'per season',
-        featured: true, badge: 'Most Popular', ctaLabel: 'Get Started', ctaStyle: 'primary',
+        tier: 'Major Partner', price: 'From €8,000', priceSuffix: 'per season',
+        featured: true, badge: 'Recommended', ctaLabel: 'Get Started', ctaStyle: 'primary',
         features: [
           'Featured logo placement on jersey &amp; helmet',
           '8 social media posts per month',
@@ -261,7 +252,7 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'Title Sponsor', price: 'From €20,000', priceSuffix: 'per season',
+        tier: 'Title Partner', price: 'From €20,000', priceSuffix: 'per season',
         featured: false, ctaLabel: 'Talk to Management', ctaStyle: 'outline',
         features: [
           'Full branding integration across all assets',

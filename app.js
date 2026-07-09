@@ -119,26 +119,27 @@ function renderResultsTable() {
   const tbody = document.getElementById('results-tbody');
   if (!tbody) return;
   tbody.innerHTML = SITE_DATA.raceResults.map(r => {
+    const roundNum = String(r.round).padStart(2, '0');
     if (r.upcoming) {
       return `
         <tr class="upcoming">
-          <td><span class="round-num" style="color:var(--gold);">${r.round}</span></td>
+          <td><span class="round-num" style="color:var(--gold);">${roundNum}</span></td>
           <td>
             <span class="track-name">${r.track}</span>
             <span class="badge badge-gold" style="margin-left:8px; font-size:9px;">UPCOMING</span>
           </td>
           <td>${r.flag} ${r.country}</td>
-          <td>${r.date}</td>
+          <td>${r.shortDate}</td>
           <td><span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">TBD</span></td>
           <td style="color:var(--text-3);">—</td>
         </tr>`;
     }
     return `
       <tr>
-        <td><span class="round-num">${r.round}</span></td>
+        <td><span class="round-num">${roundNum}</span></td>
         <td><span class="track-name">${r.track}</span></td>
         <td>${r.flag} ${r.country}</td>
-        <td>${r.date}</td>
+        <td>${r.shortDate}</td>
         <td><span class="pos-badge pos-${r.pos}">P${r.pos}</span></td>
         <td style="font-weight:600; color:var(--text);">${r.points}</td>
       </tr>`;
@@ -146,26 +147,35 @@ function renderResultsTable() {
 }
 
 function renderCalendar() {
-  const cal = SITE_DATA.calendar;
+  const races = SITE_DATA.raceResults;
+  const nextRace = races.find(r => r.upcoming);
+  const extra = SITE_DATA.calendar.nextRace;
+
   const venue = document.getElementById('next-race-venue');
   const country = document.getElementById('next-race-country');
   const round = document.getElementById('next-race-round');
   const date = document.getElementById('next-race-date');
-  if (venue) venue.textContent = cal.nextRace.venue;
-  if (country) country.textContent = cal.nextRace.country;
-  if (round) round.textContent = cal.nextRace.roundLabel;
-  if (date) date.textContent = cal.nextRace.dateLabel;
+  if (venue) venue.textContent = nextRace.track.toUpperCase();
+  if (country) country.textContent = `${nextRace.flag} ${nextRace.country}`;
+  if (round) round.textContent = `Round ${nextRace.round} of ${races.length}`;
+  if (date) date.textContent = nextRace.fullDate;
 
   const badgesEl = document.getElementById('next-race-badges');
   if (badgesEl) {
-    badgesEl.innerHTML = cal.nextRace.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('')
-      + `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);" id="next-race-note">${cal.nextRace.note}</span>`;
+    badgesEl.innerHTML = extra.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('')
+      + `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);" id="next-race-note">${extra.note}</span>`;
   }
+
+  const contactVenue = document.getElementById('contact-next-race-venue');
+  const contactDate = document.getElementById('contact-next-race-date');
+  if (contactVenue) contactVenue.textContent = `${nextRace.track}, ${nextRace.country}`;
+  if (contactDate) contactDate.textContent = nextRace.fullDate;
 
   const grid = document.getElementById('race-grid-container');
   if (grid) {
-    grid.innerHTML = cal.races.map((race, i) => {
-      const isNext = race.status === 'next';
+    grid.innerHTML = races.map((race, i) => {
+      const isNext = !!race.upcoming;
+      const win = race.pos === 1;
       const delay = i === 0 ? '' : ` animate-delay-${((i - 1) % 3) + 1}`;
       const goldStyle = isNext ? ' style="color:var(--gold);"' : '';
       const resultOrFinale = isNext
@@ -173,9 +183,9 @@ function renderCalendar() {
              <span class="badge badge-gold" style="font-size:10px;">Season Finale · Home Race</span>
            </div>`
         : `<div class="race-result">
-             <span class="race-result-pos"${race.pos === 'P4' ? ' style="color:var(--text-2);"' : ''}>${race.pos}</span>
+             <span class="race-result-pos"${race.pos === 4 ? ' style="color:var(--text-2);"' : ''}>P${race.pos}</span>
              <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">${race.points} points</span>
-             ${race.win ? '<span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>' : ''}
+             ${win ? '<span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>' : ''}
            </div>`;
       return `
         <div class="race-card ${isNext ? 'next' : 'completed'} animate-fade-up${delay}">
@@ -183,9 +193,9 @@ function renderCalendar() {
             <span class="race-round"${goldStyle}>Round ${race.round}</span>
             <span class="race-status ${isNext ? 'status-next' : 'status-completed'}">${isNext ? 'Next Race' : 'Completed'}</span>
           </div>
-          <div class="race-venue"${goldStyle}>${race.venue}</div>
-          <div class="race-location">${race.country}</div>
-          <div class="race-date"${isNext ? ' style="color:var(--text);"' : ''}>${race.dateLabel}</div>
+          <div class="race-venue"${goldStyle}>${race.track}</div>
+          <div class="race-location">${race.flag} ${race.country}</div>
+          <div class="race-date"${isNext ? ' style="color:var(--text);"' : ''}>${race.fullDate}</div>
           ${resultOrFinale}
         </div>`;
     }).join('');
