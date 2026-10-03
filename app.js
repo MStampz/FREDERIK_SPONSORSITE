@@ -1,5 +1,4 @@
-/* ============================================================
-   FREDERIK RAHN STAMPE — SPA JavaScript
+/* =====================================================   FREDERIK RAHN STAMPE — SPA JavaScript
    Routing, Animations, Interactions
    ============================================================ */
 
@@ -25,8 +24,7 @@ const NAV_MAP = {
 let currentPage = 'home';
 let mobileNavOpen = false;
 
-/* ============================================================
-   DATA-DRIVEN RENDERING
+/* =====================================================   DATA-DRIVEN RENDERING
    Populates DOM containers from SITE_DATA (data.js). All content
    that changes over a season lives in data.js — edit values there,
    not here.
@@ -45,6 +43,46 @@ function getSeason(year) {
 
 function getCurrentSeason() {
   return getSeason(SITE_DATA.currentSeason);
+}
+
+/* ---- Race ids ---- */
+const RACE_ID_PATTERN = /^(\d{4})-([a-z0-9]+)-round([1-9]\d*)$/;
+
+function findRace(id) {
+  for (const season of SITE_DATA.seasons) {
+    const race = season.races.find(r => r.id === id);
+    if (race) return { race, season };
+  }
+  return null;
+}
+
+/* The next race of a season, if it names one that is still to run. */
+function getNextRace(season) {
+  const found = season.nextRace && findRace(season.nextRace.raceId);
+  return found && found.season === season && found.race.upcoming ? found.race : null;
+}
+
+/* Warns in the browser console about race ids that break the
+   <year>-<series>-round<N> rules in data.js, and about references
+   to races that don't exist. */
+function validateRaceIds() {
+  const seen = new Set();
+  const warn = msg => console.warn(`data.js: ${msg}`);
+  SITE_DATA.seasons.forEach(season => {
+    season.races.forEach((race, i) => {
+      const where = `${season.year} race ${i + 1} (${race.track})`;
+      const m = RACE_ID_PATTERN.exec(race.id || '');
+      if (!m) return warn(`${where} has id "${race.id}", expected <year>-<series>-round<N>`);
+      if (Number(m[1]) !== season.year) warn(`${where}: id "${race.id}" is filed under the ${season.year} season`);
+      if (!SITE_DATA.series[m[2]]) warn(`${where}: series "${m[2]}" is not listed in series`);
+      if (seen.has(race.id)) warn(`${where}: duplicate id "${race.id}"`);
+      seen.add(race.id);
+    });
+    if (season.nextRace && !findRace(season.nextRace.raceId)) warn(`${season.year} nextRace points at unknown race "${season.nextRace.raceId}"`);
+  });
+  SITE_DATA.homeHighlights.forEach(h => {
+    if (!findRace(h.raceId)) warn(`home highlight "${h.title}" points at unknown race "${h.raceId}"`);
+  });
 }
 
 /* The season shown on the Results and Calendar pages. Both pages
@@ -81,6 +119,7 @@ function getCareerStats() {
   const countries = [...new Map(all.map(r => [r.country, r.flag])).entries()];
   return {
     seasons: SITE_DATA.seasons.length,
+    firstYear: Math.min(...SITE_DATA.seasons.map(s => s.year)),
     races: all.length,
     podiums: all.filter(r => r.pos && r.pos <= 3).length,
     wins: all.filter(r => r.pos === 1).length,
@@ -106,10 +145,49 @@ function renderIdentity() {
   bindField('contact-location', contact.location);
   bindField('contact-location-flag', `${contact.location} ${contact.locationFlag}`);
 
-  document.title = `Frederik Rahn Stampe ${num} — Motocross Rider`;
+  bindField('rider-home-club', `${site.homeClub} ${site.countryFlag}`);
+  bindField('rider-bike-partner', toTitleCase(SITE_DATA.sponsors.lead.name));
+  bindField('hero-line', site.heroLine);
+  bindField('hero-sub', `${site.nationality} Motocross Rider · ${site.basedInCity}`);
+  bindField('copyright', `© ${new Date().getFullYear()} ${toTitleCase(site.name)} Racing.`);
+
+  const heroName = document.getElementById('hero-name');
+  if (heroName) {
+    const [first, ...rest] = site.name.split(' ');
+    heroName.innerHTML = `${first}<br><span>${rest.join(' ')}</span>`;
+  }
+
+  const title = SITE_DATA.titles[0];
+  if (title) {
+    bindField('title-count', title.count);
+    bindField('title-label', title.label);
+    bindField('title-detail', title.detail);
+  }
+
+  document.title = `${toTitleCase(site.name)} ${num} — Motocross Rider`;
 
   const mailto = document.getElementById('mailto-email-link');
   if (mailto) mailto.href = `mailto:${contact.email}`;
+}
+
+function renderStory() {
+  const st = SITE_DATA.story;
+  bindField('story-pitch', st.pitch);
+  bindField('bio-heading', st.bioHeading);
+  bindField('timeline-subtitle', st.timelineSubtitle);
+  const bio = document.getElementById('bio-text-container');
+  if (bio) bio.innerHTML = st.bio.map(p => `<p class="bio-text">${p}</p>`).join('');
+}
+
+/* Fixed page photos: <img data-image="hero"> gets its src and alt
+   from SITE_DATA.images.hero. */
+function renderImages() {
+  document.querySelectorAll('img[data-image]').forEach(img => {
+    const image = SITE_DATA.images[img.dataset.image];
+    if (!image) return console.warn(`data.js: no images.${img.dataset.image}`);
+    img.src = image.src;
+    img.alt = image.alt;
+  });
 }
 
 function renderSocials() {
@@ -137,12 +215,16 @@ function renderSeasonStats() {
   bindField('season-country-count', s.countryCount);
   bindField('season-country-flags', s.countryFlags);
   bindField('career-seasons', c.seasons);
+  bindField('career-first-year', c.firstYear);
+  bindField('season-focus', getCurrentSeason().focus || '');
   bindField('career-races', c.races);
   bindField('career-podiums', c.podiums);
   bindField('career-wins', c.wins);
   bindField('career-country-count', c.countryCount);
   bindField('career-country-flags', c.countryFlags);
   bindField('instagram-followers', `${m.instagramFollowers}${m.instagramFollowersSuffix}`);
+  bindField('top-reel-likes', m.topReelLikes);
+  if (SITE_DATA.socials[0]) bindField('main-social', SITE_DATA.socials[0].label);
 }
 
 function renderSeasonMetrics() {
@@ -162,18 +244,18 @@ function renderSeasonMetrics() {
 function renderHomeHighlights() {
   const container = document.getElementById('home-highlights-container');
   if (!container) return;
-  container.innerHTML = SITE_DATA.homeHighlights.map((h, i) => {
-    const r = getSeason(h.season).races[h.race - 1];
+  container.innerHTML = SITE_DATA.homeHighlights.filter(h => findRace(h.raceId)).map((h, i) => {
+    const { race: r, season } = findRace(h.raceId);
     const label = h.label || (r.pos ? `P${r.pos}` : r.result);
     const posClass = r.pos && r.pos <= 3 ? ` hp-result-${r.pos}` : '';
     return `
     <div class="hp-race-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
       <div class="hp-race-img-wrap">
-        <img src="https://picsum.photos/seed/${h.imageSeed}/800/500" alt="${h.title} race photo" loading="lazy" />
+        <img src="${h.image}" alt="${h.title} race photo" loading="lazy" />
         <div class="hp-race-result${posClass}">${label}</div>
       </div>
       <div class="hp-race-body">
-        <div class="hp-race-meta">${h.season} &nbsp;·&nbsp; ${r.track}, ${r.country} &nbsp;·&nbsp; ${formatRaceDate(r.date).short}</div>
+        <div class="hp-race-meta">${season.year} &nbsp;·&nbsp; ${r.track}, ${r.country} &nbsp;·&nbsp; ${formatRaceDate(r.date).short}</div>
         <h3 class="hp-race-name">${h.title}</h3>
         <p class="hp-race-summary">${h.summary}</p>
       </div>
@@ -239,8 +321,7 @@ function renderCalendar(instant = false) {
   const season = getSeason(selectedSeasonYear);
   const races = season.races;
   const isCurrent = season.year === SITE_DATA.currentSeason;
-  const next = isCurrent && season.nextRace ? races[season.nextRace.race - 1] : null;
-  const nextRace = next && next.upcoming ? next : null;
+  const nextRace = isCurrent ? getNextRace(season) : null;
   const stats = getSeasonStats(season);
 
   bindField('calendar-title', `${season.year} SEASON CALENDAR`);
@@ -286,10 +367,10 @@ function renderCalendar(instant = false) {
 
   // The contact page always shows the current season's next race.
   const current = getCurrentSeason();
-  const currentNext = current.nextRace ? current.races[current.nextRace.race - 1] : null;
+  const currentNext = getNextRace(current);
   const contactVenue = document.getElementById('contact-next-race-venue');
   const contactDate = document.getElementById('contact-next-race-date');
-  if (currentNext && currentNext.upcoming) {
+  if (currentNext) {
     if (contactVenue) contactVenue.textContent = `${currentNext.track}, ${currentNext.country}`;
     if (contactDate) contactDate.textContent = formatRaceDate(currentNext.date).full;
   } else {
@@ -358,7 +439,7 @@ function renderMedia() {
   if (gallery) {
     gallery.innerHTML = m.gallery.map(item => `
       <div class="gallery-item${item.size === 'large' ? ' large' : ''}">
-        <img src="https://picsum.photos/seed/${item.seed}/800/600" alt="${item.label}" loading="lazy" />
+        <img src="${item.image}" alt="${item.label}" loading="lazy" />
         <div class="gallery-item-overlay"><span class="gallery-item-label">${item.label}</span></div>
       </div>
     `).join('');
@@ -404,41 +485,78 @@ function renderSponsors() {
   }
 }
 
+/* ---- Packages ---- */
+function getTier(id) {
+  return SITE_DATA.packages.tiers.find(t => t.id === id);
+}
+
+function formatPrice(amount) {
+  return `${SITE_DATA.packages.currency}${amount.toLocaleString('en-US')}`;
+}
+
 function renderPackages() {
   const p = SITE_DATA.packages;
 
   const svContainer = document.getElementById('sv-packages-container');
   if (svContainer) {
-    svContainer.innerHTML = p.sponsorValue.map((pkg, i) => `
-      <div class="sv-pkg-card${pkg.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
-        ${pkg.featured ? `<div class="sv-pkg-popular-badge">${pkg.badge}</div>` : ''}
-        <div class="sv-pkg-tier-label">${pkg.tier}</div>
-        <div class="sv-pkg-price">From <strong>${pkg.price}</strong><span>${pkg.priceSuffix}</span></div>
+    svContainer.innerHTML = p.sponsorValue.map((pkg, i) => {
+      const t = getTier(pkg.tier);
+      return `
+      <div class="sv-pkg-card${t.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        ${t.featured ? `<div class="sv-pkg-popular-badge">${t.badge}</div>` : ''}
+        <div class="sv-pkg-tier-label">${t.name}</div>
+        <div class="sv-pkg-price">From <strong>${formatPrice(t.amount)}</strong><span>${pkg.priceSuffix}</span></div>
         <p class="sv-pkg-intro">${pkg.intro}</p>
         <div class="sv-pkg-sep"></div>
         <ul class="sv-pkg-list">
           ${pkg.features.map(f => `<li class="${f.included ? 'sv-feat-y' : 'sv-feat-n'}">${f.text}</li>`).join('')}
         </ul>
         <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" data-goto="contact">${pkg.ctaLabel}</button>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
 
   const contactContainer = document.getElementById('contact-packages-container');
   if (contactContainer) {
-    contactContainer.innerHTML = p.contact.map(pkg => `
-      <div class="package-card${pkg.featured ? ' featured' : ''}">
-        ${pkg.featured ? `<div class="package-popular">${pkg.badge}</div>` : ''}
-        <div class="package-tier"${pkg.featured ? ' style="color:var(--gold);"' : ''}>${pkg.tier}</div>
-        <div class="package-price">${pkg.price}</div>
+    contactContainer.innerHTML = p.contact.map(pkg => {
+      const t = getTier(pkg.tier);
+      return `
+      <div class="package-card${t.featured ? ' featured' : ''}">
+        ${t.featured ? `<div class="package-popular">${t.badge}</div>` : ''}
+        <div class="package-tier"${t.featured ? ' style="color:var(--gold);"' : ''}>${t.name}</div>
+        <div class="package-price">From ${formatPrice(t.amount)}</div>
         <div class="package-price-sub">${pkg.priceSuffix}</div>
         <ul class="package-features">
           ${pkg.features.map(f => `<li>${f}</li>`).join('')}
         </ul>
         <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'}" style="width:100%;" data-goto="contact">${pkg.ctaLabel}</button>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
+
+  renderBudgetOptions();
+}
+
+/* Contact form budget menu: one option per tier, each range ending
+   just below the next tier's price. Inserted before the "Custom"
+   option that stays in the HTML. */
+function renderBudgetOptions() {
+  const select = document.getElementById('budget');
+  if (!select) return;
+  select.querySelectorAll('option[data-tier]').forEach(o => o.remove());
+  const tiers = [...SITE_DATA.packages.tiers].sort((a, b) => a.amount - b.amount);
+  const custom = select.querySelector('option[value="custom"]');
+  tiers.forEach((t, i) => {
+    const next = tiers[i + 1];
+    const range = next
+      ? `${formatPrice(t.amount)} – ${formatPrice(next.amount - 1)}`
+      : `${formatPrice(t.amount)}+`;
+    const option = document.createElement('option');
+    option.value = t.id;
+    option.dataset.tier = '';
+    option.textContent = `${range} (${t.name})`;
+    select.insertBefore(option, custom);
+  });
 }
 
 function renderDashboard() {
@@ -496,9 +614,12 @@ function renderDashboard() {
 }
 
 function renderAllData() {
+  validateRaceIds();
+  renderImages();
   renderIdentity();
   renderSeasonStats();
   renderSocials();
+  renderStory();
   renderSeasonMetrics();
   renderHomeHighlights();
   renderCarousel();
@@ -512,8 +633,7 @@ function renderAllData() {
   renderDashboard();
 }
 
-/* ============================================================
-   SPA ROUTER
+/* =====================================================   SPA ROUTER
    ============================================================ */
 function navigateTo(pageId, pushState = true) {
   if (!PAGES.includes(pageId)) pageId = 'home';
@@ -587,8 +707,7 @@ function getPageFromHash() {
   return PAGES.includes(hash) ? hash : 'home';
 }
 
-/* ============================================================
-   NAVIGATION
+/* =====================================================   NAVIGATION
    ============================================================ */
 function initNav() {
   // Logo click
@@ -647,8 +766,7 @@ function closeMobileNav() {
   setTimeout(() => { overlay.style.display = 'none'; }, 300);
 }
 
-/* ============================================================
-   INTERSECTION OBSERVER — FADE UP ANIMATIONS
+/* =====================================================   INTERSECTION OBSERVER — FADE UP ANIMATIONS
    ============================================================ */
 function initIntersectionObserver() {
   const observer = new IntersectionObserver((entries) => {
@@ -667,8 +785,7 @@ function initIntersectionObserver() {
   return observer;
 }
 
-/* ============================================================
-   BAR CHART & PROGRESS BAR ANIMATIONS
+/* =====================================================   BAR CHART & PROGRESS BAR ANIMATIONS
    ============================================================ */
 function animateBars(container) {
   const fills = container.querySelectorAll('[data-bar-width]');
@@ -699,8 +816,7 @@ function initBarObserver() {
   document.querySelectorAll('.animate-bars').forEach(el => observer.observe(el));
 }
 
-/* ============================================================
-   COUNTER ANIMATIONS
+/* =====================================================   COUNTER ANIMATIONS
    ============================================================ */
 function animateCounter(el) {
   const target = parseInt(el.dataset.target || el.textContent, 10);
@@ -733,13 +849,12 @@ function initCounters() {
   document.querySelectorAll('.counter').forEach(el => observer.observe(el));
 }
 
-/* ============================================================
-   COUNTDOWN TIMER
+/* =====================================================   COUNTDOWN TIMER
    ============================================================ */
 function initCountdown() {
   const season = getCurrentSeason();
   const next = season.nextRace;
-  if (!next || !next.countdownTarget || !season.races[next.race - 1]?.upcoming) return;
+  if (!next || !next.countdownTarget || !getNextRace(season)) return;
   const target = new Date(next.countdownTarget);
 
   function update() {
@@ -774,8 +889,7 @@ function initCountdown() {
   setInterval(update, 1000);
 }
 
-/* ============================================================
-   HERO PARALLAX
+/* =====================================================   HERO PARALLAX
    ============================================================ */
 function initParallax() {
   const hero = document.querySelector('.hero');
@@ -790,8 +904,7 @@ function initParallax() {
   }, { passive: true });
 }
 
-/* ============================================================
-   DASHBOARD TABS
+/* =====================================================   DASHBOARD TABS
    ============================================================ */
 function initDashboardTabs() {
   document.querySelectorAll('.dash-tab').forEach(tab => {
@@ -802,8 +915,7 @@ function initDashboardTabs() {
   });
 }
 
-/* ============================================================
-   CONTACT FORM
+/* =====================================================   CONTACT FORM
    ============================================================ */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -829,8 +941,7 @@ function initContactForm() {
   });
 }
 
-/* ============================================================
-   PAGE-SPECIFIC ANIMATION TRIGGERS
+/* =====================================================   PAGE-SPECIFIC ANIMATION TRIGGERS
    ============================================================ */
 function triggerPageAnimations(pageId) {
   const page = document.getElementById('page-' + pageId);
@@ -854,8 +965,7 @@ function triggerPageAnimations(pageId) {
   });
 }
 
-/* ============================================================
-   GALLERY LIGHTBOX (simple)
+/* =====================================================   GALLERY LIGHTBOX (simple)
    ============================================================ */
 function initGallery() {
   document.querySelectorAll('.gallery-item').forEach(item => {
@@ -889,8 +999,7 @@ function initGallery() {
   });
 }
 
-/* ============================================================
-   PACKAGE CTA BUTTONS
+/* =====================================================   PACKAGE CTA BUTTONS
    ============================================================ */
 function initPackageButtons() {
   document.querySelectorAll('[data-goto]').forEach(btn => {
@@ -898,8 +1007,7 @@ function initPackageButtons() {
   });
 }
 
-/* ============================================================
-   INIT
+/* =====================================================   INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   // Render all data-driven content first so subsequent init steps
