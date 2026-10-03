@@ -628,24 +628,74 @@ function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
-    const originalText = btn.textContent;
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
+    const originalHTML = btn.innerHTML;
+    const { email, formEndpoint } = SITE_DATA.contact;
+    const data = new FormData(form);
 
-    setTimeout(() => {
-      btn.textContent = '✓ Message Sent!';
-      btn.style.background = 'var(--success)';
+    const showResult = (text, color, reset) => {
+      btn.textContent = text;
+      btn.style.background = color;
       setTimeout(() => {
-        btn.textContent = originalText;
+        btn.innerHTML = originalHTML;
         btn.style.background = '';
         btn.disabled = false;
-        form.reset();
+        if (reset) form.reset();
       }, 3000);
-    }, 1200);
+    };
+
+    // No endpoint configured: hand the message to the visitor's email app.
+    if (!formEndpoint) {
+      window.location.href = buildContactMailto(email, data);
+      showResult('✓ Opening your email app...', 'var(--success)', false);
+      btn.disabled = true;
+      return;
+    }
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+      const budget = form.querySelector('#budget');
+      data.set('budget', budget && budget.selectedIndex > 0 ? budget.options[budget.selectedIndex].text : '');
+      data.set('_replyto', data.get('email') || '');
+      data.set('_subject', contactSubject(data));
+      const res = await fetch(formEndpoint, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      showResult('✓ Message Sent!', 'var(--success)', true);
+    } catch (err) {
+      console.error('Contact form failed to send:', err);
+      showResult(`Couldn't send. Please email ${email}`, 'var(--danger)', false);
+    }
   });
+}
+
+function contactSubject(data) {
+  const name = `${data.get('fname') || ''} ${data.get('lname') || ''}`.trim();
+  const company = data.get('company');
+  return `Sponsorship enquiry from ${name}${company ? ` (${company})` : ''}`;
+}
+
+function buildContactMailto(to, data) {
+  const form = document.getElementById('contactForm');
+  const budget = form.querySelector('#budget');
+  const budgetText = budget && budget.selectedIndex > 0 ? budget.options[budget.selectedIndex].text : '';
+  const lines = [
+    data.get('message') || '',
+    '',
+    '---',
+    `Name: ${data.get('fname') || ''} ${data.get('lname') || ''}`.trim(),
+    data.get('company') ? `Company: ${data.get('company')}` : '',
+    `Email: ${data.get('email') || ''}`,
+    data.get('phone') ? `Phone: ${data.get('phone')}` : '',
+    budgetText ? `Budget: ${budgetText}` : ''
+  ].filter((l, i) => i < 3 || l);
+  return `mailto:${to}?subject=${encodeURIComponent(contactSubject(data))}&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 /* ============================================================
