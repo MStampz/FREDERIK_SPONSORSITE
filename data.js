@@ -216,8 +216,8 @@ const SITE_DATA = {
        badge                 — headline result for the season, shown
                                first on the Results and Calendar pages
        bluCru                — optional, the Yamaha bLU cRU SuperFinale
-                               result, shown in its own highlight next
-                               to `badge` (podium or top 10 years)
+                               result, shown as its own badge next to
+                               `badge` (podium or top 10 years)
        focus                 — optional, the series raced, shown on
                                the Sponsor Value page for the
                                current season
@@ -439,7 +439,7 @@ const SITE_DATA = {
       title: '2019 SEASON',
       subtitle: '65cc on a Yamaha YZ65 — Danish championship, EMX65, the FIM Junior World Championship and the bLU cRU SuperFinale at MXoN.',
       badge: '3rd Danish Championship 65cc',
-      bluCru: '3rd Yamaha bLU cRU SuperFinale · Assen (MXoN)',
+      bluCru: '3rd Yamaha bLU cRU SuperFinale · Assen',
       summary: 'Third in the Danish 65cc championship and third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen. Raced EMX65 and the FIM Junior World Championship in Italy.',
       races: [
         { id: '2019-emx65-round1', track: 'Slagelse', flag: '🇩🇰', country: 'Denmark', date: '2019-05', championship: 'EMX65', pos: 15, result: '17-12' },

@@ -338,11 +338,11 @@ function initSeasonTabs() {
 }
 
 /* A season's most important results: the headline result (`badge`)
-   and, in its own highlight, the bLU cRU SuperFinale result when
-   there is one. */
+   and, as its own badge, the bLU cRU SuperFinale result when there
+   is one. */
 function keyResultsHtml(season) {
   return `<span class="badge badge-gold key-result">${season.badge}</span>`
-    + (season.bluCru ? `<span class="badge badge-blucru key-result">${season.bluCru}</span>` : '');
+    + (season.bluCru ? `<span class="badge badge-gold key-result">${season.bluCru}</span>` : '');
 }
 
 function renderResultsTable() {
