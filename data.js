@@ -17,6 +17,9 @@
                       supporters are thanked, and the "become a
                       supporter" wording on the Sponsors and Contact
                       pages
+     home           — home page text: the proof line under the name
+                      in the hero, the story teaser and the "back the
+                      journey" block
      contact        — email/phone/location used in footers & contact page
      socials        — social accounts on the contact page
      seasonMetrics  — home page social counter (race counts and
@@ -130,6 +133,21 @@ const SITE_DATA = {
     sponsorsCtaText: 'Supporter places are open for next season. Help a young Dane make it in Australia and follow every race with him.',
     contactHeading: 'BECOME A SUPPORTER',
     contactSubtitle: 'Pick a level as a starting point, or tell us what you would like to help with. Prices are in Australian dollars and everything can be tailored.'
+  },
+
+  /* Home page text. The hero proof line is `heroResult`, then the
+     first entry in `titles`, then the career podium count (counted
+     from `seasons`). */
+  home: {
+    heroResult: 'P2 Victorian Motocross Championship MX3 2026',
+
+    storyLabel: 'His story',
+    storyHeading: 'FROM DENMARK TO MELBOURNE.',
+    storyText: 'Frederik grew up racing at Randers Motor Sport in Denmark, where he was twice Danish vice champion on the 85 and fourth in the Danish MX2 championship in 2025. At the end of 2025 the family moved to Melbourne, and within months of getting back on the bike he was second overall in MX3 at the Victorian Motocross Championship.',
+
+    supportLabel: 'Back the journey',
+    supportHeading: 'BE PART OF THE NEXT CHAPTER.',
+    supportText: 'Yamaha City Melbourne got him on a bike. What is missing is everything around it: getting to the Pro MX rounds, a trailer of his own, parts and tyres. We are looking for a few people who love the sport and would like to help him make it here.'
   },
 
   contact: {
