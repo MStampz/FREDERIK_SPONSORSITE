@@ -21,7 +21,7 @@
      socials        — social accounts on the contact page
      seasonMetrics  — home page social counter (race counts and
                       podiums are counted from seasons instead)
-     homeHighlights — home page "Race Highlights" cards (top 3)
+     homeHighlights — home page "Career Highlights" cards (four)
      carouselLogos  — home page scrolling partner logo strip
      currentSeason  — the year the home page, calendar countdown and
                       season counters are about
@@ -155,30 +155,51 @@ const SITE_DATA = {
     topReelLikes: '10K'
   },
 
-  /* Race highlight cards on the home page. `raceId` points at a race
-     in `seasons` by its id (see the race id rules above `seasons`),
-     which supplies the track, country, date and result. `label`
-     overrides the P-number badge when the race has no single overall
-     position. */
+  /* Career highlight cards on the home page (four, best first; on a
+     tablet they show two per row).
+
+     A card about one race sets `raceId` (see the race id rules above
+     `seasons`): the race supplies the year, track, country, date and
+     the P-number badge. `label` overrides that badge and `meta`
+     overrides that line.
+
+     A card about more than one result (a series of podiums, say)
+     leaves out `raceId` and sets `label` (the badge text) and `meta`
+     (the small line above the title) itself.
+
+     `medal` (1, 2 or 3) colours the badge gold, silver or bronze;
+     without it a race card uses its finishing position. */
   homeHighlights: [
     {
       raceId: '2026-vicmc-round2',
+      label: 'P2',
+      meta: '2026 &nbsp;·&nbsp; Final standings &nbsp;·&nbsp; Australia',
       image: 'https://picsum.photos/seed/mxrace-vic-state/800/500',
       title: 'VICTORIAN MOTOCROSS CHAMPIONSHIP MX3',
-      summary: '3-2-2 for second overall, with two holeshots from three starts and the fastest lap of race 3, leading almost all of it.'
+      summary: 'Second overall in the 2026 Victorian Motocross Championship MX3, in his first season in Australia after five months off the bike.'
     },
     {
-      raceId: '2026-vicmc-round3',
-      image: 'https://picsum.photos/seed/mxrace-vic-titles/800/500',
-      title: 'VICTORIAN MOTOCROSS CHAMPIONSHIP MX2',
-      summary: 'Third in MX3 on Saturday and second in MX2 on Sunday at round 3, racing two classes across one weekend.'
+      label: '2×',
+      medal: 2,
+      meta: '2019 &nbsp;·&nbsp; Assen &nbsp;·&nbsp; 2021 &nbsp;·&nbsp; Mantova',
+      image: 'https://picsum.photos/seed/mxrace-blucru/800/500',
+      title: 'TWO-TIME PODIUM · YAMAHA BLU CRU SUPERFINALE',
+      summary: "3rd at Assen in 2019 and 2nd at Mantova in 2021, up against Yamaha's best young riders."
     },
     {
-      raceId: '2025-dmmx2-round4',
-      label: 'P4',
-      image: 'https://picsum.photos/seed/mxrace-dm-2025/800/500',
-      title: 'DANISH MX2 CHAMPIONSHIP',
-      summary: 'Fourth in the 2025 Danish MX2 championship on a 250, two points off the podium, in his last season before moving to Australia.'
+      label: '4×',
+      medal: 2,
+      meta: '2019 – 2024 &nbsp;·&nbsp; Denmark',
+      image: 'https://picsum.photos/seed/mxrace-dm-podiums/800/500',
+      title: 'DANISH CHAMPIONSHIP PODIUMS',
+      summary: '4× on the Danish Championship podium: vice champion in 85cc in 2021 and 2022, plus 3rd in 65cc (2019) and 3rd in 125cc (2024).'
+    },
+    {
+      label: '11',
+      meta: '2019 – 2026 &nbsp;·&nbsp; 11 countries',
+      image: 'https://picsum.photos/seed/mxrace-international/800/500',
+      title: 'INTERNATIONAL EXPERIENCE',
+      summary: 'Raced in 11 countries: the FIM Junior World Championship twice, the EMX European Championship in four classes (65, 85, 125 and 250), and six seasons of ADAC MX Masters in Germany.'
     }
   ],
 
