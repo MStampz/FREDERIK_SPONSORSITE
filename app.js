@@ -337,10 +337,19 @@ function initSeasonTabs() {
   });
 }
 
+/* A season's most important results: the headline result (`badge`)
+   and, in its own highlight, the bLU cRU SuperFinale result when
+   there is one. */
+function keyResultsHtml(season) {
+  return `<span class="badge badge-gold key-result">${season.badge}</span>`
+    + (season.bluCru ? `<span class="badge badge-blucru key-result">${season.bluCru}</span>` : '');
+}
+
 function renderResultsTable() {
   const season = getSeason(selectedSeasonYear);
   bindField('results-season-label', `Season ${season.year}`);
-  bindField('results-season-badge', season.badge);
+  const keyResults = document.getElementById('results-key-results');
+  if (keyResults) keyResults.innerHTML = keyResultsHtml(season);
 
   const tbody = document.getElementById('results-tbody');
   if (!tbody) return;
@@ -401,7 +410,7 @@ function renderCalendar(instant = false) {
     if (round) round.textContent = '';
     if (date) date.textContent = '';
     separators.forEach(el => { el.style.display = 'none'; });
-    if (badgesEl) badgesEl.innerHTML = `<span class="badge badge-gold">${season.badge}</span>`
+    if (badgesEl) badgesEl.innerHTML = keyResultsHtml(season)
       + (isCurrent ? `<span style="${noteStyle}" id="next-race-note">Next season's plans coming soon</span>` : '');
     if (countdown) countdown.style.display = 'none';
     if (hero) { hero.classList.add('season-complete'); hero.dataset.year = season.year; }

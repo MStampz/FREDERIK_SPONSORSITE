@@ -72,8 +72,8 @@ const SITE_DATA = {
     bioHeading: 'FROM RANDERS TO MELBOURNE.',
     bio: [
       'Frederik Rahn Stampe grew up racing at Randers Motor Sport in Denmark. On a Yamaha YZ65 he finished third in the 2019 Danish 65cc championship, third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen, and raced the FIM Junior World Championship in Italy.',
-      'On the 85 he was Danish vice champion two years running, in 2021 and 2022, and an official Yamaha contract rider. He moved up to the 125 with Wozniak MX Racing Team, finished third in the Danish championship in 2024, and on a 250 in 2025 he was fourth in the Danish MX2 championship, two points off the podium, while racing ADAC MX Masters and EMX250.',
-      'At the end of 2025 the family moved to Melbourne. Backed by Yamaha City Melbourne, he was back on the podium within weeks: second overall at the Victorian State Championship and second in MX2 at the Victorian titles, alongside his Pro MX debut.'
+      'On the 85 he was Danish vice champion two years running, in 2021 and 2022, and an official Yamaha contract rider. He moved up to the 125 with Wozniak MX Racing Team, finished third in the Danish 125cc championship in 2024, and on a 250 in 2025 he was fourth in the Danish MX2 championship, two points off the podium, while racing ADAC MX Masters and EMX250.',
+      'At the end of 2025 the family moved to Melbourne. Backed by Yamaha City Melbourne, he was back on the podium within weeks: second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, alongside his Pro MX debut.'
     ],
     timelineSubtitle: 'From the 65cc class in Denmark to MX2 in Australia, one season at a time.'
   },
@@ -91,8 +91,8 @@ const SITE_DATA = {
     letterHeading: 'STARTING OVER, ONE RACE AT A TIME.',
     letter: [
       'At the end of 2025 our family moved from Denmark to Melbourne. Frederik had raced for Randers Motor Sport since the 65cc class, had twice been Danish vice champion on the 85, and had just finished fourth in the Danish MX2 championship. Then he had to start again in a new country.',
-      'After five months off the bike he was racing again in April. By May he was second overall at the Victorian State Championship, with two holeshots from three starts. Yamaha City Melbourne got him on a bike and OnPoint Suspension looks after him at the track.',
-      'What is missing is everything around the bike. This year he skipped a Pro MX round because we could not get him there, borrowed a trailer to get to the Victorian championship, and lost races to technical problems.',
+      'After five months off the bike he was racing again in April. By May he was second overall in MX3 at the Victorian Motocross Championship, with two holeshots from three starts. Yamaha City Melbourne got him on a bike and OnPoint Suspension looks after him at the track.',
+      'What is missing is everything around the bike. This year he skipped a Pro MX round because we could not get him there, borrowed a trailer to get to the Victorian Motocross Championship, and lost races to technical problems.',
       'We are not offering reach targets or a media campaign. We are looking for a few people who love the sport, and maybe know what it takes to make it in a new country, who would like to be part of the next chapter. If that is you, we would love to hear from you.'
     ],
     letterSignoff: 'Frederik and the Stampe family',
@@ -103,8 +103,8 @@ const SITE_DATA = {
     needsSubtitle: 'Concrete things, not a media budget.',
     needs: [
       { title: 'Getting to the races', desc: 'Travel to Pro MX rounds outside Victoria. In 2026 he had to skip Toowoomba because his setup could not get him there.' },
-      { title: 'A trailer of his own', desc: 'He borrowed one to get to the Victorian championship. A trailer or van means he can say yes to every race.' },
-      { title: 'Parts and servicing', desc: 'Technical problems cost him results at Sandmasters, the Victorian championship and the MXGP of Australia.' },
+      { title: 'A trailer of his own', desc: 'He borrowed one to get to the Victorian Motocross Championship. A trailer or van means he can say yes to every race.' },
+      { title: 'Parts and servicing', desc: 'Technical problems cost him results at Sandmasters, the Victorian Motocross Championship and the MXGP of Australia.' },
       { title: 'Tyres and race entries', desc: 'The everyday costs of a race season, round after round.' }
     ],
 
@@ -164,14 +164,14 @@ const SITE_DATA = {
     {
       raceId: '2026-vicmc-round2',
       image: 'https://picsum.photos/seed/mxrace-vic-state/800/500',
-      title: 'VICTORIAN STATE CHAMPIONSHIP',
+      title: 'VICTORIAN MOTOCROSS CHAMPIONSHIP MX3',
       summary: '3-2-2 for second overall, with two holeshots from three starts and the fastest lap of race 3, leading almost all of it.'
     },
     {
       raceId: '2026-vicmc-round3',
       image: 'https://picsum.photos/seed/mxrace-vic-titles/800/500',
-      title: 'VICTORIAN TITLES',
-      summary: 'Third in MX3 on Saturday and second in MX2 on Sunday, racing two classes across one weekend.'
+      title: 'VICTORIAN MOTOCROSS CHAMPIONSHIP MX2',
+      summary: 'Third in MX3 on Saturday and second in MX2 on Sunday at round 3, racing two classes across one weekend.'
     },
     {
       raceId: '2025-dmmx2-round4',
@@ -213,7 +213,11 @@ const SITE_DATA = {
 
      Season fields:
        year, title, subtitle — shown on the Results and Calendar pages
-       badge                 — headline result for the season
+       badge                 — headline result for the season, shown
+                               first on the Results and Calendar pages
+       bluCru                — optional, the Yamaha bLU cRU SuperFinale
+                               result, shown in its own highlight next
+                               to `badge` (podium or top 10 years)
        focus                 — optional, the series raced, shown on
                                the Sponsor Value page for the
                                current season
@@ -282,19 +286,19 @@ const SITE_DATA = {
     {
       year: 2026,
       title: '2026 SEASON',
-      subtitle: 'First season in Australia, backed by Yamaha City Melbourne — Victorian championships, Pro MX and the MXGP of Australia.',
-      badge: 'P2 Victorian State Championship',
-      focus: 'Victorian championships · Pro MX',
-      summary: 'Moved to Melbourne. Second at the Victorian State Championship and in MX2 at the Victorian titles, Pro MX debut and a trip to the MXGP of Australia.',
+      subtitle: 'First season in Australia, backed by Yamaha City Melbourne — Victorian Motocross Championship (MX3 and MX2), Pro MX and the MXGP of Australia.',
+      badge: 'P2 Victorian Motocross Championship MX3',
+      focus: 'Victorian Motocross Championship · Pro MX',
+      summary: 'Moved to Melbourne. Second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, Pro MX debut and a trip to the MXGP of Australia.',
       races: [
-        { id: '2026-vicmc-round1', track: 'Victorian State Titles', flag: '🇦🇺', country: 'Australia', date: '2026-04', championship: 'Victorian State Titles', pos: null, result: 'MX3 6-4-5 · MX2 7-6-5' },
+        { id: '2026-vicmc-round1', track: 'Round 1', flag: '🇦🇺', country: 'Australia', date: '2026-04', championship: 'Victorian Motocross Championship', pos: null, result: 'MX3 6-4-5 · MX2 7-6-5' },
         { id: '2026-promx-round1', track: 'Canberra', flag: '🇦🇺', country: 'Australia', date: '2026-04', championship: 'Pro MX', pos: null, result: '27-25' },
         { id: '2026-sandmasters-round1', track: 'Sandmasters', flag: '🇦🇺', country: 'Australia', date: '2026-05', championship: 'Sandmasters', pos: null, result: '1-1-DNF-DNS' },
         { id: '2026-promx-round2', track: 'Gillman', flag: '🇦🇺', country: 'Australia', date: '2026-05', championship: 'Pro MX', pos: null, result: '11-17' },
-        { id: '2026-vicmc-round2', track: 'Victorian State Championship', flag: '🇦🇺', country: 'Australia', date: '2026-05', championship: 'Victorian State Championship', pos: 2, result: '3-2-2' },
+        { id: '2026-vicmc-round2', track: 'Round 2', flag: '🇦🇺', country: 'Australia', date: '2026-05', championship: 'Victorian Motocross Championship MX3', pos: 2, result: '3-2-2' },
         { id: '2026-promx-round5', track: 'Appin', flag: '🇦🇺', country: 'Australia', date: '2026-06', championship: 'Pro MX', pos: null, result: 'Round 5' },
-        { id: '2026-vicmc-round3', track: 'Victorian Titles', flag: '🇦🇺', country: 'Australia', date: '2026-07', championship: 'Victorian Titles MX2', pos: 2, result: 'MX3 P3' },
-        { id: '2026-vicmc-round4', track: 'Victorian Championship', flag: '🇦🇺', country: 'Australia', date: '2026-08', championship: 'Victorian Championship MX3', pos: 3, result: 'P2 in championship' },
+        { id: '2026-vicmc-round3', track: 'Round 3', flag: '🇦🇺', country: 'Australia', date: '2026-07', championship: 'Victorian Motocross Championship MX2', pos: 2, result: 'MX3 P3' },
+        { id: '2026-vicmc-round4', track: 'Round 4', flag: '🇦🇺', country: 'Australia', date: '2026-08', championship: 'Victorian Motocross Championship MX3', pos: 3, result: 'P2 in championship' },
         { id: '2026-mxgp-round1', track: 'Darwin', flag: '🇦🇺', country: 'Australia', date: '2026-09', championship: 'MXGP of Australia', pos: null, result: 'DNS' }
       ]
     },
@@ -327,45 +331,46 @@ const SITE_DATA = {
       year: 2024,
       title: '2024 SEASON',
       subtitle: '125 with Wozniak MX Racing Team — EMX125, Junior World Championship, ADAC and the Danish championship.',
-      badge: '3rd Danish Championship',
-      summary: 'Third overall in the Danish championship. Raced EMX125, the Junior World Championship and ADAC, qualified second in his first ever 250 race, and ninth at the bLU cRU SuperFinale.',
+      badge: '3rd Danish Championship 125cc',
+      bluCru: 'Top 10 Yamaha bLU cRU SuperFinale · England',
+      summary: 'Third overall in the Danish 125cc championship. Raced EMX125, the Junior World Championship and ADAC, qualified second in his first ever 250 race, and top 10 at the Yamaha bLU cRU SuperFinale in England.',
       races: [
         { id: '2024-dutchopener-round1', track: 'Lierop', flag: '🇳🇱', country: 'Netherlands', date: '2024-03', championship: 'Dutch season opener', pos: 13, result: '' },
         { id: '2024-emx125-round1', track: 'Riola Sardo', flag: '🇮🇹', country: 'Italy', date: '2024-04', championship: 'EMX125', pos: null, result: '25-22' },
         { id: '2024-emx125-round2', track: 'Arco di Trento', flag: '🇮🇹', country: 'Italy', date: '2024-04', championship: 'EMX125', pos: null, result: 'DNQ' },
-        { id: '2024-dm125-round1', track: 'Svendborg', flag: '🇩🇰', country: 'Denmark', date: '2024-04', championship: 'Danish Championship', pos: 4, result: '' },
+        { id: '2024-dm125-round1', track: 'Svendborg', flag: '🇩🇰', country: 'Denmark', date: '2024-04', championship: 'Danish Championship 125cc', pos: 4, result: '' },
         { id: '2024-adac-round1', track: 'Dreetz', flag: '🇩🇪', country: 'Germany', date: '2024-04', championship: 'ADAC MX Masters', pos: null, result: '26-11' },
         { id: '2024-dmmx2-round1', track: 'Danish Championship MX2', flag: '🇩🇰', country: 'Denmark', date: '2024-05', championship: 'Danish Championship MX2', pos: 13, result: '15-13 on a 125' },
         { id: '2024-adac-round2', track: 'Vellahn', flag: '🇩🇪', country: 'Germany', date: '2024-05', championship: 'ADAC MX Masters', pos: null, result: '20-22-24' },
-        { id: '2024-dm125-round2', track: 'Herning', flag: '🇩🇰', country: 'Denmark', date: '2024-06', championship: 'Danish Championship', pos: null, result: '6-3' },
+        { id: '2024-dm125-round2', track: 'Herning', flag: '🇩🇰', country: 'Denmark', date: '2024-06', championship: 'Danish Championship 125cc', pos: null, result: '6-3' },
         { id: '2024-dutchnationals-round1', track: 'Heerde', flag: '🇳🇱', country: 'Netherlands', date: '2024-07', championship: 'Dutch Nationals', pos: null, result: '10-15' },
         { id: '2024-jwc-round1', track: 'Junior World Championship', flag: '🇳🇱', country: 'Netherlands', date: '2024-07', championship: 'FIM Junior World Championship 125', pos: null, result: 'DNQ' },
         { id: '2024-emx125-round3', track: 'Uddevalla', flag: '🇸🇪', country: 'Sweden', date: '2024-08', championship: 'EMX125', pos: null, result: '28-DNF' },
-        { id: '2024-dm125-round3', track: 'Hedeland', flag: '🇩🇰', country: 'Denmark', date: '2024-09', championship: 'Danish Championship', pos: null, result: 'Race 1 P4' },
+        { id: '2024-dm125-round3', track: 'Hedeland', flag: '🇩🇰', country: 'Denmark', date: '2024-09', championship: 'Danish Championship 125cc', pos: null, result: 'Race 1 P4' },
         { id: '2024-dmmx2-round2', track: 'First 250 race', flag: '🇩🇰', country: 'Denmark', date: '2024-09', championship: 'Danish Championship MX2', pos: null, result: 'Qualified P2 · DNF-DNF' },
-        { id: '2024-blucru-round1', track: 'bLU cRU SuperFinale', flag: '🇬🇧', country: 'United Kingdom', date: '2024-10', championship: 'Yamaha bLU cRU', pos: 9, result: '' }
+        { id: '2024-blucru-round1', track: 'England', flag: '🇬🇧', country: 'United Kingdom', date: '2024-10', championship: 'Yamaha bLU cRU SuperFinale', pos: 9, result: 'Top 10' }
       ]
     },
     {
       year: 2023,
       title: '2023 SEASON',
-      subtitle: 'First year on the 125 with Wozniak MX Racing Team — Danish championship, Danish MX2 against the 250s, and ADAC MX Masters.',
-      badge: '4th Danish Championship',
-      summary: 'Joined Wozniak MX Racing Team on a 125. Fourth in the Danish championship, raced Danish MX2 against the 250s and ADAC, and 11th at the bLU cRU SuperFinale in Ernée.',
+      subtitle: 'First year on the 125 with Wozniak MX Racing Team — Danish 125cc championship, Danish MX2 against the 250s on his 125, and ADAC MX Masters.',
+      badge: '4th Danish Championship 125cc',
+      summary: 'Joined Wozniak MX Racing Team on a 125. Fourth in the Danish 125cc championship, raced Danish MX2 against the 250s on his 125, and ADAC, and 11th at the bLU cRU SuperFinale in Ernée.',
       races: [
         { id: '2023-club-round1', track: 'Season opener', flag: '🇩🇰', country: 'Denmark', date: '2023-03', championship: 'First race on the 125', pos: 2, result: '2-2' },
         { id: '2023-adac-round1', track: 'Fürstlich Drehna', flag: '🇩🇪', country: 'Germany', date: '2023-04', championship: 'ADAC MX Masters', pos: null, result: '22-DNF' },
-        { id: '2023-dm125-round1', track: 'Han Herred', flag: '🇩🇰', country: 'Denmark', date: '2023-04', championship: 'Danish Championship', pos: 5, result: '5-5' },
-        { id: '2023-dmmx2-round1', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2023-05', championship: 'Danish Championship MX2', pos: null, result: '23-31' },
+        { id: '2023-dm125-round1', track: 'Han Herred', flag: '🇩🇰', country: 'Denmark', date: '2023-04', championship: 'Danish Championship 125cc', pos: 5, result: '5-5' },
+        { id: '2023-dmmx2-round1', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2023-05', championship: 'Danish Championship MX2', pos: null, result: '23-31 · on a 125' },
         { id: '2023-adac-round2', track: 'Mölln', flag: '🇩🇪', country: 'Germany', date: '2023-05', championship: 'ADAC MX Masters', pos: null, result: '37-31' },
         { id: '2023-adac-round3', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2023-05', championship: 'ADAC MX Masters', pos: null, result: '33-23' },
-        { id: '2023-dm125-round2', track: 'Svebølle', flag: '🇩🇰', country: 'Denmark', date: '2023-06', championship: 'Danish Championship', pos: null, result: '6-6' },
-        { id: '2023-dmmx2-round2', track: 'Svendborg', flag: '🇩🇰', country: 'Denmark', date: '2023-07', championship: 'Danish Championship MX2', pos: null, result: '18-16 (DSQ)' },
+        { id: '2023-dm125-round2', track: 'Svebølle', flag: '🇩🇰', country: 'Denmark', date: '2023-06', championship: 'Danish Championship 125cc', pos: null, result: '6-6' },
+        { id: '2023-dmmx2-round2', track: 'Svendborg', flag: '🇩🇰', country: 'Denmark', date: '2023-07', championship: 'Danish Championship MX2', pos: null, result: '18-16 (DSQ) · on a 125' },
         { id: '2023-adac-round4', track: 'Gaildorf', flag: '🇩🇪', country: 'Germany', date: '2023-08', championship: 'ADAC MX Masters', pos: null, result: '29-30' },
-        { id: '2023-dmmx2-round3', track: 'Mors', flag: '🇩🇰', country: 'Denmark', date: '2023-08', championship: 'Danish Championship MX2', pos: null, result: '23-19' },
+        { id: '2023-dmmx2-round3', track: 'Mors', flag: '🇩🇰', country: 'Denmark', date: '2023-08', championship: 'Danish Championship MX2', pos: null, result: '23-19 · on a 125' },
         { id: '2023-adac-round5', track: 'Holzgerlingen', flag: '🇩🇪', country: 'Germany', date: '2023-09', championship: 'ADAC MX Masters', pos: null, result: '20-21' },
-        { id: '2023-dmmx2-round4', track: 'Næstved', flag: '🇩🇰', country: 'Denmark', date: '2023-09', championship: 'Danish Championship MX2', pos: null, result: '20-21' },
-        { id: '2023-dm125-round3', track: 'Holstebro', flag: '🇩🇰', country: 'Denmark', date: '2023-10', championship: 'Danish Championship', pos: 4, result: '4-4 · 4th in championship' },
+        { id: '2023-dmmx2-round4', track: 'Næstved', flag: '🇩🇰', country: 'Denmark', date: '2023-09', championship: 'Danish Championship MX2', pos: null, result: '20-21 · on a 125' },
+        { id: '2023-dm125-round3', track: 'Holstebro', flag: '🇩🇰', country: 'Denmark', date: '2023-10', championship: 'Danish Championship 125cc', pos: 4, result: '4-4 · 4th in championship' },
         { id: '2023-blucru-round1', track: 'Ernée', flag: '🇫🇷', country: 'France', date: '2023-10', championship: 'Yamaha bLU cRU SuperFinale', pos: 11, result: '' }
       ]
     },
@@ -394,6 +399,7 @@ const SITE_DATA = {
       title: '2021 SEASON',
       subtitle: 'First full season on the 85, with EasyMX and Becker Racing — Danish championship, Lytzen Cup, ADAC MX Masters and EMX85.',
       badge: 'Danish Vice Champion 85cc',
+      bluCru: '2nd Yamaha bLU cRU SuperFinale · Mantova',
       summary: 'Danish vice champion in 85cc, Lytzen Cup winner and second at the Yamaha bLU cRU SuperFinale in Mantova. Joined Becker Racing mid-season and debuted in EMX85.',
       races: [
         { id: '2021-club-round1', track: 'Season opener', flag: '🇩🇰', country: 'Denmark', date: '2021-04', championship: 'Club race', pos: 1, result: '1-1' },
@@ -433,6 +439,7 @@ const SITE_DATA = {
       title: '2019 SEASON',
       subtitle: '65cc on a Yamaha YZ65 — Danish championship, EMX65, the FIM Junior World Championship and the bLU cRU SuperFinale at MXoN.',
       badge: '3rd Danish Championship 65cc',
+      bluCru: '3rd Yamaha bLU cRU SuperFinale · Assen (MXoN)',
       summary: 'Third in the Danish 65cc championship and third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen. Raced EMX65 and the FIM Junior World Championship in Italy.',
       races: [
         { id: '2019-emx65-round1', track: 'Slagelse', flag: '🇩🇰', country: 'Denmark', date: '2019-05', championship: 'EMX65', pos: 15, result: '17-12' },
@@ -453,11 +460,11 @@ const SITE_DATA = {
      above; `label` is shown on the photo and used as its alt text. */
   media: {
     gallery: [
-      { image: 'https://picsum.photos/seed/mx1/800/600', size: 'large', label: 'Victorian State Championship 2026' },
+      { image: 'https://picsum.photos/seed/mx1/800/600', size: 'large', label: 'Victorian Motocross Championship 2026' },
       { image: 'https://picsum.photos/seed/mx2/800/600', size: 'normal', label: 'Yamaha City Melbourne' },
       { image: 'https://picsum.photos/seed/mx3/800/600', size: 'normal', label: 'Sandmasters 2026' },
       { image: 'https://picsum.photos/seed/mx4/800/600', size: 'normal', label: 'Pro MX Gillman' },
-      { image: 'https://picsum.photos/seed/mx5/800/600', size: 'large', label: 'Victorian Titles 2026' },
+      { image: 'https://picsum.photos/seed/mx5/800/600', size: 'large', label: 'Victorian Motocross Championship MX2 2026' },
       { image: 'https://picsum.photos/seed/mx6/800/600', size: 'normal', label: 'MXGP of Australia, Darwin' },
       { image: 'https://picsum.photos/seed/mx7/800/600', size: 'normal', label: 'Danish Championship 2025' },
       { image: 'https://picsum.photos/seed/mx8/800/600', size: 'normal', label: 'Fastlane MX Masters Randers' },
