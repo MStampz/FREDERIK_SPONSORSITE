@@ -306,14 +306,14 @@
     <div class="sv-hero-graphic" data-field="rider-number">215</div>
     <div class="container sv-hero-inner">
       <div class="sv-hero-text">
-        <div class="section-label animate-fade-up">Partnership Opportunities · <span data-field="current-season">2026</span> Season</div>
+        <div class="section-label animate-fade-up"><span data-field="backing-hero-label"></span> · <span data-field="current-season">2026</span> Season</div>
         <h1 class="sv-hero-title animate-fade-up animate-delay-1">
-          Partnering with brands<br>in <span>youth motorsport</span>
+          <span data-field="backing-hero-title" style="color:inherit;"></span><br><span data-field="backing-hero-highlight"></span>
         </h1>
         <p class="sv-hero-sub animate-fade-up animate-delay-2" data-field="story-pitch"></p>
         <div class="sv-hero-btns animate-fade-up animate-delay-3">
-          <button class="btn btn-primary btn-lg" data-goto="contact">View Packages</button>
-          <button class="btn btn-outline btn-lg" data-goto="media">Media Kit</button>
+          <button class="btn btn-primary btn-lg" data-goto="contact">Become a Supporter</button>
+          <button class="btn btn-outline btn-lg" data-goto="story">His Story</button>
         </div>
       </div>
       <div class="sv-hero-kpis animate-fade-up animate-delay-2">
@@ -334,6 +334,36 @@
           <div class="sv-kpi-label">Countries Raced</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ── LETTER FROM THE FAMILY ────────────────────────────── -->
+  <section class="sv-section" style="background:var(--bg-2);">
+    <div class="container" style="max-width:820px;">
+      <div class="section-label" data-field="backing-letter-label"></div>
+      <h2 class="section-title" data-field="backing-letter-heading"></h2>
+      <div id="backing-letter-container"></div>
+      <p class="bio-text" style="font-style:italic;">— <span data-field="backing-letter-signoff"></span></p>
+    </div>
+  </section>
+
+  <!-- ── WHAT SUPPORT PAYS FOR ─────────────────────────────── -->
+  <section class="sv-section" style="background:var(--bg);">
+    <div class="container">
+      <div class="section-label" data-field="backing-needs-label"></div>
+      <h2 class="section-title" data-field="backing-needs-heading"></h2>
+      <p class="section-subtitle" data-field="backing-needs-subtitle"></p>
+      <div class="sv-vis-row sv-vis-row-4" id="backing-needs-container"></div>
+    </div>
+  </section>
+
+  <!-- ── HOW WE SAY THANK YOU ──────────────────────────────── -->
+  <section class="sv-section" style="background:var(--bg-2);">
+    <div class="container">
+      <div class="section-label" data-field="backing-thanks-label"></div>
+      <h2 class="section-title" data-field="backing-thanks-heading"></h2>
+      <p class="section-subtitle" data-field="backing-thanks-subtitle"></p>
+      <div class="sv-vis-row sv-vis-row-4" id="backing-thanks-container"></div>
     </div>
   </section>
 
@@ -619,13 +649,13 @@
   <!-- ── SPONSORSHIP PACKAGES ──────────────────────────────── -->
   <section class="sv-section" style="background:var(--bg-2);">
     <div class="container">
-      <div class="section-label">Investment</div>
-      <h2 class="section-title">SPONSORSHIP PACKAGES</h2>
-      <p class="section-subtitle">Three tiers to match your goals. All packages are customisable.</p>
+      <div class="section-label" data-field="backing-packages-label"></div>
+      <h2 class="section-title" data-field="backing-packages-heading"></h2>
+      <p class="section-subtitle" data-field="backing-packages-subtitle"></p>
 
       <div class="sv-pkg-grid" id="sv-packages-container"></div>
 
-      <p class="sv-pkg-note">All packages are fully customisable. Custom activations, co-branded campaigns and event appearances available on request.</p>
+      <p class="sv-pkg-note" data-field="backing-packages-note"></p>
     </div>
   </section>
 
@@ -634,8 +664,8 @@
     <div class="container sv-cta-inner">
       <div>
         <div class="section-label" style="color:var(--sand-dark);">Next Step</div>
-        <h2 class="sv-cta-title">Ready to partner?</h2>
-        <p class="sv-cta-sub">Partner slots are open for next season. Back a rider who has raced and podiumed across Europe and is now building his career in Australia.</p>
+        <h2 class="sv-cta-title" data-field="backing-cta-title"></h2>
+        <p class="sv-cta-sub" data-field="backing-cta-text"></p>
       </div>
       <div class="sv-cta-btns">
         <button class="btn btn-primary btn-lg" data-goto="contact">Get in Touch</button>
@@ -949,11 +979,11 @@
       <!-- CTA -->
       <div class="cta-section animate-fade-up">
         <div class="section-label" style="justify-content:center; margin-bottom:16px;">Available Slots</div>
-        <div class="cta-title">BECOME A PARTNER</div>
-        <p class="cta-text">Partner slots are open for next season. Put your brand on a rider who shows up at every race and reports on every one of them.</p>
+        <div class="cta-title" data-field="backing-sponsors-cta-title"></div>
+        <p class="cta-text" data-field="backing-sponsors-cta-text"></p>
         <div class="cta-actions">
-          <button class="btn btn-primary btn-lg" data-goto="contact">View Packages</button>
-          <button class="btn btn-outline btn-lg" data-goto="sponsor-value">Our Value</button>
+          <button class="btn btn-primary btn-lg" data-goto="contact">Supporter Levels</button>
+          <button class="btn btn-outline btn-lg" data-goto="sponsor-value">Why Back Frederik</button>
         </div>
       </div>
     </div>
@@ -1100,8 +1130,8 @@
         <div class="page-header-inner">
           <div>
             <div class="section-label">Partner With Us</div>
-            <h1 class="section-title" style="font-size: clamp(40px,6vw,80px);">BECOME A SPONSOR</h1>
-            <p class="section-subtitle">Choose a package that aligns with your brand goals. All packages are priced in Australian dollars and can be tailored to your brand.</p>
+            <h1 class="section-title" style="font-size: clamp(40px,6vw,80px);" data-field="backing-contact-heading"></h1>
+            <p class="section-subtitle" data-field="backing-contact-subtitle"></p>
           </div>
         </div>
       </div>
@@ -1148,7 +1178,7 @@
               </div>
               <div class="form-group full">
                 <label class="form-label" for="message">Message</label>
-                <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about your brand and partnership goals..." required></textarea>
+                <textarea class="form-textarea" id="message" name="message" placeholder="Tell us a bit about yourself and how you would like to help..." required></textarea>
               </div>
               <div class="form-group full form-submit">
                 <button type="submit" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;">
