@@ -2627,7 +2627,7 @@ footer {
 }
 .hp-highlights-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 .hp-race-card {
@@ -2772,7 +2772,6 @@ footer {
   .hp-metrics-grid { grid-template-columns: repeat(3, 1fr); }
   .hp-exposure-grid { grid-template-columns: repeat(3, 1fr); }
   .hp-highlights-grid { grid-template-columns: repeat(2, 1fr); }
-  .hp-highlights-grid .hp-race-card:last-child { display: none; }
 }
 @media (max-width: 768px) {
   .hp-hero-content { padding: 0 24px 80px; }
@@ -2783,7 +2782,6 @@ footer {
   .hp-exposure-grid { grid-template-columns: repeat(2, 1fr); }
   .hp-highlights-header { flex-direction: column; align-items: flex-start; }
   .hp-highlights-grid { grid-template-columns: 1fr; }
-  .hp-highlights-grid .hp-race-card:last-child { display: block; }
 }
 @media (max-width: 480px) {
   .hp-metrics-grid { grid-template-columns: 1fr 1fr; }

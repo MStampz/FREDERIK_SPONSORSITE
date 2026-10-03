@@ -81,7 +81,8 @@ function validateRaceIds() {
     if (season.nextRace && !findRace(season.nextRace.raceId)) warn(`${season.year} nextRace points at unknown race "${season.nextRace.raceId}"`);
   });
   SITE_DATA.homeHighlights.forEach(h => {
-    if (!findRace(h.raceId)) warn(`home highlight "${h.title}" points at unknown race "${h.raceId}"`);
+    if (h.raceId && !findRace(h.raceId)) warn(`home highlight "${h.title}" points at unknown race "${h.raceId}"`);
+    if (!h.raceId && !(h.label && h.meta)) warn(`home highlight "${h.title}" has no raceId, so it needs its own label and meta`);
   });
 }
 
@@ -286,10 +287,16 @@ function renderSeasonMetrics() {
 function renderHomeHighlights() {
   const container = document.getElementById('home-highlights-container');
   if (!container) return;
-  container.innerHTML = SITE_DATA.homeHighlights.filter(h => findRace(h.raceId)).map((h, i) => {
-    const { race: r, season } = findRace(h.raceId);
+  // A card either points at one race (raceId) or carries its own
+  // label and meta line; skip a race card whose race can't be found.
+  const cards = SITE_DATA.homeHighlights.filter(h => !h.raceId || findRace(h.raceId));
+  container.innerHTML = cards.map((h, i) => {
+    const found = h.raceId ? findRace(h.raceId) : null;
+    const r = found && found.race;
     const label = h.label || (r.pos ? `P${r.pos}` : r.result);
-    const posClass = r.pos && r.pos <= 3 ? ` hp-result-${r.pos}` : '';
+    const medal = h.medal || (r && r.pos && r.pos <= 3 ? r.pos : null);
+    const posClass = medal ? ` hp-result-${medal}` : '';
+    const meta = h.meta || `${found.season.year} &nbsp;·&nbsp; ${r.track}, ${r.country} &nbsp;·&nbsp; ${formatRaceDate(r.date).short}`;
     return `
     <div class="hp-race-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
       <div class="hp-race-img-wrap">
@@ -297,7 +304,7 @@ function renderHomeHighlights() {
         <div class="hp-race-result${posClass}">${label}</div>
       </div>
       <div class="hp-race-body">
-        <div class="hp-race-meta">${season.year} &nbsp;·&nbsp; ${r.track}, ${r.country} &nbsp;·&nbsp; ${formatRaceDate(r.date).short}</div>
+        <div class="hp-race-meta">${meta}</div>
         <h3 class="hp-race-name">${h.title}</h3>
         <p class="hp-race-summary">${h.summary}</p>
       </div>
