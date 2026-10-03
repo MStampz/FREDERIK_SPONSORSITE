@@ -195,12 +195,11 @@ const SITE_DATA = {
       summary: '4× on the Danish Championship podium: vice champion in 85cc in 2021 and 2022, plus 3rd in 65cc (2019) and 3rd in 125cc (2024).'
     },
     {
-      raceId: '2025-dmmx2-round4',
-      label: 'P4',
-      meta: '2025 &nbsp;·&nbsp; Final standings &nbsp;·&nbsp; Denmark',
-      image: 'https://picsum.photos/seed/mxrace-dm-2025/800/500',
-      title: 'DANISH CHAMPIONSHIP MX2 · 2025',
-      summary: 'Fourth in his first year on a 250, two points off the podium.'
+      label: '11',
+      meta: '2019 – 2026 &nbsp;·&nbsp; 11 countries',
+      image: 'https://picsum.photos/seed/mxrace-international/800/500',
+      title: 'INTERNATIONAL EXPERIENCE',
+      summary: 'Raced in 11 countries: the FIM Junior World Championship twice, the EMX European Championship in four classes (65, 85, 125 and 250), and six seasons of ADAC MX Masters in Germany.'
     }
   ],
 
