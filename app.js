@@ -47,6 +47,46 @@ function getCurrentSeason() {
   return getSeason(SITE_DATA.currentSeason);
 }
 
+/* ---- Race ids ---- */
+const RACE_ID_PATTERN = /^(\d{4})-([a-z0-9]+)-round([1-9]\d*)$/;
+
+function findRace(id) {
+  for (const season of SITE_DATA.seasons) {
+    const race = season.races.find(r => r.id === id);
+    if (race) return { race, season };
+  }
+  return null;
+}
+
+/* The next race of a season, if it names one that is still to run. */
+function getNextRace(season) {
+  const found = season.nextRace && findRace(season.nextRace.raceId);
+  return found && found.season === season && found.race.upcoming ? found.race : null;
+}
+
+/* Warns in the browser console about race ids that break the
+   <year>-<series>-round<N> rules in data.js, and about references
+   to races that don't exist. */
+function validateRaceIds() {
+  const seen = new Set();
+  const warn = msg => console.warn(`data.js: ${msg}`);
+  SITE_DATA.seasons.forEach(season => {
+    season.races.forEach((race, i) => {
+      const where = `${season.year} race ${i + 1} (${race.track})`;
+      const m = RACE_ID_PATTERN.exec(race.id || '');
+      if (!m) return warn(`${where} has id "${race.id}", expected <year>-<series>-round<N>`);
+      if (Number(m[1]) !== season.year) warn(`${where}: id "${race.id}" is filed under the ${season.year} season`);
+      if (!SITE_DATA.series[m[2]]) warn(`${where}: series "${m[2]}" is not listed in series`);
+      if (seen.has(race.id)) warn(`${where}: duplicate id "${race.id}"`);
+      seen.add(race.id);
+    });
+    if (season.nextRace && !findRace(season.nextRace.raceId)) warn(`${season.year} nextRace points at unknown race "${season.nextRace.raceId}"`);
+  });
+  SITE_DATA.homeHighlights.forEach(h => {
+    if (!findRace(h.raceId)) warn(`home highlight "${h.title}" points at unknown race "${h.raceId}"`);
+  });
+}
+
 /* The season shown on the Results and Calendar pages. Both pages
    share it, so picking 2024 on one page shows 2024 on the other. */
 let selectedSeasonYear = SITE_DATA.currentSeason;
@@ -162,8 +202,8 @@ function renderSeasonMetrics() {
 function renderHomeHighlights() {
   const container = document.getElementById('home-highlights-container');
   if (!container) return;
-  container.innerHTML = SITE_DATA.homeHighlights.map((h, i) => {
-    const r = getSeason(h.season).races[h.race - 1];
+  container.innerHTML = SITE_DATA.homeHighlights.filter(h => findRace(h.raceId)).map((h, i) => {
+    const { race: r, season } = findRace(h.raceId);
     const label = h.label || (r.pos ? `P${r.pos}` : r.result);
     const posClass = r.pos && r.pos <= 3 ? ` hp-result-${r.pos}` : '';
     return `
@@ -173,7 +213,7 @@ function renderHomeHighlights() {
         <div class="hp-race-result${posClass}">${label}</div>
       </div>
       <div class="hp-race-body">
-        <div class="hp-race-meta">${h.season} &nbsp;·&nbsp; ${r.track}, ${r.country} &nbsp;·&nbsp; ${formatRaceDate(r.date).short}</div>
+        <div class="hp-race-meta">${season.year} &nbsp;·&nbsp; ${r.track}, ${r.country} &nbsp;·&nbsp; ${formatRaceDate(r.date).short}</div>
         <h3 class="hp-race-name">${h.title}</h3>
         <p class="hp-race-summary">${h.summary}</p>
       </div>
@@ -239,8 +279,7 @@ function renderCalendar(instant = false) {
   const season = getSeason(selectedSeasonYear);
   const races = season.races;
   const isCurrent = season.year === SITE_DATA.currentSeason;
-  const next = isCurrent && season.nextRace ? races[season.nextRace.race - 1] : null;
-  const nextRace = next && next.upcoming ? next : null;
+  const nextRace = isCurrent ? getNextRace(season) : null;
   const stats = getSeasonStats(season);
 
   bindField('calendar-title', `${season.year} SEASON CALENDAR`);
@@ -286,10 +325,10 @@ function renderCalendar(instant = false) {
 
   // The contact page always shows the current season's next race.
   const current = getCurrentSeason();
-  const currentNext = current.nextRace ? current.races[current.nextRace.race - 1] : null;
+  const currentNext = getNextRace(current);
   const contactVenue = document.getElementById('contact-next-race-venue');
   const contactDate = document.getElementById('contact-next-race-date');
-  if (currentNext && currentNext.upcoming) {
+  if (currentNext) {
     if (contactVenue) contactVenue.textContent = `${currentNext.track}, ${currentNext.country}`;
     if (contactDate) contactDate.textContent = formatRaceDate(currentNext.date).full;
   } else {
@@ -496,6 +535,7 @@ function renderDashboard() {
 }
 
 function renderAllData() {
+  validateRaceIds();
   renderIdentity();
   renderSeasonStats();
   renderSocials();
@@ -739,7 +779,7 @@ function initCounters() {
 function initCountdown() {
   const season = getCurrentSeason();
   const next = season.nextRace;
-  if (!next || !next.countdownTarget || !season.races[next.race - 1]?.upcoming) return;
+  if (!next || !next.countdownTarget || !getNextRace(season)) return;
   const target = new Date(next.countdownTarget);
 
   function update() {
