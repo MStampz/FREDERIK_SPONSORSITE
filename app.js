@@ -150,6 +150,20 @@ function renderIdentity() {
   bindField('rider-bike-partner', toTitleCase(SITE_DATA.sponsors.lead.name));
   bindField('hero-line', site.heroLine);
   bindField('hero-sub', `${site.nationality} Motocross Rider · ${site.basedInCity}`);
+
+  const home = SITE_DATA.home;
+  const firstTitle = SITE_DATA.titles[0];
+  const heroProof = document.getElementById('hero-proof');
+  if (heroProof) {
+    const items = [home.heroResult, firstTitle && `${firstTitle.count} ${firstTitle.label}`, `${getCareerStats().podiums} career podiums`];
+    heroProof.innerHTML = items.filter(Boolean).map(t => `<span>${t}</span>`).join('');
+  }
+  bindField('home-story-label', home.storyLabel);
+  bindField('home-story-heading', home.storyHeading);
+  bindField('home-story-text', home.storyText);
+  bindField('home-support-label', home.supportLabel);
+  bindField('home-support-heading', home.supportHeading);
+  bindField('home-support-text', home.supportText);
   bindField('copyright', `© ${new Date().getFullYear()} ${toTitleCase(site.name)} Racing.`);
 
   const heroName = document.getElementById('hero-name');

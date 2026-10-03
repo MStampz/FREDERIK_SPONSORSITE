@@ -2423,8 +2423,26 @@ footer {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(240,237,232,0.5);
-  margin-bottom: 44px;
+  margin-bottom: 18px;
   animation: fadeUp 0.8s ease 0.45s both;
+}
+.hp-hero-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(12px, 1.1vw, 14px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+  animation: fadeUp 0.8s ease 0.52s both;
+}
+.hp-hero-proof span + span::before {
+  content: '·';
+  margin: 0 12px;
+  color: rgba(240,237,232,0.35);
 }
 .hp-hero-btns {
   display: flex;
@@ -2524,94 +2542,6 @@ footer {
   line-height: 1.5;
 }
 
-/* ── Sponsor Exposure ──────────────────────────────────────── */
-.hp-exposure {
-  background: var(--bg);
-  padding: 100px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.hp-exposure-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 56px;
-  gap: 24px;
-}
-.hp-exposure-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
-}
-.hp-exp-card {
-  background: var(--bg-2);
-  border: 1px solid rgba(255,255,255,0.055);
-  border-radius: 12px;
-  padding: 32px 24px 28px;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
-  position: relative;
-  overflow: hidden;
-}
-.hp-exp-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(to right, var(--gold-dark), var(--gold));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-}
-.hp-exp-card:hover {
-  transform: translateY(-7px);
-  border-color: rgba(196,151,62,0.22);
-  box-shadow: 0 24px 48px rgba(0,0,0,0.45);
-}
-.hp-exp-card:hover::before { transform: scaleX(1); }
-.hp-exp-visual {
-  width: 52px;
-  height: 52px;
-  border-radius: 10px;
-  background: rgba(196,151,62,0.08);
-  border: 1px solid rgba(196,151,62,0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold);
-  margin-bottom: 20px;
-  transition: var(--transition);
-}
-.hp-exp-card:hover .hp-exp-visual {
-  background: rgba(196,151,62,0.14);
-  border-color: rgba(196,151,62,0.35);
-}
-.hp-exp-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 10px;
-  letter-spacing: 0.01em;
-}
-.hp-exp-desc {
-  font-size: 12.5px;
-  color: var(--text-2);
-  line-height: 1.75;
-  flex: 1;
-  margin-bottom: 20px;
-}
-.hp-exp-reach {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--gold);
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.05);
-}
-
 /* ── Race Highlights ───────────────────────────────────────── */
 .hp-highlights {
   background: var(--bg-2);
@@ -2697,6 +2627,35 @@ footer {
   line-height: 1.75;
 }
 
+/* ── Story teaser & Back the journey ───────────────────────── */
+.hp-story,
+.hp-support {
+  padding: 100px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.hp-story { background: var(--bg); }
+.hp-support { background: var(--bg-2); }
+.hp-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 48px;
+}
+.hp-split > .btn,
+.hp-split-btns { flex-shrink: 0; }
+.hp-split-btns {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.hp-split-text {
+  max-width: 680px;
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+
 /* ── Sponsor Logos Carousel ────────────────────────────────── */
 .hp-carousel-section {
   background: var(--bg);
@@ -2766,11 +2725,9 @@ footer {
 
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 1200px) {
-  .hp-exposure-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 1024px) {
   .hp-metrics-grid { grid-template-columns: repeat(3, 1fr); }
-  .hp-exposure-grid { grid-template-columns: repeat(3, 1fr); }
   .hp-highlights-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
@@ -2778,14 +2735,15 @@ footer {
   .hp-hero-scroll { right: 24px; bottom: 36px; }
   .hp-hero-number-bg { font-size: 55vw; }
   .hp-metrics-grid { grid-template-columns: repeat(2, 1fr); }
-  .hp-exposure-header { flex-direction: column; align-items: flex-start; }
-  .hp-exposure-grid { grid-template-columns: repeat(2, 1fr); }
   .hp-highlights-header { flex-direction: column; align-items: flex-start; }
   .hp-highlights-grid { grid-template-columns: 1fr; }
+  .hp-story, .hp-support { padding: 72px 0; }
+  .hp-split { flex-direction: column; align-items: flex-start; gap: 28px; }
+  .hp-hero-proof { flex-direction: column; gap: 6px; }
+  .hp-hero-proof span + span::before { content: none; }
 }
 @media (max-width: 480px) {
   .hp-metrics-grid { grid-template-columns: 1fr 1fr; }
-  .hp-exposure-grid { grid-template-columns: 1fr; }
   .hp-hero-name { font-size: 68px; }
 }
 
