@@ -112,6 +112,17 @@ function renderIdentity() {
   if (mailto) mailto.href = `mailto:${contact.email}`;
 }
 
+/* Fixed page photos: <img data-image="hero"> gets its src and alt
+   from SITE_DATA.images.hero. */
+function renderImages() {
+  document.querySelectorAll('img[data-image]').forEach(img => {
+    const image = SITE_DATA.images[img.dataset.image];
+    if (!image) return console.warn(`data.js: no images.${img.dataset.image}`);
+    img.src = image.src;
+    img.alt = image.alt;
+  });
+}
+
 function renderSocials() {
   const container = document.getElementById('socials-container');
   if (!container) return;
@@ -169,7 +180,7 @@ function renderHomeHighlights() {
     return `
     <div class="hp-race-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
       <div class="hp-race-img-wrap">
-        <img src="https://picsum.photos/seed/${h.imageSeed}/800/500" alt="${h.title} race photo" loading="lazy" />
+        <img src="${h.image}" alt="${h.title} race photo" loading="lazy" />
         <div class="hp-race-result${posClass}">${label}</div>
       </div>
       <div class="hp-race-body">
@@ -358,7 +369,7 @@ function renderMedia() {
   if (gallery) {
     gallery.innerHTML = m.gallery.map(item => `
       <div class="gallery-item${item.size === 'large' ? ' large' : ''}">
-        <img src="https://picsum.photos/seed/${item.seed}/800/600" alt="${item.label}" loading="lazy" />
+        <img src="${item.image}" alt="${item.label}" loading="lazy" />
         <div class="gallery-item-overlay"><span class="gallery-item-label">${item.label}</span></div>
       </div>
     `).join('');
@@ -496,6 +507,7 @@ function renderDashboard() {
 }
 
 function renderAllData() {
+  renderImages();
   renderIdentity();
   renderSeasonStats();
   renderSocials();
