@@ -58,6 +58,7 @@ function renderIdentity() {
   bindField('rider-number', site.raceNumber);
   bindField('rider-class', site.raceClass);
   bindField('rider-nationality', `${site.nationality} ${site.countryFlag}`);
+  bindField('rider-birthplace', site.birthplace);
   bindField('contact-email', contact.email);
   bindField('contact-phone', contact.phone);
   bindField('contact-location', contact.location);
@@ -67,6 +68,19 @@ function renderIdentity() {
 
   const mailto = document.getElementById('mailto-email-link');
   if (mailto) mailto.href = `mailto:${contact.email}`;
+}
+
+function renderSocials() {
+  const container = document.getElementById('socials-container');
+  if (!container) return;
+  const list = SITE_DATA.socials;
+  container.innerHTML = list.map((s, i) => {
+    const border = i < list.length - 1 ? ' border-bottom:1px solid rgba(255,255,255,0.05);' : '';
+    const link = s.url ? ` href="${s.url}" target="_blank" rel="noopener"` : '';
+    return `<a${link} style="display:flex; align-items:center; gap:12px; padding:10px 0;${border} color:var(--text-2); font-size:14px; transition:color 0.2s;">
+                <span>${s.icon}</span> ${s.label}
+              </a>`;
+  }).join('');
 }
 
 function renderSeasonStats() {
@@ -360,6 +374,7 @@ function renderDashboard() {
 function renderAllData() {
   renderIdentity();
   renderSeasonStats();
+  renderSocials();
   renderSeasonMetrics();
   renderHomeHighlights();
   renderCarousel();

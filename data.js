@@ -9,6 +9,7 @@
                       country) used in the page title, nav, hero,
                       bio and footers
      contact        — email/phone/location used in footers & contact page
+     socials        — social accounts on the contact page
      seasonMetrics  — home page social counters (races, podiums and
                       wins are counted from raceResults instead)
      homeHighlights — home page "Race Highlights" cards (top 3)
@@ -36,7 +37,8 @@ const SITE_DATA = {
     raceClass: 'MX2',
     country: 'Denmark',
     countryFlag: '🇩🇰',
-    nationality: 'Danish'
+    nationality: 'Danish',
+    birthplace: 'Aarhus, Denmark'
   },
 
   contact: {
@@ -45,6 +47,13 @@ const SITE_DATA = {
     location: 'Melbourne, Australia',
     locationFlag: '🇦🇺'
   },
+
+  /* Social accounts listed on the contact page. `url` is optional:
+     leave it out to show the label without a link. */
+  socials: [
+    { icon: '📸', label: '@frederik_stampe', url: 'https://www.instagram.com/frederik_stampe/' },
+    { icon: '▶', label: 'Frederik Rahn Stampe Racing' }
+  ],
 
   /* Race count, podiums and wins are not stored here: they are
      counted from raceResults so the home page can't disagree with
