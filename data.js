@@ -48,69 +48,81 @@ const SITE_DATA = {
     videoViewsSuffix: 'K'
   },
 
-  /* Top 3 most recent races shown on the home page. `round` refers
-     to the round number in raceResults. */
+  /* Top 3 races featured on the home page (best recent results,
+     not strictly the latest). `round` refers to the round number in
+     raceResults. */
   homeHighlights: [
     {
-      round: 8,
-      resultClass: 'hp-result-1',
-      posLabel: 'P1',
-      imageSeed: 'mxrace-uk',
-      metaLine: 'Round 8 &nbsp;·&nbsp; Matterley Basin, UK &nbsp;·&nbsp; Aug 16',
-      title: 'MATTERLEY BASIN EMX250',
-      summary: 'A dominant wire-to-wire win in wet, technical conditions. Stampe led from gate to flag and extended his championship lead to 24 points.'
-    },
-    {
-      round: 7,
-      resultClass: 'hp-result-2',
-      posLabel: 'P2',
-      imageSeed: 'mxrace-cz',
-      metaLine: 'Round 7 &nbsp;·&nbsp; Loket, Czech Republic &nbsp;·&nbsp; Jul 26',
-      title: 'LOKET EMX250 ROUND',
-      summary: 'Strong runner-up finish on a sandy track after a mid-race charge from P5. Consistent points scoring keeps the championship lead intact.'
-    },
-    {
-      round: 6,
+      round: 5,
       resultClass: 'hp-result-3',
       posLabel: 'P3',
-      imageSeed: 'mxrace-it',
-      metaLine: 'Round 6 &nbsp;·&nbsp; Ottobiano, Italy &nbsp;·&nbsp; Jul 5',
-      title: 'OTTOBIANO EMX250 ROUND',
-      summary: 'Third in challenging hard-pack conditions after qualifying fastest. A calculated race management secured vital championship points.'
+      imageSeed: 'mxrace-vic-aug',
+      metaLine: 'Round 5 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; Aug 19',
+      title: 'VICTORIAN CHAMPIONSHIP MX3',
+      summary: 'Third in MX3 and second in the championship, despite a technical issue and a Sunday crash that left him with sprained fingers. He borrowed a trailer just to get there.'
+    },
+    {
+      round: 4,
+      resultClass: 'hp-result-2',
+      posLabel: 'P2',
+      imageSeed: 'mxrace-vic-jul',
+      metaLine: 'Round 4 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; Jul 3',
+      title: 'VICTORIAN TITLES',
+      summary: 'Second in MX2 on Sunday after third in MX3 on Saturday, racing two classes across one weekend.'
+    },
+    {
+      round: 1,
+      resultClass: 'hp-result-1',
+      posLabel: '1-1',
+      imageSeed: 'mxrace-sandmasters',
+      metaLine: 'Round 1 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; May 3',
+      title: 'SANDMASTERS',
+      summary: 'Fastest in every session and winner of the first two motos, before a technical issue ended his day.'
     }
   ],
 
   carouselLogos: ['FOX RACING', 'KTM', 'RED BULL', 'ALPINESTARS', 'ACERBIS', 'DUNLOP', 'ÖHLINS', 'MXGP'],
 
-  /* The season's races — season 2025, 8 of 9 rounds complete.
-     Feeds both the Results page table (completed races only: date,
-     championship, pos) and the Calendar page's race grid + next-race
-     hero (full date, "Round N" label, win badge derived from
-     pos === 1). Add a new round here and both pages update together.
+  /* The season's races — season 2026, racing in Australia. All
+     rounds complete. Feeds both the Results page table (completed
+     races only: date, championship, pos) and the Calendar page's race
+     grid + next-race hero (full date, "Round N" label, win badge
+     derived from pos === 1). Add a new round here and both pages
+     update together.
 
-     `championship` — TODO: placeholder value 'EMX250' on every row.
-     Frederik competes across different championships, so update each
-     race's `championship` to the actual series it belongs to. */
+     `pos`    — overall finishing position, or null when there is no
+                overall result (DNF/DNS, or only moto results known).
+     `points` — championship points, or null when not known.
+     `result` — optional short text shown next to/instead of `pos`,
+                e.g. moto scores '3-2-2' or 'DNS'.
+     Mark the next race with `upcoming: true` once the 2027 calendar
+     is known; with none marked, the Calendar page shows a "season
+     complete" message instead of the countdown. */
   raceResults: [
-    { round: 1, track: 'Västerås SX', flag: '🇸🇪', country: 'Sweden', shortDate: 'Mar 15', fullDate: 'March 15, 2025', championship: 'EMX250', pos: 3, points: 16 },
-    { round: 2, track: 'Genk MX', flag: '🇧🇪', country: 'Belgium', shortDate: 'Apr 5', fullDate: 'April 5, 2025', championship: 'EMX250', pos: 1, points: 25 },
-    { round: 3, track: 'Valkenswaard', flag: '🇳🇱', country: 'Netherlands', shortDate: 'Apr 26', fullDate: 'April 26, 2025', championship: 'EMX250', pos: 2, points: 22 },
-    { round: 4, track: 'Ernée', flag: '🇫🇷', country: 'France', shortDate: 'May 17', fullDate: 'May 17, 2025', championship: 'EMX250', pos: 1, points: 25 },
-    { round: 5, track: 'Teutschenthal', flag: '🇩🇪', country: 'Germany', shortDate: 'Jun 7', fullDate: 'June 7, 2025', championship: 'EMX250', pos: 4, points: 13 },
-    { round: 6, track: 'Ottobiano', flag: '🇮🇹', country: 'Italy', shortDate: 'Jun 28', fullDate: 'June 28, 2025', championship: 'EMX250', pos: 3, points: 16 },
-    { round: 7, track: 'Loket', flag: '🇨🇿', country: 'Czech Republic', shortDate: 'Jul 19', fullDate: 'July 19, 2025', championship: 'EMX250', pos: 2, points: 22 },
-    { round: 8, track: 'Matterley Basin', flag: '🇬🇧', country: 'United Kingdom', shortDate: 'Aug 9', fullDate: 'August 9, 2025', championship: 'EMX250', pos: 1, points: 25 },
-    { round: 9, track: 'Uddevalla', flag: '🇸🇪', country: 'Sweden', shortDate: 'Sep 6', fullDate: 'September 6, 2025', championship: 'EMX250', pos: null, points: null, upcoming: true }
+    { round: 1, track: 'Sandmasters', flag: '🇦🇺', country: 'Australia', shortDate: 'May 3', fullDate: 'May 3, 2026', championship: 'Sandmasters', pos: null, points: null, result: '1-1-DNF-DNS' },
+    { round: 2, track: 'Gillman', flag: '🇦🇺', country: 'Australia', shortDate: 'May 12', fullDate: 'May 12, 2026', championship: 'ProMX MX2', pos: null, points: null, result: '11-17' },
+    { round: 3, track: 'Victorian State Championship', flag: '🇦🇺', country: 'Australia', shortDate: 'May 16', fullDate: 'May 16, 2026', championship: 'Victorian State Championship', pos: 2, points: null, result: '3-2-2' },
+    { round: 4, track: 'Victorian Titles', flag: '🇦🇺', country: 'Australia', shortDate: 'Jul 3', fullDate: 'July 3, 2026', championship: 'Victorian Titles MX2', pos: 2, points: null, result: 'MX3 P3' },
+    { round: 5, track: 'Victorian Championship', flag: '🇦🇺', country: 'Australia', shortDate: 'Aug 19', fullDate: 'August 19, 2026', championship: 'Victorian Championship MX3', pos: 3, points: null, result: 'P2 overall' },
+    { round: 6, track: 'MXGP of Australia', flag: '🇦🇺', country: 'Australia', shortDate: 'Sep 21', fullDate: 'September 21, 2026', championship: 'MXGP of Australia', pos: null, points: null, result: 'DNS' }
   ],
 
   /* Extra display info for the next race that isn't part of the
      raceResults record itself (venue/date/round come from the
-     raceResults entry with upcoming: true). */
+     raceResults entry with upcoming: true). `seasonComplete` is
+     shown instead when no race is marked upcoming. */
   calendar: {
     nextRace: {
-      badges: ['Season Finale', 'Home Race'],
-      note: 'Uddevalla MX Park — Championship decider',
-      countdownTarget: '2025-09-06T09:00:00'
+      badges: [],
+      note: '',
+      countdownTarget: null
+    },
+    seasonComplete: {
+      title: 'SEASON COMPLETE',
+      meta: '2026 season · 6 races in Australia',
+      note: '2027 plans coming soon',
+      contactVenue: '2026 season complete',
+      contactDate: '2027 calendar coming soon'
     }
   },
 

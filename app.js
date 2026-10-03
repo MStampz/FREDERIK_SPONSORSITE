@@ -99,7 +99,7 @@ function renderResultsTable() {
         <td>${r.flag} ${r.country}</td>
         <td>${r.shortDate}</td>
         <td>${r.championship}</td>
-        <td><span class="pos-badge pos-${r.pos}">P${r.pos}</span></td>
+        <td>${r.pos ? `<span class="pos-badge pos-${r.pos}">P${r.pos}</span>` : ''}${r.result ? ` <span class="pos-result">${r.result}</span>` : ''}</td>
       </tr>`;
     }).join('');
 }
@@ -108,26 +108,45 @@ function renderCalendar() {
   const races = SITE_DATA.raceResults;
   const nextRace = races.find(r => r.upcoming);
   const extra = SITE_DATA.calendar.nextRace;
+  const done = SITE_DATA.calendar.seasonComplete;
 
   const venue = document.getElementById('next-race-venue');
   const country = document.getElementById('next-race-country');
   const round = document.getElementById('next-race-round');
   const date = document.getElementById('next-race-date');
-  if (venue) venue.textContent = nextRace.track.toUpperCase();
-  if (country) country.textContent = `${nextRace.flag} ${nextRace.country}`;
-  if (round) round.textContent = `Round ${nextRace.round} of ${races.length}`;
-  if (date) date.textContent = nextRace.fullDate;
+  const heroBadge = document.querySelector('.next-race-badge');
+  const countdown = document.querySelector('.next-race-countdown');
+  const contactVenue = document.getElementById('contact-next-race-venue');
+  const contactDate = document.getElementById('contact-next-race-date');
+
+  if (!nextRace) {
+    // No race marked upcoming: show the season-complete message.
+    if (heroBadge) heroBadge.textContent = 'Season';
+    if (venue) venue.textContent = done.title;
+    if (country) country.textContent = done.meta;
+    if (round) round.textContent = '';
+    if (date) date.textContent = '';
+    document.querySelectorAll('.next-race-meta > span:not([id])').forEach(el => { el.style.display = 'none'; });
+    const badgesEl = document.getElementById('next-race-badges');
+    if (badgesEl) badgesEl.innerHTML = `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);" id="next-race-note">${done.note}</span>`;
+    if (countdown) countdown.style.display = 'none';
+    document.querySelector('.next-race-hero')?.classList.add('season-complete');
+    if (contactVenue) contactVenue.textContent = done.contactVenue;
+    if (contactDate) contactDate.textContent = done.contactDate;
+  } else {
+    if (venue) venue.textContent = nextRace.track.toUpperCase();
+    if (country) country.textContent = `${nextRace.flag} ${nextRace.country}`;
+    if (round) round.textContent = `Round ${nextRace.round} of ${races.length}`;
+    if (date) date.textContent = nextRace.fullDate;
+    if (contactVenue) contactVenue.textContent = `${nextRace.track}, ${nextRace.country}`;
+    if (contactDate) contactDate.textContent = nextRace.fullDate;
+  }
 
   const badgesEl = document.getElementById('next-race-badges');
-  if (badgesEl) {
+  if (nextRace && badgesEl) {
     badgesEl.innerHTML = extra.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('')
       + `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);" id="next-race-note">${extra.note}</span>`;
   }
-
-  const contactVenue = document.getElementById('contact-next-race-venue');
-  const contactDate = document.getElementById('contact-next-race-date');
-  if (contactVenue) contactVenue.textContent = `${nextRace.track}, ${nextRace.country}`;
-  if (contactDate) contactDate.textContent = nextRace.fullDate;
 
   const grid = document.getElementById('race-grid-container');
   if (grid) {
@@ -141,8 +160,9 @@ function renderCalendar() {
              <span class="badge badge-gold" style="font-size:10px;">Season Finale · Home Race</span>
            </div>`
         : `<div class="race-result">
-             <span class="race-result-pos"${race.pos === 4 ? ' style="color:var(--text-2);"' : ''}>P${race.pos}</span>
-             <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">${race.points} points</span>
+             ${race.pos ? `<span class="race-result-pos"${race.pos >= 4 ? ' style="color:var(--text-2);"' : ''}>P${race.pos}</span>` : ''}
+             ${race.result ? `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);">${race.result}</span>` : ''}
+             ${race.points != null ? `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">${race.points} points</span>` : ''}
              ${win ? '<span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>' : ''}
            </div>`;
       return `
@@ -559,7 +579,9 @@ function initCounters() {
    COUNTDOWN TIMER
    ============================================================ */
 function initCountdown() {
-  const target = new Date(SITE_DATA.calendar.nextRace.countdownTarget);
+  const targetStr = SITE_DATA.calendar.nextRace.countdownTarget;
+  if (!targetStr || !SITE_DATA.raceResults.some(r => r.upcoming)) return;
+  const target = new Date(targetStr);
 
   function update() {
     const now = new Date();
