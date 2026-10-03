@@ -2337,10 +2337,8 @@ footer {
 /* ── Hero ──────────────────────────────────────────────────── */
 .hp-hero {
   position: relative;
-  height: 100vh;
-  min-height: 680px;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   overflow: hidden;
   background: #060606;
 }
@@ -2379,7 +2377,7 @@ footer {
 .hp-hero-content {
   position: relative;
   z-index: 2;
-  padding: 0 60px 100px;
+  padding: 80px 60px 100px;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
@@ -2734,7 +2732,7 @@ footer {
   .hp-highlights-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
-  .hp-hero-content { padding: 0 24px 80px; }
+  .hp-hero-content { padding: 48px 24px 80px; }
   .hp-hero-scroll { right: 24px; bottom: 36px; }
   .hp-hero-number-bg { font-size: 55vw; }
   .hp-metrics-grid { grid-template-columns: repeat(2, 1fr); }
