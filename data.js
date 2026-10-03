@@ -1,13 +1,16 @@
 /* ============================================================
-   FREDERIK RAHN STAMPE #74 — SITE CONTENT DATA
+   FREDERIK RAHN STAMPE — SITE CONTENT DATA
    ============================================================
    Edit this file to update site content. No build step, no
    database — just edit values/arrays here and refresh the page.
 
    Sections:
-     site           — rider identity used in nav/footers
+     site           — rider identity (name, race number, class,
+                      country) used in the page title, nav, hero,
+                      bio and footers
      contact        — email/phone/location used in footers & contact page
-     seasonMetrics  — home page season counters
+     seasonMetrics  — home page social counters (races, podiums and
+                      wins are counted from raceResults instead)
      homeHighlights — home page "Race Highlights" cards (top 3)
      carouselLogos  — home page scrolling sponsor logo strip
      raceResults    — the season's races: single source of truth used
@@ -29,52 +32,49 @@ const SITE_DATA = {
 
   site: {
     name: 'FREDERIK RAHN STAMPE',
-    tagline: '#215 · MX2 · Denmark'
+    raceNumber: '215',
+    raceClass: 'MX2',
+    country: 'Denmark',
+    countryFlag: '🇩🇰',
+    nationality: 'Danish'
   },
 
   contact: {
     email: 'info@frederikstampe.com',
     phone: '+61 472 625 887',
-    location: 'Melbourne, Australia'
+    location: 'Melbourne, Australia',
+    locationFlag: '🇦🇺'
   },
 
+  /* Race count, podiums and wins are not stored here: they are
+     counted from raceResults so the home page can't disagree with
+     the Results table. */
   seasonMetrics: {
-    races: 9,
-    podiums: 17,
-    wins: 8,
     socialReach: '45',
     socialReachSuffix: 'K',
     videoViews: '280',
     videoViewsSuffix: 'K'
   },
 
-  /* Top 3 most recent races shown on the home page. `round` refers
-     to the round number in raceResults. */
+  /* Race highlight cards shown on the home page. `round` refers to
+     the round number in raceResults, which supplies the track,
+     country, date and finishing position. */
   homeHighlights: [
     {
       round: 8,
-      resultClass: 'hp-result-1',
-      posLabel: 'P1',
       imageSeed: 'mxrace-uk',
-      metaLine: 'Round 8 &nbsp;·&nbsp; Matterley Basin, UK &nbsp;·&nbsp; Aug 16',
       title: 'MATTERLEY BASIN EMX250',
       summary: 'A dominant wire-to-wire win in wet, technical conditions. Stampe led from gate to flag and extended his championship lead to 24 points.'
     },
     {
       round: 7,
-      resultClass: 'hp-result-2',
-      posLabel: 'P2',
       imageSeed: 'mxrace-cz',
-      metaLine: 'Round 7 &nbsp;·&nbsp; Loket, Czech Republic &nbsp;·&nbsp; Jul 26',
       title: 'LOKET EMX250 ROUND',
       summary: 'Strong runner-up finish on a sandy track after a mid-race charge from P5. Consistent points scoring keeps the championship lead intact.'
     },
     {
       round: 6,
-      resultClass: 'hp-result-3',
-      posLabel: 'P3',
       imageSeed: 'mxrace-it',
-      metaLine: 'Round 6 &nbsp;·&nbsp; Ottobiano, Italy &nbsp;·&nbsp; Jul 5',
       title: 'OTTOBIANO EMX250 ROUND',
       summary: 'Third in challenging hard-pack conditions after qualifying fastest. A calculated race management secured vital championship points.'
     }
