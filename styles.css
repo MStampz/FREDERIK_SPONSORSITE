@@ -165,6 +165,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* --- Section Layouts --- */
 .section { padding: 100px 0; }
+/* The page already leaves room for the fixed nav and each page
+   header has its own top padding, so the first section adds none. */
+.page > .section:first-child { padding-top: 0; }
 .section-sm { padding: 64px 0; }
 .section-header { margin-bottom: 60px; }
 .section-label {
@@ -2755,7 +2758,7 @@ footer {
 .sv-hero {
   background: var(--bg-2);
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  padding: calc(var(--nav-h) + 80px) 0 80px;
+  padding: 56px 0 80px;
   position: relative;
   overflow: hidden;
 }
@@ -3378,7 +3381,7 @@ footer {
   .sv-cta-inner { flex-direction: column; align-items: flex-start; }
 }
 @media (max-width: 768px) {
-  .sv-hero { padding: calc(var(--nav-h) + 48px) 0 60px; }
+  .sv-hero { padding: 40px 0 60px; }
   .sv-hero-kpis { grid-template-columns: repeat(2, 1fr); }
   .sv-vis-row-3, .sv-vis-row-4 { grid-template-columns: 1fr; }
   .sv-reach-grid { grid-template-columns: repeat(2, 1fr); }
