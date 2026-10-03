@@ -404,41 +404,78 @@ function renderSponsors() {
   }
 }
 
+/* ---- Packages ---- */
+function getTier(id) {
+  return SITE_DATA.packages.tiers.find(t => t.id === id);
+}
+
+function formatPrice(amount) {
+  return `${SITE_DATA.packages.currency}${amount.toLocaleString('en-US')}`;
+}
+
 function renderPackages() {
   const p = SITE_DATA.packages;
 
   const svContainer = document.getElementById('sv-packages-container');
   if (svContainer) {
-    svContainer.innerHTML = p.sponsorValue.map((pkg, i) => `
-      <div class="sv-pkg-card${pkg.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
-        ${pkg.featured ? `<div class="sv-pkg-popular-badge">${pkg.badge}</div>` : ''}
-        <div class="sv-pkg-tier-label">${pkg.tier}</div>
-        <div class="sv-pkg-price">From <strong>${pkg.price}</strong><span>${pkg.priceSuffix}</span></div>
+    svContainer.innerHTML = p.sponsorValue.map((pkg, i) => {
+      const t = getTier(pkg.tier);
+      return `
+      <div class="sv-pkg-card${t.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        ${t.featured ? `<div class="sv-pkg-popular-badge">${t.badge}</div>` : ''}
+        <div class="sv-pkg-tier-label">${t.name}</div>
+        <div class="sv-pkg-price">From <strong>${formatPrice(t.amount)}</strong><span>${pkg.priceSuffix}</span></div>
         <p class="sv-pkg-intro">${pkg.intro}</p>
         <div class="sv-pkg-sep"></div>
         <ul class="sv-pkg-list">
           ${pkg.features.map(f => `<li class="${f.included ? 'sv-feat-y' : 'sv-feat-n'}">${f.text}</li>`).join('')}
         </ul>
         <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" data-goto="contact">${pkg.ctaLabel}</button>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
 
   const contactContainer = document.getElementById('contact-packages-container');
   if (contactContainer) {
-    contactContainer.innerHTML = p.contact.map(pkg => `
-      <div class="package-card${pkg.featured ? ' featured' : ''}">
-        ${pkg.featured ? `<div class="package-popular">${pkg.badge}</div>` : ''}
-        <div class="package-tier"${pkg.featured ? ' style="color:var(--gold);"' : ''}>${pkg.tier}</div>
-        <div class="package-price">${pkg.price}</div>
+    contactContainer.innerHTML = p.contact.map(pkg => {
+      const t = getTier(pkg.tier);
+      return `
+      <div class="package-card${t.featured ? ' featured' : ''}">
+        ${t.featured ? `<div class="package-popular">${t.badge}</div>` : ''}
+        <div class="package-tier"${t.featured ? ' style="color:var(--gold);"' : ''}>${t.name}</div>
+        <div class="package-price">From ${formatPrice(t.amount)}</div>
         <div class="package-price-sub">${pkg.priceSuffix}</div>
         <ul class="package-features">
           ${pkg.features.map(f => `<li>${f}</li>`).join('')}
         </ul>
         <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'}" style="width:100%;" data-goto="contact">${pkg.ctaLabel}</button>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
+
+  renderBudgetOptions();
+}
+
+/* Contact form budget menu: one option per tier, each range ending
+   just below the next tier's price. Inserted before the "Custom"
+   option that stays in the HTML. */
+function renderBudgetOptions() {
+  const select = document.getElementById('budget');
+  if (!select) return;
+  select.querySelectorAll('option[data-tier]').forEach(o => o.remove());
+  const tiers = [...SITE_DATA.packages.tiers].sort((a, b) => a.amount - b.amount);
+  const custom = select.querySelector('option[value="custom"]');
+  tiers.forEach((t, i) => {
+    const next = tiers[i + 1];
+    const range = next
+      ? `${formatPrice(t.amount)} – ${formatPrice(next.amount - 1)}`
+      : `${formatPrice(t.amount)}+`;
+    const option = document.createElement('option');
+    option.value = t.id;
+    option.dataset.tier = '';
+    option.textContent = `${range} (${t.name})`;
+    select.insertBefore(option, custom);
+  });
 }
 
 function renderDashboard() {

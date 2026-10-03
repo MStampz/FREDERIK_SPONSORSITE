@@ -22,9 +22,10 @@
                       Story timeline and every race/podium count
      media          — media page gallery items
      sponsors       — sponsors page partners
-     packages       — sponsorship packages (separate lists for the
-                      sponsor-value page's detailed cards and the
-                      contact page's simpler cards — see note below)
+     packages       — sponsorship tiers and prices (one place), plus
+                      the wording for the sponsor-value page's
+                      detailed cards and the contact page's simpler
+                      cards — see note below
      dashboard      — dashboard page data. PLACEHOLDER numbers: the
                       page is hidden from the nav until real
                       Instagram Insights figures replace them
@@ -321,19 +322,30 @@ const SITE_DATA = {
     ]
   },
 
-  /* Sponsorship packages, priced in Australian dollars. The
-     sponsor-value page (detailed, with an included/excluded feature
-     matrix) and the contact page (simple, included-features-only)
-     show the same three tiers with different levels of detail —
-     tier/badge names below are shared so the two pages can't drift
-     out of sync; feature bullet wording is page-specific by design
-     (long-form vs short). */
+  /* Sponsorship packages. `tiers` is the single place for each
+     tier's name, price and badge: the sponsor-value page cards, the
+     contact page cards and the contact form's budget menu are all
+     built from it, so a price change here shows up everywhere.
+     `amount` is a plain number in `currency`; the site formats it
+     ("A$5,000") and works out the budget ranges for the form.
+
+     `sponsorValue` (detailed, with an included/excluded feature
+     matrix) and `contact` (simple, included-features-only) hold the
+     page-specific wording for each tier, matched by `tier` id.
+     Feature bullet wording is page-specific by design (long-form vs
+     short). */
   packages: {
+    currency: 'A$',
+    tiers: [
+      { id: 'support', name: 'Support Partner', amount: 5000 },
+      { id: 'major', name: 'Major Partner', amount: 13000, featured: true, badge: 'Recommended' },
+      { id: 'title', name: 'Title Partner', amount: 33000 }
+    ],
     sponsorValue: [
       {
-        tier: 'Support Partner', price: 'A$5,000', priceSuffix: '/season',
+        tier: 'support', priceSuffix: '/season',
         intro: 'A solid entry point for local brands that want to back a young rider in Victorian and Australian motocross.',
-        featured: false, ctaLabel: 'Get Started', ctaStyle: 'outline',
+        ctaLabel: 'Get Started', ctaStyle: 'outline',
         features: [
           { text: 'Jersey logo — arm / back placement', included: true },
           { text: 'Website — sponsors section', included: true },
@@ -348,9 +360,9 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'Major Partner', price: 'A$13,000', priceSuffix: '/season',
+        tier: 'major', priceSuffix: '/season',
         intro: 'Visibility at the track and online — the best balance of reach and value.',
-        featured: true, badge: 'Recommended', ctaLabel: 'Partner With Us', ctaStyle: 'primary',
+        ctaLabel: 'Partner With Us', ctaStyle: 'primary',
         features: [
           { text: 'Jersey logo — chest placement', included: true },
           { text: 'Bike plastics — side panel branding', included: true },
@@ -365,9 +377,9 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'Title Partner', price: 'A$33,000', priceSuffix: '/season',
+        tier: 'title', priceSuffix: '/season',
         intro: 'Full-brand integration as the primary partner, including the transport that gets Frederik to every race.',
-        featured: false, ctaLabel: 'Enquire Now', ctaStyle: 'outline',
+        ctaLabel: 'Enquire Now', ctaStyle: 'outline',
         features: [
           { text: 'Helmet — full front &amp; rear branding', included: true },
           { text: 'Jersey — chest logo (largest position)', included: true },
@@ -384,8 +396,8 @@ const SITE_DATA = {
     ],
     contact: [
       {
-        tier: 'Support Partner', price: 'From A$5,000', priceSuffix: 'per season',
-        featured: false, ctaLabel: 'Enquire Now', ctaStyle: 'outline',
+        tier: 'support', priceSuffix: 'per season',
+        ctaLabel: 'Enquire Now', ctaStyle: 'outline',
         features: [
           'Logo on race gear (gloves / goggles)',
           '2 social media mentions per month',
@@ -396,8 +408,8 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'Major Partner', price: 'From A$13,000', priceSuffix: 'per season',
-        featured: true, badge: 'Recommended', ctaLabel: 'Get Started', ctaStyle: 'primary',
+        tier: 'major', priceSuffix: 'per season',
+        ctaLabel: 'Get Started', ctaStyle: 'primary',
         features: [
           'Featured logo placement on jersey &amp; helmet',
           '8 social media posts per month',
@@ -410,8 +422,8 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'Title Partner', price: 'From A$33,000', priceSuffix: 'per season',
-        featured: false, ctaLabel: 'Talk to Management', ctaStyle: 'outline',
+        tier: 'title', priceSuffix: 'per season',
+        ctaLabel: 'Talk to Management', ctaStyle: 'outline',
         features: [
           'Full branding integration across all assets',
           'Race transport in your livery',
