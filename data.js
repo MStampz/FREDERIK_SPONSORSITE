@@ -172,9 +172,11 @@ const SITE_DATA = {
   homeHighlights: [
     {
       raceId: '2026-vicmc-round2',
+      label: 'P2',
+      meta: '2026 &nbsp;·&nbsp; Final standings &nbsp;·&nbsp; Australia',
       image: 'https://picsum.photos/seed/mxrace-vic-state/800/500',
       title: 'VICTORIAN MOTOCROSS CHAMPIONSHIP MX3',
-      summary: '3-2-2 for second overall, with two holeshots from three starts and the fastest lap of race 3, leading almost all of it.'
+      summary: 'Second overall in the 2026 Victorian Motocross Championship MX3, in his first season in Australia after five months off the bike.'
     },
     {
       label: '2×',
@@ -190,7 +192,7 @@ const SITE_DATA = {
       meta: '2019 – 2024 &nbsp;·&nbsp; Denmark',
       image: 'https://picsum.photos/seed/mxrace-dm-podiums/800/500',
       title: 'DANISH CHAMPIONSHIP PODIUMS',
-      summary: 'Danish vice champion in 85cc in 2021 and 2022, plus 3rd in 65cc (2019) and 3rd in 125cc (2024).'
+      summary: '4× on the Danish Championship podium: vice champion in 85cc in 2021 and 2022, plus 3rd in 65cc (2019) and 3rd in 125cc (2024).'
     },
     {
       raceId: '2025-dmmx2-round4',
