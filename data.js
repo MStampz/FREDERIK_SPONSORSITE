@@ -8,6 +8,10 @@
      site           — rider identity (name, race number, class,
                       country) used in the page title, nav, hero,
                       bio and footers
+     titles         — championship titles shown as headline numbers
+                      on the Sponsor Value page
+     story          — longer text: the Sponsor Value intro, the bio
+                      on the Story page and the timeline subtitle
      contact        — email/phone/location used in footers & contact page
      socials        — social accounts on the contact page
      seasonMetrics  — home page social counter (race counts and
@@ -42,7 +46,29 @@ const SITE_DATA = {
     nationality: 'Danish',
     birthplace: 'Aarhus, Denmark',
     bike: 'Yamaha 250',
-    basedIn: 'Melbourne, Australia'
+    basedIn: 'Melbourne, Australia',
+    basedInCity: 'Melbourne',
+    homeClub: 'Randers Motor Sport',
+    // Short line under the class in the home page hero
+    heroLine: 'Racing in Australia'
+  },
+
+  /* Headline titles. The first one is shown in the Sponsor Value
+     hero and its "Titles" card. */
+  titles: [
+    { count: '2×', label: 'Danish Vice Champion', detail: '85cc · 2021 and 2022' }
+  ],
+
+  /* Longer text. Each `bio` entry is one paragraph. */
+  story: {
+    pitch: 'Frederik Rahn Stampe is a Danish motocross rider racing MX2 in Australia — Victorian championships and Pro MX — after seven seasons racing across Europe. Back him and your brand rides with him to every race.',
+    bioHeading: 'FROM RANDERS TO MELBOURNE.',
+    bio: [
+      'Frederik Rahn Stampe grew up racing at Randers Motor Sport in Denmark. On a Yamaha YZ65 he finished third in the 2019 Danish 65cc championship, third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen, and raced the FIM Junior World Championship in Italy.',
+      'On the 85 he was Danish vice champion two years running, in 2021 and 2022, and an official Yamaha contract rider. He moved up to the 125 with Wozniak MX Racing Team, finished third in the Danish championship in 2024, and on a 250 in 2025 he was fourth in the Danish MX2 championship, two points off the podium, while racing ADAC MX Masters and EMX250.',
+      'At the end of 2025 the family moved to Melbourne. Backed by Yamaha City Melbourne, he was back on the podium within weeks: second overall at the Victorian State Championship and second in MX2 at the Victorian titles, alongside his Pro MX debut.'
+    ],
+    timelineSubtitle: 'From the 65cc class in Denmark to MX2 in Australia, one season at a time.'
   },
 
   contact: {
@@ -63,7 +89,9 @@ const SITE_DATA = {
      profile (Oct 2026). */
   seasonMetrics: {
     instagramFollowers: '3.1',
-    instagramFollowersSuffix: 'K'
+    instagramFollowersSuffix: 'K',
+    // Likes on the most-watched reel
+    topReelLikes: '10K'
   },
 
   /* Race highlight cards on the home page. `raceId` points at a race
@@ -107,6 +135,9 @@ const SITE_DATA = {
      Season fields:
        year, title, subtitle — shown on the Results and Calendar pages
        badge                 — headline result for the season
+       focus                 — optional, the series raced, shown on
+                               the Sponsor Value page for the
+                               current season
        summary               — one line for the Story timeline
        nextRace              — optional, only for the current season:
                                { raceId, badges, note, countdownTarget }
@@ -174,6 +205,7 @@ const SITE_DATA = {
       title: '2026 SEASON',
       subtitle: 'First season in Australia, backed by Yamaha City Melbourne — Victorian championships, Pro MX and the MXGP of Australia.',
       badge: 'P2 Victorian State Championship',
+      focus: 'Victorian championships · Pro MX',
       summary: 'Moved to Melbourne. Second at the Victorian State Championship and in MX2 at the Victorian titles, Pro MX debut and a trip to the MXGP of Australia.',
       races: [
         { id: '2026-vicmc-round1', track: 'Victorian State Titles', flag: '🇦🇺', country: 'Australia', date: '2026-04', championship: 'Victorian State Titles', pos: null, result: 'MX3 6-4-5 · MX2 7-6-5' },
