@@ -12,6 +12,11 @@
                       on the Sponsor Value page
      story          — longer text: the Sponsor Value intro, the bio
                       on the Story page and the timeline subtitle
+     backing        — the sponsor pitch: Sponsor Value page headings,
+                      the family's letter, what support pays for, how
+                      supporters are thanked, and the "become a
+                      supporter" wording on the Sponsors and Contact
+                      pages
      contact        — email/phone/location used in footers & contact page
      socials        — social accounts on the contact page
      seasonMetrics  — home page social counter (race counts and
@@ -63,7 +68,7 @@ const SITE_DATA = {
 
   /* Longer text. Each `bio` entry is one paragraph. */
   story: {
-    pitch: 'Frederik Rahn Stampe is a Danish motocross rider racing MX2 in Australia — Victorian championships and Pro MX — after seven seasons racing across Europe. Back him and your brand rides with him to every race.',
+    pitch: 'Frederik is a 17-year-old Danish motocross rider who moved to Melbourne with his family at the end of 2025 and started over. We are looking for a few people who love the sport and would like to help him make it here.',
     bioHeading: 'FROM RANDERS TO MELBOURNE.',
     bio: [
       'Frederik Rahn Stampe grew up racing at Randers Motor Sport in Denmark. On a Yamaha YZ65 he finished third in the 2019 Danish 65cc championship, third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen, and raced the FIM Junior World Championship in Italy.',
@@ -71,6 +76,60 @@ const SITE_DATA = {
       'At the end of 2025 the family moved to Melbourne. Backed by Yamaha City Melbourne, he was back on the podium within weeks: second overall at the Victorian State Championship and second in MX2 at the Victorian titles, alongside his Pro MX debut.'
     ],
     timelineSubtitle: 'From the 65cc class in Denmark to MX2 in Australia, one season at a time.'
+  },
+
+  /* The sponsor pitch. Aimed at people who love the sport and want
+     to see Frederik make it, often people who have made a move like
+     this themselves, rather than at brands buying reach. */
+  backing: {
+    heroLabel: 'Back the journey',
+    heroTitle: 'From Denmark to',
+    heroTitleHighlight: 'the Australian podium',
+
+    // A personal letter from the family. Each entry is one paragraph.
+    letterLabel: 'Why we are asking',
+    letterHeading: 'STARTING OVER, ONE RACE AT A TIME.',
+    letter: [
+      'At the end of 2025 our family moved from Denmark to Melbourne. Frederik had raced for Randers Motor Sport since the 65cc class, had twice been Danish vice champion on the 85, and had just finished fourth in the Danish MX2 championship. Then he had to start again in a new country.',
+      'After five months off the bike he was racing again in April. By May he was second overall at the Victorian State Championship, with two holeshots from three starts. Yamaha City Melbourne got him on a bike and OnPoint Suspension looks after him at the track.',
+      'What is missing is everything around the bike. This year he skipped a Pro MX round because we could not get him there, borrowed a trailer to get to the Victorian championship, and lost races to technical problems.',
+      'We are not offering reach targets or a media campaign. We are looking for a few people who love the sport, and maybe know what it takes to make it in a new country, who would like to be part of the next chapter. If that is you, we would love to hear from you.'
+    ],
+    letterSignoff: 'Frederik and the Stampe family',
+
+    // "What your support pays for" cards
+    needsLabel: 'Where it goes',
+    needsHeading: 'WHAT YOUR SUPPORT PAYS FOR',
+    needsSubtitle: 'Concrete things, not a media budget.',
+    needs: [
+      { title: 'Getting to the races', desc: 'Travel to Pro MX rounds outside Victoria. In 2026 he had to skip Toowoomba because his setup could not get him there.' },
+      { title: 'A trailer of his own', desc: 'He borrowed one to get to the Victorian championship. A trailer or van means he can say yes to every race.' },
+      { title: 'Parts and servicing', desc: 'Technical problems cost him results at Sandmasters, the Victorian championship and the MXGP of Australia.' },
+      { title: 'Tyres and race entries', desc: 'The everyday costs of a race season, round after round.' }
+    ],
+
+    // "How we say thank you" cards
+    thanksLabel: 'What you get back',
+    thanksHeading: 'HOW WE SAY THANK YOU',
+    thanksSubtitle: 'You get a relationship with the rider and his family, not just a logo slot.',
+    thanks: [
+      { title: 'Your name on the bike', desc: 'On the plastics or jersey at every race he rides.' },
+      { title: 'A thank-you post', desc: 'Every supporter is announced on his Instagram, the way his Danish supporters Ole Larsen Transport, TKP Byg and Sidelmann Bosch Car Service were.' },
+      { title: 'News from every race', desc: 'A personal update from Frederik after each round: how it went and what is next.' },
+      { title: 'A visit from Frederik', desc: 'Frederik and the bike at your shop, workshop or staff day.' }
+    ],
+
+    packagesLabel: 'Ways to help',
+    packagesHeading: 'SUPPORTER LEVELS',
+    packagesSubtitle: 'Three levels to start a conversation. Every one can be shaped around what you would like to help with.',
+    packagesNote: 'Would you rather cover something specific, such as a trip to a Pro MX round or a set of tyres? Get in touch and we will work it out together.',
+
+    ctaTitle: 'Want to be part of it?',
+    ctaText: 'Supporter places are open for next season. Back a young rider who moved across the world to chase it, and follow every step with him.',
+    sponsorsCtaTitle: 'BECOME A SUPPORTER',
+    sponsorsCtaText: 'Supporter places are open for next season. Help a young Dane make it in Australia and follow every race with him.',
+    contactHeading: 'BECOME A SUPPORTER',
+    contactSubtitle: 'Pick a level as a starting point, or tell us what you would like to help with. Prices are in Australian dollars and everything can be tailored.'
   },
 
   contact: {
@@ -440,102 +499,91 @@ const SITE_DATA = {
   packages: {
     currency: 'A$',
     tiers: [
-      { id: 'support', name: 'Support Partner', amount: 5000 },
-      { id: 'major', name: 'Major Partner', amount: 13000, featured: true, badge: 'Recommended' },
-      { id: 'title', name: 'Title Partner', amount: 33000 }
+      { id: 'support', name: 'Supporter', amount: 5000 },
+      { id: 'major', name: 'Race Partner', amount: 13000, featured: true, badge: 'Recommended' },
+      { id: 'title', name: 'Season Partner', amount: 33000 }
     ],
     sponsorValue: [
       {
         tier: 'support', priceSuffix: '/season',
-        intro: 'A solid entry point for local brands that want to back a young rider in Victorian and Australian motocross.',
-        ctaLabel: 'Get Started', ctaStyle: 'outline',
+        intro: 'For a local business or a fan of the sport who wants to help with the basics and follow the season up close.',
+        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
         features: [
-          { text: 'Jersey logo — arm / back placement', included: true },
-          { text: 'Website — sponsors section', included: true },
-          { text: '1× dedicated social post / month', included: true },
-          { text: 'Race-day story mentions', included: true },
-          { text: 'End-of-season report', included: true },
+          { text: 'Name or logo on the jersey — arm / back', included: true },
+          { text: 'Thank-you announcement on Instagram', included: true },
+          { text: 'Listed on the website\'s Partners page', included: true },
+          { text: 'Personal update after every race', included: true },
           { text: 'Season photo pack (digital)', included: true },
-          { text: 'Helmet branding', included: false },
-          { text: 'Bike plastics', included: false },
-          { text: 'Paddock branding', included: false },
-          { text: 'Brand integration content', included: false }
+          { text: 'Logo on the bike plastics', included: false },
+          { text: 'A visit from Frederik', included: false },
+          { text: 'Name on the race transport', included: false }
         ]
       },
       {
         tier: 'major', priceSuffix: '/season',
-        intro: 'Visibility at the track and online — the best balance of reach and value.',
-        ctaLabel: 'Partner With Us', ctaStyle: 'primary',
+        intro: 'Helps cover a real part of the season, such as getting to the Pro MX rounds, with your logo on the bike at every race.',
+        ctaLabel: 'Become a Supporter', ctaStyle: 'primary',
         features: [
-          { text: 'Jersey logo — chest placement', included: true },
-          { text: 'Bike plastics — side panel branding', included: true },
-          { text: 'Race paddock — banner presence', included: true },
-          { text: '2× dedicated social posts / month', included: true },
-          { text: 'Website — featured partners section', included: true },
-          { text: 'Quarterly report', included: true },
+          { text: 'Logo on the bike plastics — side panels', included: true },
+          { text: 'Jersey logo — chest', included: true },
+          { text: 'Thank-you announcement and tags in race reports', included: true },
+          { text: 'Featured on the website\'s Partners page', included: true },
+          { text: 'Personal update after every race', included: true },
           { text: 'Full season photo pack (hi-res)', included: true },
-          { text: '2× brand integration videos / season', included: true },
-          { text: 'Helmet branding', included: false },
-          { text: 'Transport vehicle wrap', included: false }
+          { text: 'A visit from Frederik to your business', included: true },
+          { text: 'Name on the race transport', included: false }
         ]
       },
       {
         tier: 'title', priceSuffix: '/season',
-        intro: 'Full-brand integration as the primary partner, including the transport that gets Frederik to every race.',
-        ctaLabel: 'Enquire Now', ctaStyle: 'outline',
+        intro: 'The main supporter of Frederik\'s season, including the trailer or van that gets him to every race.',
+        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
         features: [
-          { text: 'Helmet — full front &amp; rear branding', included: true },
-          { text: 'Jersey — chest logo (largest position)', included: true },
-          { text: 'Bike plastics — full panel coverage', included: true },
-          { text: 'Race transport — full vehicle wrap', included: true },
-          { text: 'Paddock canopy — title branding', included: true },
-          { text: '4× dedicated social posts / month', included: true },
-          { text: 'Website — homepage feature placement', included: true },
-          { text: 'Monthly report', included: true },
-          { text: 'Full content rights for all media', included: true },
-          { text: '3× athlete appearances / year', included: true }
+          { text: 'Name on the race transport — trailer or van', included: true },
+          { text: 'Main logo on the bike, jersey and helmet', included: true },
+          { text: 'Tagged in every race report', included: true },
+          { text: 'Homepage feature on the website', included: true },
+          { text: 'Personal update after every race, plus a season review', included: true },
+          { text: 'Full season photo pack (hi-res)', included: true },
+          { text: 'Visits from Frederik during the season', included: true },
+          { text: 'First say on the following season', included: true }
         ]
       }
     ],
     contact: [
       {
         tier: 'support', priceSuffix: 'per season',
-        ctaLabel: 'Enquire Now', ctaStyle: 'outline',
+        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
         features: [
-          'Logo on race gear (gloves / goggles)',
-          '2 social media mentions per month',
-          'Race day photo content featuring your brand',
+          'Name or logo on the jersey',
+          'Thank-you post on Instagram',
           'Website partner listing',
-          'End-of-season report',
-          '1 full season of racing'
+          'Update after every race',
+          'Season photo pack'
         ]
       },
       {
         tier: 'major', priceSuffix: 'per season',
-        ctaLabel: 'Get Started', ctaStyle: 'primary',
+        ctaLabel: 'Become a Supporter', ctaStyle: 'primary',
         features: [
-          'Featured logo placement on jersey &amp; helmet',
-          '8 social media posts per month',
-          'Full content package (photo + video)',
-          'Featured website partner section',
-          'Race-day activation space',
-          'Quarterly report',
-          'Branded content stories x4/month',
-          'End-of-season report'
+          'Logo on the bike plastics and jersey',
+          'Thank-you post and tags in race reports',
+          'Featured website listing',
+          'Update after every race',
+          'Full season photo pack',
+          'A visit from Frederik to your business'
         ]
       },
       {
         tier: 'title', priceSuffix: 'per season',
-        ctaLabel: 'Talk to Management', ctaStyle: 'outline',
+        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
         features: [
-          'Full branding integration across all assets',
-          'Race transport in your livery',
-          'Exclusive content creation programme',
-          'Personal appearances &amp; brand events',
-          'Unlimited social media content',
-          'Custom reporting',
-          'Bike graphics &amp; team livery',
-          'First right of refusal for the following season'
+          'Name on the race transport',
+          'Main logo on bike, jersey and helmet',
+          'Tagged in every race report',
+          'Homepage feature on the website',
+          'Visits from Frederik during the season',
+          'First say on the following season'
         ]
       }
     ]
