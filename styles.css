@@ -1184,6 +1184,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
 .season-tab:hover { color: var(--text); border-color: rgba(196,151,62,0.3); }
+/* Key results under the Results page title */
+.season-key-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.key-result { font-size: 13px; padding: 8px 18px; }
+
 .season-tab.active {
   color: var(--gold);
   border-color: rgba(196,151,62,0.4);
