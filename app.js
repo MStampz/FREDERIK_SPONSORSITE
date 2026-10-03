@@ -1,5 +1,5 @@
 /* ============================================================
-   FREDERIK RAHN STAMPE #74 — SPA JavaScript
+   FREDERIK RAHN STAMPE — SPA JavaScript
    Routing, Animations, Interactions
    ============================================================ */
 
@@ -33,29 +33,77 @@ function bindField(field, value) {
   document.querySelectorAll(`[data-field="${field}"]`).forEach(el => { el.textContent = value; });
 }
 
+/* Season totals counted from raceResults, so every page that quotes
+   a race, podium or win count agrees with the Results table. */
+function getSeasonStats() {
+  const races = SITE_DATA.raceResults;
+  const completed = races.filter(r => !r.upcoming);
+  const countries = [...new Map(races.map(r => [r.country, r.flag])).entries()];
+  return {
+    rounds: races.length,
+    racesDone: completed.length,
+    podiums: completed.filter(r => r.pos <= 3).length,
+    wins: completed.filter(r => r.pos === 1).length,
+    countryCount: countries.length,
+    countryFlags: countries.map(([, flag]) => flag).join(' ')
+  };
+}
+
 function renderIdentity() {
   const { site, contact } = SITE_DATA;
+  const num = `#${site.raceNumber}`;
   bindField('site-name', site.name);
-  bindField('site-sub', site.tagline);
+  bindField('site-sub', `${num} · ${site.raceClass} · ${site.country}`);
+  bindField('site-footer-tag', `Stampe Racing · ${site.raceClass} · ${num}`);
+  bindField('rider-number', site.raceNumber);
+  bindField('rider-class', site.raceClass);
+  bindField('rider-nationality', `${site.nationality} ${site.countryFlag}`);
+  bindField('rider-birthplace', site.birthplace);
   bindField('contact-email', contact.email);
   bindField('contact-phone', contact.phone);
   bindField('contact-location', contact.location);
-  bindField('contact-location-flag', `${contact.location} 🇸🇪`);
+  bindField('contact-location-flag', `${contact.location} ${contact.locationFlag}`);
+
+  document.title = `Frederik Rahn Stampe ${num} — EMX250 Championship Leader 2025`;
 
   const mailto = document.getElementById('mailto-email-link');
   if (mailto) mailto.href = `mailto:${contact.email}`;
 }
 
+function renderSocials() {
+  const container = document.getElementById('socials-container');
+  if (!container) return;
+  const list = SITE_DATA.socials;
+  container.innerHTML = list.map((s, i) => {
+    const border = i < list.length - 1 ? ' border-bottom:1px solid rgba(255,255,255,0.05);' : '';
+    const link = s.url ? ` href="${s.url}" target="_blank" rel="noopener"` : '';
+    return `<a${link} style="display:flex; align-items:center; gap:12px; padding:10px 0;${border} color:var(--text-2); font-size:14px; transition:color 0.2s;">
+                <span>${s.icon}</span> ${s.label}
+              </a>`;
+  }).join('');
+}
+
+function renderSeasonStats() {
+  const s = getSeasonStats();
+  bindField('season-rounds', s.rounds);
+  bindField('season-races-done', s.racesDone);
+  bindField('season-podiums', s.podiums);
+  bindField('season-wins', s.wins);
+  bindField('season-country-count', s.countryCount);
+  bindField('season-country-flags', s.countryFlags);
+}
+
 function renderSeasonMetrics() {
   const m = SITE_DATA.seasonMetrics;
+  const s = getSeasonStats();
   const races = document.getElementById('metric-races');
   const podiums = document.getElementById('metric-podiums');
   const wins = document.getElementById('metric-wins');
   const reach = document.getElementById('metric-reach');
   const views = document.getElementById('metric-views');
-  if (races) races.dataset.target = m.races;
-  if (podiums) podiums.dataset.target = m.podiums;
-  if (wins) wins.dataset.target = m.wins;
+  if (races) races.dataset.target = s.racesDone;
+  if (podiums) podiums.dataset.target = s.podiums;
+  if (wins) wins.dataset.target = s.wins;
   if (reach) reach.innerHTML = `${m.socialReach}<span style="font-size:0.55em;color:var(--text-2);">${m.socialReachSuffix}</span>`;
   if (views) views.innerHTML = `${m.videoViews}<span style="font-size:0.55em;color:var(--text-2);">${m.videoViewsSuffix}</span>`;
 }
@@ -63,19 +111,21 @@ function renderSeasonMetrics() {
 function renderHomeHighlights() {
   const container = document.getElementById('home-highlights-container');
   if (!container) return;
-  container.innerHTML = SITE_DATA.homeHighlights.map((race, i) => `
+  container.innerHTML = SITE_DATA.homeHighlights.map((race, i) => {
+    const r = SITE_DATA.raceResults.find(x => x.round === race.round);
+    return `
     <div class="hp-race-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
       <div class="hp-race-img-wrap">
         <img src="https://picsum.photos/seed/${race.imageSeed}/800/500" alt="${race.title} race photo" loading="lazy" />
-        <div class="hp-race-result ${race.resultClass}">${race.posLabel}</div>
+        <div class="hp-race-result hp-result-${r.pos}">P${r.pos}</div>
       </div>
       <div class="hp-race-body">
-        <div class="hp-race-meta">${race.metaLine}</div>
+        <div class="hp-race-meta">Round ${r.round} &nbsp;·&nbsp; ${r.track}, ${r.country} &nbsp;·&nbsp; ${r.shortDate}</div>
         <h3 class="hp-race-name">${race.title}</h3>
         <p class="hp-race-summary">${race.summary}</p>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function renderCarousel() {
@@ -323,6 +373,8 @@ function renderDashboard() {
 
 function renderAllData() {
   renderIdentity();
+  renderSeasonStats();
+  renderSocials();
   renderSeasonMetrics();
   renderHomeHighlights();
   renderCarousel();
