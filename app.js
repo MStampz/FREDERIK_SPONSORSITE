@@ -81,6 +81,7 @@ function getCareerStats() {
   const countries = [...new Map(all.map(r => [r.country, r.flag])).entries()];
   return {
     seasons: SITE_DATA.seasons.length,
+    firstYear: Math.min(...SITE_DATA.seasons.map(s => s.year)),
     races: all.length,
     podiums: all.filter(r => r.pos && r.pos <= 3).length,
     wins: all.filter(r => r.pos === 1).length,
@@ -106,10 +107,38 @@ function renderIdentity() {
   bindField('contact-location', contact.location);
   bindField('contact-location-flag', `${contact.location} ${contact.locationFlag}`);
 
-  document.title = `Frederik Rahn Stampe ${num} — Motocross Rider`;
+  bindField('rider-home-club', `${site.homeClub} ${site.countryFlag}`);
+  bindField('rider-bike-partner', toTitleCase(SITE_DATA.sponsors.lead.name));
+  bindField('hero-line', site.heroLine);
+  bindField('hero-sub', `${site.nationality} Motocross Rider · ${site.basedInCity}`);
+  bindField('copyright', `© ${new Date().getFullYear()} ${toTitleCase(site.name)} Racing.`);
+
+  const heroName = document.getElementById('hero-name');
+  if (heroName) {
+    const [first, ...rest] = site.name.split(' ');
+    heroName.innerHTML = `${first}<br><span>${rest.join(' ')}</span>`;
+  }
+
+  const title = SITE_DATA.titles[0];
+  if (title) {
+    bindField('title-count', title.count);
+    bindField('title-label', title.label);
+    bindField('title-detail', title.detail);
+  }
+
+  document.title = `${toTitleCase(site.name)} ${num} — Motocross Rider`;
 
   const mailto = document.getElementById('mailto-email-link');
   if (mailto) mailto.href = `mailto:${contact.email}`;
+}
+
+function renderStory() {
+  const st = SITE_DATA.story;
+  bindField('story-pitch', st.pitch);
+  bindField('bio-heading', st.bioHeading);
+  bindField('timeline-subtitle', st.timelineSubtitle);
+  const bio = document.getElementById('bio-text-container');
+  if (bio) bio.innerHTML = st.bio.map(p => `<p class="bio-text">${p}</p>`).join('');
 }
 
 function renderSocials() {
@@ -137,12 +166,16 @@ function renderSeasonStats() {
   bindField('season-country-count', s.countryCount);
   bindField('season-country-flags', s.countryFlags);
   bindField('career-seasons', c.seasons);
+  bindField('career-first-year', c.firstYear);
+  bindField('season-focus', getCurrentSeason().focus || '');
   bindField('career-races', c.races);
   bindField('career-podiums', c.podiums);
   bindField('career-wins', c.wins);
   bindField('career-country-count', c.countryCount);
   bindField('career-country-flags', c.countryFlags);
   bindField('instagram-followers', `${m.instagramFollowers}${m.instagramFollowersSuffix}`);
+  bindField('top-reel-likes', m.topReelLikes);
+  if (SITE_DATA.socials[0]) bindField('main-social', SITE_DATA.socials[0].label);
 }
 
 function renderSeasonMetrics() {
@@ -499,6 +532,7 @@ function renderAllData() {
   renderIdentity();
   renderSeasonStats();
   renderSocials();
+  renderStory();
   renderSeasonMetrics();
   renderHomeHighlights();
   renderCarousel();

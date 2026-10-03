@@ -76,15 +76,15 @@
     <div class="hp-hero-content">
       <div class="hp-hero-eyebrow">
         <span class="hp-hero-dot"></span>
-        MX2 &nbsp;·&nbsp; Racing in Australia &nbsp;·&nbsp; Season <span data-field="current-season">2026</span>
+        <span data-field="rider-class">MX2</span> &nbsp;·&nbsp; <span data-field="hero-line">Racing in Australia</span> &nbsp;·&nbsp; Season <span data-field="current-season">2026</span>
       </div>
 
-      <h1 class="hp-hero-name">
+      <h1 class="hp-hero-name" id="hero-name">
         FREDERIK<br>
         <span>RAHN STAMPE</span>
       </h1>
 
-      <p class="hp-hero-sub">Danish Motocross Rider · Melbourne</p>
+      <p class="hp-hero-sub" data-field="hero-sub">Danish Motocross Rider · Melbourne</p>
 
       <div class="hp-hero-btns">
         <button class="btn btn-primary btn-lg" data-goto="contact">
@@ -212,7 +212,7 @@
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="6" width="22" height="16" rx="3" fill="currentColor" opacity=".15" stroke="currentColor" stroke-width="1.8"/><path d="M12 10.5L19 14L12 17.5V10.5Z" fill="currentColor"/></svg>
           </div>
           <h3 class="hp-exp-name">Video Content</h3>
-          <p class="hp-exp-desc">Sponsor call-outs and logos in race reels and recaps — his most-watched reel passed 10K likes.</p>
+          <p class="hp-exp-desc">Sponsor call-outs and logos in race reels and recaps — his most-watched reel passed <span data-field="top-reel-likes">10K</span> likes.</p>
           <div class="hp-exp-reach">Race reels &amp; recaps</div>
         </div>
 
@@ -293,7 +293,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing. All rights reserved.</span>
+      <span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span> All rights reserved.</span>
       <span class="footer-bottom-text" data-field="site-footer-tag">Stampe Racing · MX2 · #215</span>
     </div>
   </footer>
@@ -310,13 +310,11 @@
     <div class="sv-hero-graphic" data-field="rider-number">215</div>
     <div class="container sv-hero-inner">
       <div class="sv-hero-text">
-        <div class="section-label animate-fade-up">Partnership Opportunities · 2026 Season</div>
+        <div class="section-label animate-fade-up">Partnership Opportunities · <span data-field="current-season">2026</span> Season</div>
         <h1 class="sv-hero-title animate-fade-up animate-delay-1">
           Partnering with brands<br>in <span>youth motorsport</span>
         </h1>
-        <p class="sv-hero-sub animate-fade-up animate-delay-2">
-          Frederik Rahn Stampe is a Danish motocross rider racing MX2 in Australia — Victorian championships and Pro MX — after seven seasons racing across Europe. Back him and your brand rides with him to every race.
-        </p>
+        <p class="sv-hero-sub animate-fade-up animate-delay-2" data-field="story-pitch"></p>
         <div class="sv-hero-btns animate-fade-up animate-delay-3">
           <button class="btn btn-primary btn-lg" data-goto="contact">View Packages</button>
           <button class="btn btn-outline btn-lg" data-goto="media">Media Kit</button>
@@ -324,8 +322,8 @@
       </div>
       <div class="sv-hero-kpis animate-fade-up animate-delay-2">
         <div class="sv-kpi">
-          <div class="sv-kpi-num">2×</div>
-          <div class="sv-kpi-label">Danish Vice Champion</div>
+          <div class="sv-kpi-num" data-field="title-count"></div>
+          <div class="sv-kpi-label" data-field="title-label"></div>
         </div>
         <div class="sv-kpi">
           <div class="sv-kpi-num" data-field="career-podiums">0</div>
@@ -502,7 +500,7 @@
           </div>
           <div class="sv-reach-num" data-field="instagram-followers">3.1K</div>
           <div class="sv-reach-main">Followers</div>
-          <div class="sv-reach-sub">@frederik_stampe &nbsp;·&nbsp; top reel 10K+ likes</div>
+          <div class="sv-reach-sub"><span data-field="main-social">@frederik_stampe</span> &nbsp;·&nbsp; top reel <span data-field="top-reel-likes">10K</span>+ likes</div>
         </div>
 
         <div class="sv-reach-card animate-fade-up animate-delay-1">
@@ -512,7 +510,7 @@
           </div>
           <div class="sv-reach-num" data-field="season-rounds">9</div>
           <div class="sv-reach-main">Races in <span data-field="current-season">2026</span></div>
-          <div class="sv-reach-sub">Victorian championships &nbsp;·&nbsp; Pro MX</div>
+          <div class="sv-reach-sub" data-field="season-focus"></div>
         </div>
 
         <div class="sv-reach-card animate-fade-up animate-delay-2">
@@ -521,7 +519,7 @@
             Career
           </div>
           <div class="sv-reach-num" data-field="career-races">0</div>
-          <div class="sv-reach-main">Races Since 2019</div>
+          <div class="sv-reach-main">Races Since <span data-field="career-first-year">2019</span></div>
           <div class="sv-reach-sub"><span data-field="career-podiums">0</span> podiums &nbsp;·&nbsp; <span data-field="career-wins">0</span> wins</div>
         </div>
 
@@ -530,9 +528,9 @@
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L9.8 6H14L10.6 8.5L11.8 13L8 10.5L4.2 13L5.4 8.5L2 6H6.2L8 2Z" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
             Titles
           </div>
-          <div class="sv-reach-num">2×</div>
-          <div class="sv-reach-main">Danish Vice Champion</div>
-          <div class="sv-reach-sub">85cc &nbsp;·&nbsp; 2021 and 2022</div>
+          <div class="sv-reach-num" data-field="title-count"></div>
+          <div class="sv-reach-main" data-field="title-label"></div>
+          <div class="sv-reach-sub" data-field="title-detail"></div>
         </div>
 
         <div class="sv-reach-card animate-fade-up animate-delay-4">
@@ -671,7 +669,7 @@
       <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">info@frederikstampe.com</p><p data-field="contact-phone">+61 472 625 887</p></div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing. All rights reserved.</span>
+      <span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span> All rights reserved.</span>
       <span class="footer-bottom-text" data-field="site-footer-tag">Stampe Racing · MX2 · #215</span>
     </div>
   </footer>
@@ -725,7 +723,7 @@
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="calendar">Calendar</a></li><li><a class="nav-link" data-page="media">Media</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner With Us</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Team</h4><ul><li><a class="nav-link" data-page="sponsors">Sponsors</a></li></ul></div></div>
       <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">info@frederikstampe.com</p><p data-field="contact-phone">+61 472 625 887</p></div>
     </div>
-    <div class="footer-bottom"><span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing.</span><span class="footer-bottom-text" data-field="site-footer-tag">Stampe Racing · MX2 · #215</span></div>
+    <div class="footer-bottom"><span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span></span><span class="footer-bottom-text" data-field="site-footer-tag">Stampe Racing · MX2 · #215</span></div>
   </footer>
 </div>
 
@@ -771,7 +769,7 @@
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Team</h4><ul><li><a class="nav-link" data-page="sponsors">Sponsors</a></li></ul></div></div>
       <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">info@frederikstampe.com</p><p data-field="contact-phone">+61 472 625 887</p></div>
     </div>
-    <div class="footer-bottom"><span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing.</span></div>
+    <div class="footer-bottom"><span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span></span></div>
   </footer>
 </div>
 
@@ -841,7 +839,7 @@
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
       <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">info@frederikstampe.com</p><p data-field="contact-phone">+61 472 625 887</p></div>
     </div>
-    <div class="footer-bottom"><span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing.</span></div>
+    <div class="footer-bottom"><span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span></span></div>
   </footer>
 </div>
 
@@ -871,17 +869,15 @@
         </div>
         <div class="bio-content animate-fade-up animate-delay-2">
           <div class="bio-tag">About Frederik</div>
-          <h2 class="bio-heading">FROM RANDERS TO MELBOURNE.</h2>
-          <p class="bio-text">Frederik Rahn Stampe grew up racing at Randers Motor Sport in Denmark. On a Yamaha YZ65 he finished third in the 2019 Danish 65cc championship, third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen, and raced the FIM Junior World Championship in Italy.</p>
-          <p class="bio-text">On the 85 he was Danish vice champion two years running, in 2021 and 2022, and an official Yamaha contract rider. He moved up to the 125 with Wozniak MX Racing Team, finished third in the Danish championship in 2024, and on a 250 in 2025 he was fourth in the Danish MX2 championship, two points off the podium, while racing ADAC MX Masters and EMX250.</p>
-          <p class="bio-text">At the end of 2025 the family moved to Melbourne. Backed by Yamaha City Melbourne, he was back on the podium within weeks: second overall at the Victorian State Championship and second in MX2 at the Victorian titles, alongside his Pro MX debut.</p>
+          <h2 class="bio-heading" data-field="bio-heading"></h2>
+          <div id="bio-text-container"></div>
           <div class="bio-facts">
             <div class="bio-fact"><div class="bio-fact-label">Based In</div><div class="bio-fact-value" data-field="rider-based">Melbourne, Australia</div></div>
             <div class="bio-fact"><div class="bio-fact-label">Nationality</div><div class="bio-fact-value" data-field="rider-nationality">Danish 🇩🇰</div></div>
             <div class="bio-fact"><div class="bio-fact-label">Bike</div><div class="bio-fact-value" data-field="rider-bike">Yamaha 250</div></div>
-            <div class="bio-fact"><div class="bio-fact-label">Bike Partner</div><div class="bio-fact-value">Yamaha City Melbourne</div></div>
+            <div class="bio-fact"><div class="bio-fact-label">Bike Partner</div><div class="bio-fact-value" data-field="rider-bike-partner"></div></div>
             <div class="bio-fact"><div class="bio-fact-label">Class</div><div class="bio-fact-value" data-field="rider-class">MX2</div></div>
-            <div class="bio-fact"><div class="bio-fact-label">Home Club</div><div class="bio-fact-value">Randers Motor Sport 🇩🇰</div></div>
+            <div class="bio-fact"><div class="bio-fact-label">Home Club</div><div class="bio-fact-value" data-field="rider-home-club"></div></div>
           </div>
         </div>
       </div>
@@ -904,7 +900,7 @@
       <div class="section-header animate-fade-up">
         <div class="section-label">Career</div>
         <h2 class="section-title">THE JOURNEY</h2>
-        <p class="section-subtitle">From the 65cc class in Denmark to MX2 in Australia, one season at a time.</p>
+        <p class="section-subtitle" data-field="timeline-subtitle"></p>
       </div>
 
       <div class="timeline" id="story-timeline"></div>
@@ -917,7 +913,7 @@
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="results">Results</a></li><li><a class="nav-link" data-page="calendar">Calendar</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
       <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">info@frederikstampe.com</p><p data-field="contact-phone">+61 472 625 887</p></div>
     </div>
-    <div class="footer-bottom"><span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing.</span></div>
+    <div class="footer-bottom"><span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span></span></div>
   </footer>
 </div>
 
@@ -973,7 +969,7 @@
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
       <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">info@frederikstampe.com</p><p data-field="contact-phone">+61 472 625 887</p></div>
     </div>
-    <div class="footer-bottom"><span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing.</span></div>
+    <div class="footer-bottom"><span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span></span></div>
   </footer>
 </div>
 
@@ -1093,7 +1089,7 @@
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="contact">Partner</a></li><li><a class="nav-link" data-page="sponsor-value">Value</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
       <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">info@frederikstampe.com</p><p data-field="contact-phone">+61 472 625 887</p></div>
     </div>
-    <div class="footer-bottom"><span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing.</span></div>
+    <div class="footer-bottom"><span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span></span></div>
   </footer>
 </div>
 
@@ -1218,7 +1214,7 @@
       <div class="footer-nav-grid"><div class="footer-nav-section"><h4>Rider</h4><ul><li><a class="nav-link" data-page="story">Story</a></li><li><a class="nav-link" data-page="results">Results</a></li><li><a class="nav-link" data-page="calendar">Calendar</a></li></ul></div><div class="footer-nav-section"><h4>Partner</h4><ul><li><a class="nav-link" data-page="sponsor-value">Sponsor Value</a></li><li><a class="nav-link" data-page="sponsors">Partners</a></li></ul></div><div class="footer-nav-section"><h4>Media</h4><ul><li><a class="nav-link" data-page="media">Gallery</a></li></ul></div></div>
       <div class="footer-contact"><h4>Management</h4><p data-field="contact-email">info@frederikstampe.com</p><p data-field="contact-phone">+61 472 625 887</p><p data-field="contact-location">Melbourne, Australia</p></div>
     </div>
-    <div class="footer-bottom"><span class="footer-bottom-text">© 2026 Frederik Rahn Stampe Racing. All rights reserved.</span><span class="footer-bottom-text" data-field="site-footer-tag">Stampe Racing · MX2 · #215</span></div>
+    <div class="footer-bottom"><span class="footer-bottom-text"><span data-field="copyright">© 2026 Frederik Rahn Stampe Racing.</span> All rights reserved.</span><span class="footer-bottom-text" data-field="site-footer-tag">Stampe Racing · MX2 · #215</span></div>
   </footer>
 </div>
 
