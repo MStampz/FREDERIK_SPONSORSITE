@@ -53,29 +53,29 @@ const SITE_DATA = {
      raceResults. */
   homeHighlights: [
     {
-      round: 5,
+      round: 8,
       resultClass: 'hp-result-3',
       posLabel: 'P3',
       imageSeed: 'mxrace-vic-aug',
-      metaLine: 'Round 5 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; Aug 19',
+      metaLine: 'Round 8 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; Aug 19',
       title: 'VICTORIAN CHAMPIONSHIP MX3',
       summary: 'Third in MX3 and second in the championship, despite a technical issue and a Sunday crash that left him with sprained fingers. He borrowed a trailer just to get there.'
     },
     {
-      round: 4,
+      round: 7,
       resultClass: 'hp-result-2',
       posLabel: 'P2',
       imageSeed: 'mxrace-vic-jul',
-      metaLine: 'Round 4 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; Jul 3',
+      metaLine: 'Round 7 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; Jul 3',
       title: 'VICTORIAN TITLES',
       summary: 'Second in MX2 on Sunday after third in MX3 on Saturday, racing two classes across one weekend.'
     },
     {
-      round: 1,
+      round: 3,
       resultClass: 'hp-result-1',
       posLabel: '1-1',
       imageSeed: 'mxrace-sandmasters',
-      metaLine: 'Round 1 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; May 3',
+      metaLine: 'Round 3 &nbsp;·&nbsp; Victoria, Australia &nbsp;·&nbsp; May 3',
       title: 'SANDMASTERS',
       summary: 'Fastest in every session and winner of the first two motos, before a technical issue ended his day.'
     }
@@ -99,12 +99,15 @@ const SITE_DATA = {
      is known; with none marked, the Calendar page shows a "season
      complete" message instead of the countdown. */
   raceResults: [
-    { round: 1, track: 'Sandmasters', flag: '🇦🇺', country: 'Australia', shortDate: 'May 3', fullDate: 'May 3, 2026', championship: 'Sandmasters', pos: null, points: null, result: '1-1-DNF-DNS' },
-    { round: 2, track: 'Gillman', flag: '🇦🇺', country: 'Australia', shortDate: 'May 12', fullDate: 'May 12, 2026', championship: 'ProMX MX2', pos: null, points: null, result: '11-17' },
-    { round: 3, track: 'Victorian State Championship', flag: '🇦🇺', country: 'Australia', shortDate: 'May 16', fullDate: 'May 16, 2026', championship: 'Victorian State Championship', pos: 2, points: null, result: '3-2-2' },
-    { round: 4, track: 'Victorian Titles', flag: '🇦🇺', country: 'Australia', shortDate: 'Jul 3', fullDate: 'July 3, 2026', championship: 'Victorian Titles MX2', pos: 2, points: null, result: 'MX3 P3' },
-    { round: 5, track: 'Victorian Championship', flag: '🇦🇺', country: 'Australia', shortDate: 'Aug 19', fullDate: 'August 19, 2026', championship: 'Victorian Championship MX3', pos: 3, points: null, result: 'P2 overall' },
-    { round: 6, track: 'MXGP of Australia', flag: '🇦🇺', country: 'Australia', shortDate: 'Sep 21', fullDate: 'September 21, 2026', championship: 'MXGP of Australia', pos: null, points: null, result: 'DNS' }
+    { round: 1, track: 'Victorian State Titles', flag: '🇦🇺', country: 'Australia', shortDate: 'Apr', fullDate: 'April 2026', championship: 'Victorian State Titles', pos: null, points: null, result: 'MX3 6-4-5 · MX2 7-6-5' },
+    { round: 2, track: 'Canberra', flag: '🇦🇺', country: 'Australia', shortDate: 'Apr', fullDate: 'April 2026', championship: 'ProMX MX2', pos: null, points: null, result: '27-25' },
+    { round: 3, track: 'Sandmasters', flag: '🇦🇺', country: 'Australia', shortDate: 'May 3', fullDate: 'May 3, 2026', championship: 'Sandmasters', pos: null, points: null, result: '1-1-DNF-DNS' },
+    { round: 4, track: 'Gillman', flag: '🇦🇺', country: 'Australia', shortDate: 'May 12', fullDate: 'May 12, 2026', championship: 'ProMX MX2', pos: null, points: null, result: '11-17' },
+    { round: 5, track: 'Victorian State Championship', flag: '🇦🇺', country: 'Australia', shortDate: 'May 16', fullDate: 'May 16, 2026', championship: 'Victorian State Championship', pos: 2, points: null, result: '3-2-2' },
+    { round: 6, track: 'Appin', flag: '🇦🇺', country: 'Australia', shortDate: 'Jun 13', fullDate: 'June 13, 2026', championship: 'ProMX MX2', pos: null, points: null, result: 'Raced' },
+    { round: 7, track: 'Victorian Titles', flag: '🇦🇺', country: 'Australia', shortDate: 'Jul 3', fullDate: 'July 3, 2026', championship: 'Victorian Titles MX2', pos: 2, points: null, result: 'MX3 P3' },
+    { round: 8, track: 'Victorian Championship', flag: '🇦🇺', country: 'Australia', shortDate: 'Aug 19', fullDate: 'August 19, 2026', championship: 'Victorian Championship MX3', pos: 3, points: null, result: 'P2 in championship' },
+    { round: 9, track: 'Darwin', flag: '🇦🇺', country: 'Australia', shortDate: 'Sep 21', fullDate: 'September 21, 2026', championship: 'MXGP of Australia', pos: null, points: null, result: 'DNS' }
   ],
 
   /* Extra display info for the next race that isn't part of the
@@ -119,7 +122,7 @@ const SITE_DATA = {
     },
     seasonComplete: {
       title: 'SEASON COMPLETE',
-      meta: '2026 season · 6 races in Australia',
+      meta: '2026 season · 9 races in Australia',
       note: '2027 plans coming soon',
       contactVenue: '2026 season complete',
       contactDate: '2027 calendar coming soon'
