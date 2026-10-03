@@ -1,5 +1,4 @@
-/* ============================================================
-   FREDERIK RAHN STAMPE — SPA JavaScript
+/* =====================================================   FREDERIK RAHN STAMPE — SPA JavaScript
    Routing, Animations, Interactions
    ============================================================ */
 
@@ -25,8 +24,7 @@ const NAV_MAP = {
 let currentPage = 'home';
 let mobileNavOpen = false;
 
-/* ============================================================
-   DATA-DRIVEN RENDERING
+/* =====================================================   DATA-DRIVEN RENDERING
    Populates DOM containers from SITE_DATA (data.js). All content
    that changes over a season lives in data.js — edit values there,
    not here.
@@ -181,6 +179,17 @@ function renderStory() {
   if (bio) bio.innerHTML = st.bio.map(p => `<p class="bio-text">${p}</p>`).join('');
 }
 
+/* Fixed page photos: <img data-image="hero"> gets its src and alt
+   from SITE_DATA.images.hero. */
+function renderImages() {
+  document.querySelectorAll('img[data-image]').forEach(img => {
+    const image = SITE_DATA.images[img.dataset.image];
+    if (!image) return console.warn(`data.js: no images.${img.dataset.image}`);
+    img.src = image.src;
+    img.alt = image.alt;
+  });
+}
+
 function renderSocials() {
   const container = document.getElementById('socials-container');
   if (!container) return;
@@ -242,7 +251,7 @@ function renderHomeHighlights() {
     return `
     <div class="hp-race-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
       <div class="hp-race-img-wrap">
-        <img src="https://picsum.photos/seed/${h.imageSeed}/800/500" alt="${h.title} race photo" loading="lazy" />
+        <img src="${h.image}" alt="${h.title} race photo" loading="lazy" />
         <div class="hp-race-result${posClass}">${label}</div>
       </div>
       <div class="hp-race-body">
@@ -430,7 +439,7 @@ function renderMedia() {
   if (gallery) {
     gallery.innerHTML = m.gallery.map(item => `
       <div class="gallery-item${item.size === 'large' ? ' large' : ''}">
-        <img src="https://picsum.photos/seed/${item.seed}/800/600" alt="${item.label}" loading="lazy" />
+        <img src="${item.image}" alt="${item.label}" loading="lazy" />
         <div class="gallery-item-overlay"><span class="gallery-item-label">${item.label}</span></div>
       </div>
     `).join('');
@@ -606,6 +615,7 @@ function renderDashboard() {
 
 function renderAllData() {
   validateRaceIds();
+  renderImages();
   renderIdentity();
   renderSeasonStats();
   renderSocials();
@@ -623,8 +633,7 @@ function renderAllData() {
   renderDashboard();
 }
 
-/* ============================================================
-   SPA ROUTER
+/* =====================================================   SPA ROUTER
    ============================================================ */
 function navigateTo(pageId, pushState = true) {
   if (!PAGES.includes(pageId)) pageId = 'home';
@@ -698,8 +707,7 @@ function getPageFromHash() {
   return PAGES.includes(hash) ? hash : 'home';
 }
 
-/* ============================================================
-   NAVIGATION
+/* =====================================================   NAVIGATION
    ============================================================ */
 function initNav() {
   // Logo click
@@ -758,8 +766,7 @@ function closeMobileNav() {
   setTimeout(() => { overlay.style.display = 'none'; }, 300);
 }
 
-/* ============================================================
-   INTERSECTION OBSERVER — FADE UP ANIMATIONS
+/* =====================================================   INTERSECTION OBSERVER — FADE UP ANIMATIONS
    ============================================================ */
 function initIntersectionObserver() {
   const observer = new IntersectionObserver((entries) => {
@@ -778,8 +785,7 @@ function initIntersectionObserver() {
   return observer;
 }
 
-/* ============================================================
-   BAR CHART & PROGRESS BAR ANIMATIONS
+/* =====================================================   BAR CHART & PROGRESS BAR ANIMATIONS
    ============================================================ */
 function animateBars(container) {
   const fills = container.querySelectorAll('[data-bar-width]');
@@ -810,8 +816,7 @@ function initBarObserver() {
   document.querySelectorAll('.animate-bars').forEach(el => observer.observe(el));
 }
 
-/* ============================================================
-   COUNTER ANIMATIONS
+/* =====================================================   COUNTER ANIMATIONS
    ============================================================ */
 function animateCounter(el) {
   const target = parseInt(el.dataset.target || el.textContent, 10);
@@ -844,8 +849,7 @@ function initCounters() {
   document.querySelectorAll('.counter').forEach(el => observer.observe(el));
 }
 
-/* ============================================================
-   COUNTDOWN TIMER
+/* =====================================================   COUNTDOWN TIMER
    ============================================================ */
 function initCountdown() {
   const season = getCurrentSeason();
@@ -885,8 +889,7 @@ function initCountdown() {
   setInterval(update, 1000);
 }
 
-/* ============================================================
-   HERO PARALLAX
+/* =====================================================   HERO PARALLAX
    ============================================================ */
 function initParallax() {
   const hero = document.querySelector('.hero');
@@ -901,8 +904,7 @@ function initParallax() {
   }, { passive: true });
 }
 
-/* ============================================================
-   DASHBOARD TABS
+/* =====================================================   DASHBOARD TABS
    ============================================================ */
 function initDashboardTabs() {
   document.querySelectorAll('.dash-tab').forEach(tab => {
@@ -913,8 +915,7 @@ function initDashboardTabs() {
   });
 }
 
-/* ============================================================
-   CONTACT FORM
+/* =====================================================   CONTACT FORM
    ============================================================ */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -940,8 +941,7 @@ function initContactForm() {
   });
 }
 
-/* ============================================================
-   PAGE-SPECIFIC ANIMATION TRIGGERS
+/* =====================================================   PAGE-SPECIFIC ANIMATION TRIGGERS
    ============================================================ */
 function triggerPageAnimations(pageId) {
   const page = document.getElementById('page-' + pageId);
@@ -965,8 +965,7 @@ function triggerPageAnimations(pageId) {
   });
 }
 
-/* ============================================================
-   GALLERY LIGHTBOX (simple)
+/* =====================================================   GALLERY LIGHTBOX (simple)
    ============================================================ */
 function initGallery() {
   document.querySelectorAll('.gallery-item').forEach(item => {
@@ -1000,8 +999,7 @@ function initGallery() {
   });
 }
 
-/* ============================================================
-   PACKAGE CTA BUTTONS
+/* =====================================================   PACKAGE CTA BUTTONS
    ============================================================ */
 function initPackageButtons() {
   document.querySelectorAll('[data-goto]').forEach(btn => {
@@ -1009,8 +1007,7 @@ function initPackageButtons() {
   });
 }
 
-/* ============================================================
-   INIT
+/* =====================================================   INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   // Render all data-driven content first so subsequent init steps

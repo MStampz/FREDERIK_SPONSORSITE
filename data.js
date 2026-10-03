@@ -24,6 +24,8 @@
                       source of truth for the Results page, the
                       Calendar page (both have a season picker), the
                       Story timeline and every race/podium count
+     images         — the fixed photos on the pages (hero, bio
+                      portrait, banner, content cards)
      media          — media page gallery items
      sponsors       — sponsors page partners
      packages       — sponsorship tiers and prices (one place), plus
@@ -102,24 +104,42 @@ const SITE_DATA = {
   homeHighlights: [
     {
       raceId: '2026-vicmc-round2',
-      imageSeed: 'mxrace-vic-state',
+      image: 'https://picsum.photos/seed/mxrace-vic-state/800/500',
       title: 'VICTORIAN STATE CHAMPIONSHIP',
       summary: '3-2-2 for second overall, with two holeshots from three starts and the fastest lap of race 3, leading almost all of it.'
     },
     {
       raceId: '2026-vicmc-round3',
-      imageSeed: 'mxrace-vic-titles',
+      image: 'https://picsum.photos/seed/mxrace-vic-titles/800/500',
       title: 'VICTORIAN TITLES',
       summary: 'Third in MX3 on Saturday and second in MX2 on Sunday, racing two classes across one weekend.'
     },
     {
       raceId: '2025-dmmx2-round4',
       label: 'P4',
-      imageSeed: 'mxrace-dm-2025',
+      image: 'https://picsum.photos/seed/mxrace-dm-2025/800/500',
       title: 'DANISH MX2 CHAMPIONSHIP',
       summary: 'Fourth in the 2025 Danish MX2 championship on a 250, two points off the podium, in his last season before moving to Australia.'
     }
   ],
+
+  /* Photos. Every photo on the site is set in this file: the fixed
+     page photos below, plus `image` on each home highlight and
+     gallery item. `src` is a path to a file in the repo's images/
+     folder (e.g. 'images/hero.jpg') or a full URL. The picsum.photos
+     URLs are placeholders: replace them with real photos one at a
+     time. `alt` describes the photo for screen readers. */
+  images: {
+    hero: { src: 'https://picsum.photos/seed/nordic-mx-race/1920/1080', alt: 'Frederik Rahn Stampe in action' },
+    portrait: { src: 'https://picsum.photos/seed/rider74/800/1066', alt: 'Frederik Rahn Stampe' },
+    storyBanner: { src: 'https://picsum.photos/seed/mxaction/1200/600', alt: 'Race action' },
+    // Sponsor Value page, "content" cards
+    contentRecap: { src: 'https://picsum.photos/seed/mxvid-recap/900/560', alt: 'Race recap series' },
+    contentPodium: { src: 'https://picsum.photos/seed/mxphoto-podium/600/400', alt: 'Podium photography' },
+    contentReel: { src: 'https://picsum.photos/seed/mxreel-brand/600/400', alt: 'Brand reel' },
+    contentTraining: { src: 'https://picsum.photos/seed/mxphoto-train/600/400', alt: 'Training content' },
+    contentDocumentary: { src: 'https://picsum.photos/seed/mxdoc-season/900/560', alt: 'Season documentary' }
+  },
 
   carouselLogos: ['YAMAHA CITY MELBOURNE', 'ONPOINT SUSPENSION', 'NO FEAR MOTOCROSS'],
 
@@ -370,20 +390,22 @@ const SITE_DATA = {
     }
   ],
 
+  /* Media page gallery. `image` follows the same rules as `images`
+     above; `label` is shown on the photo and used as its alt text. */
   media: {
     gallery: [
-      { seed: 'mx1', size: 'large', label: 'Victorian State Championship 2026' },
-      { seed: 'mx2', size: 'normal', label: 'Yamaha City Melbourne' },
-      { seed: 'mx3', size: 'normal', label: 'Sandmasters 2026' },
-      { seed: 'mx4', size: 'normal', label: 'Pro MX Gillman' },
-      { seed: 'mx5', size: 'large', label: 'Victorian Titles 2026' },
-      { seed: 'mx6', size: 'normal', label: 'MXGP of Australia, Darwin' },
-      { seed: 'mx7', size: 'normal', label: 'Danish Championship 2025' },
-      { seed: 'mx8', size: 'normal', label: 'Fastlane MX Masters Randers' },
-      { seed: 'mx9', size: 'large', label: 'bLU cRU SuperFinale' },
-      { seed: 'mx10', size: 'normal', label: 'ADAC MX Masters' },
-      { seed: 'mx11', size: 'normal', label: 'Winter training in Spain' },
-      { seed: 'mx12', size: 'normal', label: 'Assen 2019, bLU cRU podium' }
+      { image: 'https://picsum.photos/seed/mx1/800/600', size: 'large', label: 'Victorian State Championship 2026' },
+      { image: 'https://picsum.photos/seed/mx2/800/600', size: 'normal', label: 'Yamaha City Melbourne' },
+      { image: 'https://picsum.photos/seed/mx3/800/600', size: 'normal', label: 'Sandmasters 2026' },
+      { image: 'https://picsum.photos/seed/mx4/800/600', size: 'normal', label: 'Pro MX Gillman' },
+      { image: 'https://picsum.photos/seed/mx5/800/600', size: 'large', label: 'Victorian Titles 2026' },
+      { image: 'https://picsum.photos/seed/mx6/800/600', size: 'normal', label: 'MXGP of Australia, Darwin' },
+      { image: 'https://picsum.photos/seed/mx7/800/600', size: 'normal', label: 'Danish Championship 2025' },
+      { image: 'https://picsum.photos/seed/mx8/800/600', size: 'normal', label: 'Fastlane MX Masters Randers' },
+      { image: 'https://picsum.photos/seed/mx9/800/600', size: 'large', label: 'bLU cRU SuperFinale' },
+      { image: 'https://picsum.photos/seed/mx10/800/600', size: 'normal', label: 'ADAC MX Masters' },
+      { image: 'https://picsum.photos/seed/mx11/800/600', size: 'normal', label: 'Winter training in Spain' },
+      { image: 'https://picsum.photos/seed/mx12/800/600', size: 'normal', label: 'Assen 2019, bLU cRU podium' }
     ]
   },
 
