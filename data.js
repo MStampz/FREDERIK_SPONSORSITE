@@ -228,7 +228,7 @@ const SITE_DATA = {
      URLs are placeholders: replace them with real photos one at a
      time. `alt` describes the photo for screen readers. */
   images: {
-    hero: { src: 'https://picsum.photos/seed/nordic-mx-race/1920/1080', alt: 'Frederik Rahn Stampe in action' },
+    hero: { src: 'images/hero.jpg', alt: 'Frederik Rahn Stampe in action' },
     portrait: { src: 'https://picsum.photos/seed/rider74/800/1066', alt: 'Frederik Rahn Stampe' },
     storyBanner: { src: 'https://picsum.photos/seed/mxaction/1200/600', alt: 'Race action' },
     // Sponsor Value page, "content" cards

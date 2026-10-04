@@ -252,7 +252,7 @@ function renderSocials() {
   if (!container) return;
   const list = SITE_DATA.socials;
   container.innerHTML = list.map((s, i) => {
-    const border = i < list.length - 1 ? ' border-bottom:1px solid rgba(255,255,255,0.05);' : '';
+    const border = i < list.length - 1 ? ' border-bottom:1px solid rgba(21,23,27,0.05);' : '';
     const link = s.url ? ` href="${s.url}" target="_blank" rel="noopener"` : '';
     return `<a${link} style="display:flex; align-items:center; gap:12px; padding:10px 0;${border} color:var(--text-2); font-size:14px; transition:color 0.2s;">
                 <span>${s.icon}</span> ${s.label}
@@ -460,7 +460,7 @@ function renderCalendar(instant = false) {
       const delay = i === 0 ? '' : ` animate-delay-${((i - 1) % 3) + 1}`;
       const goldStyle = isNext ? ' style="color:var(--gold);"' : '';
       const resultHtml = race.upcoming
-        ? `<div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(196,151,62,0.15);">
+        ? `<div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(200,16,46,0.15);">
              <span class="badge badge-gold" style="font-size:10px;">${race.championship}</span>
            </div>`
         : `<div class="race-result">
@@ -493,7 +493,7 @@ function renderStoryTimeline() {
   container.innerHTML = seasons.map((s, i) => {
     const isCurrent = s.year === SITE_DATA.currentSeason;
     const delay = ` animate-delay-${(i % 2) + 1}`;
-    const highlight = isCurrent ? ' style="border-color: rgba(196,151,62,0.25); background: rgba(196,151,62,0.04);"' : '';
+    const highlight = isCurrent ? ' style="border-color: rgba(200,16,46,0.25); background: rgba(200,16,46,0.04);"' : '';
     return `
         <div class="timeline-item animate-fade-up${delay}">
           <div class="timeline-year">${s.year}</div>
@@ -535,8 +535,8 @@ function renderSponsors() {
         <p class="sponsor-desc">${s.lead.desc}</p>
         <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">${badgesHtml}</div>
       </div>
-      <div style="text-align:center; padding:32px; background:rgba(196,151,62,0.06); border:1px solid rgba(196,151,62,0.15); border-radius:12px; min-width:180px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:80px; color:rgba(196,151,62,0.4); line-height:1; letter-spacing:0.04em;">${s.lead.initial}</div>
+      <div style="text-align:center; padding:32px; background:rgba(200,16,46,0.06); border:1px solid rgba(200,16,46,0.15); border-radius:12px; min-width:180px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:80px; color:rgba(200,16,46,0.4); line-height:1; letter-spacing:0.04em;">${s.lead.initial}</div>
         <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; margin-top:8px;">${toTitleCase(s.lead.name)}</div>
       </div>`;
   }
@@ -1060,7 +1060,7 @@ function initGallery() {
       close.textContent = '✕';
       close.style.cssText = `
         position: absolute; top: 24px; right: 24px;
-        background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(21,23,27,0.1); border: 1px solid rgba(21,23,27,0.15);
         color: white; font-size: 16px; width: 40px; height: 40px;
         border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
       `;
