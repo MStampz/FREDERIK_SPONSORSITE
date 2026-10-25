@@ -16,12 +16,16 @@
                       the family's letter, what partners make possible,
                       what we commit to, the partner network, the tier
                       wording and the "become a partner" wording on
-                      the Partners and Contact pages
+                      the Partners page
      home           — home page text: the proof line under the name
                       in the hero, the story teaser and the "join the
                       journey" block
-     contact        — email/phone/location used in footers & contact page
-     socials        — social accounts on the contact page
+     contact        — email/phone/location used in footers & the Get
+                      in Touch page
+     getInTouch     — Get in Touch page text, its cards and the
+                      form's topics
+     socials        — social accounts (footer icons, Follow along
+                      card)
      seasonMetrics  — home page social counter (race counts and
                       podiums are counted from seasons instead)
      homeHighlights — home page "Career Highlights" cards (four)
@@ -36,10 +40,9 @@
                       portrait, banner)
      media          — media page gallery items
      sponsors       — Partners page: current partners
-     packages       — partner tiers and prices (one place), plus
-                      the wording for the sponsor-value page's
-                      detailed cards and the contact page's simpler
-                      cards — see note below
+     packages       — partner tiers (one place), plus
+                      the wording for the tier cards on the
+                      Partnership page — see note below
      dashboard      — dashboard page data. PLACEHOLDER numbers: the
                       page is hidden from the nav until real
                       Instagram Insights figures replace them
@@ -87,7 +90,7 @@ const SITE_DATA = {
   backing: {
     heroLabel: 'Join the journey',
     heroTitle: 'From Denmark to',
-    heroTitleHighlight: 'the Australian podium',
+    heroTitleHighlight: 'Australia',
 
     // A personal letter from the family. Each entry is one paragraph.
     letterLabel: 'Why we are looking for partners',
@@ -135,15 +138,13 @@ const SITE_DATA = {
 
     packagesLabel: 'Ways to partner',
     packagesHeading: 'PARTNER TIERS',
-    packagesSubtitle: 'Three tiers to start a conversation. Every one can be shaped around what you would like to be part of.',
+    packagesSubtitle: 'Three tiers to start a conversation. Every partnership is tailored, so get in touch and we will find what fits.',
     packagesNote: 'Would you rather bring something specific, such as your products or services, a trip to a Pro MX round or a set of tyres? Get in touch and we will work it out together.',
 
     ctaTitle: 'Want to be part of it?',
     ctaText: 'Partner places are open for next season. Join a young rider who moved across the world to chase it, and follow every step with him.',
     sponsorsCtaTitle: 'BECOME A PARTNER',
-    sponsorsCtaText: 'Partner places are open for next season. Be part of a young Dane making it in Australia and follow every race with him.',
-    contactHeading: 'BECOME A PARTNER',
-    contactSubtitle: 'Pick a tier as a starting point, or tell us what you would like to bring. Prices are in Australian dollars and everything can be tailored.'
+    sponsorsCtaText: 'Partner places are open for next season. Be part of a young Dane making it in Australia and follow every race with him.'
   },
 
   /* Home page text. The hero proof line is `heroResult`, then the
@@ -168,8 +169,38 @@ const SITE_DATA = {
     locationFlag: '🇦🇺'
   },
 
-  /* Social accounts listed on the contact page. `url` is optional:
-     leave it out to show the label without a link. */
+  /* Get in Touch page (page id `contact`). `ways` are the cards under
+     the heading. A card's button does one of three things:
+       link: 'instagram' — opens the first account in `socials`
+       link: 'email'     — opens an email to contact.email
+       goto: '<page>'    — goes to that page, and to the section with
+                           id `scroll` on it when given
+     `nextRace: true` adds the current season's next race to the card.
+     `topics` fill the form's "What's it about?" menu; picking the
+     `partnership` topic shows the partner tier menu. */
+  getInTouch: {
+    label: 'Say hello',
+    heading: 'GET IN TOUCH',
+    subtitle: 'Fan, fellow rider, club, journalist or business, we would love to hear from you. Send a message, follow along on Instagram, or come and say hi at a race.',
+    replyTime: 'We will get back to you within a couple of days.',
+    ways: [
+      { title: 'Follow along', desc: 'Race reports after every round, and life as a young Dane racing in Australia.', cta: 'Follow on Instagram', link: 'instagram' },
+      { title: 'Come to a race', desc: 'Come and say hi in the paddock.', cta: 'See the calendar', goto: 'calendar', nextRace: true },
+      { title: 'Media and interviews', desc: 'For interviews, photos or race information, email us and we will get back to you.', cta: 'Email us', link: 'email' },
+      { title: 'Partner with Frederik', desc: 'Want to be part of his next season? See what partners make possible and the partner tiers.', cta: 'See partner tiers', goto: 'sponsor-value', scroll: 'partner-tiers' }
+    ],
+    topics: [
+      { value: 'hello', label: 'Just saying hi' },
+      { value: 'partnership', label: 'Partnership' },
+      { value: 'media', label: 'Media or interview' },
+      { value: 'racing', label: 'Racing or team' },
+      { value: 'other', label: 'Something else' }
+    ]
+  },
+
+  /* Social accounts, shown as icons in the footer. The first one is
+     the "Follow along" card on the Get in Touch page. Accounts
+     without a `url` are left out. */
   socials: [
     { icon: '📸', label: '@frederik_stampe', url: 'https://www.instagram.com/frederik_stampe/' }
   ],
@@ -535,30 +566,25 @@ const SITE_DATA = {
     ]
   },
 
-  /* Partner tiers. `tiers` is the single place for each
-     tier's name, price and badge: the sponsor-value page cards, the
-     contact page cards and the contact form's tier menu are all
-     built from it, so a price change here shows up everywhere.
-     `amount` is a plain number in `currency`; the site formats it
-     ("A$5,000") and works out the budget ranges for the form.
+  /* Partner tiers, smallest first. `tiers` is the single place for
+     each tier's name, short name and badge: the Partnership page cards
+     (title and "Ask about <short>" button) and the tier menu on the
+     Get in Touch form are built from it. No prices are shown on the
+     site: every partnership is tailored.
 
-     `sponsorValue` (detailed, with an included/excluded feature
-     matrix) and `contact` (simple, included-features-only) hold the
-     page-specific wording for each tier, matched by `tier` id.
-     Feature bullet wording is page-specific by design (long-form vs
-     short). */
+     `sponsorValue` holds the card wording for each tier (with an
+     included/excluded feature list), matched by `tier` id. */
   packages: {
-    currency: 'A$',
     tiers: [
-      { id: 'support', name: 'Bronze Partner', amount: 5000 },
-      { id: 'major', name: 'Silver Partner', amount: 13000, featured: true, badge: 'Recommended' },
-      { id: 'title', name: 'Gold Partner', amount: 33000 }
+      { id: 'support', name: 'Bronze Partner', short: 'Bronze' },
+      { id: 'major', name: 'Silver Partner', short: 'Silver', featured: true, badge: 'Recommended' },
+      { id: 'title', name: 'Gold Partner', short: 'Gold' }
     ],
     sponsorValue: [
       {
-        tier: 'support', priceSuffix: '/season',
+        tier: 'support',
         intro: 'For a local business or a fan of the sport who wants to help with the basics and follow the season up close.',
-        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
+        ctaStyle: 'outline',
         features: [
           { text: 'Name or logo on the jersey — arm / back', included: true },
           { text: 'Thank-you announcement on Instagram', included: true },
@@ -571,9 +597,9 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'major', priceSuffix: '/season',
+        tier: 'major',
         intro: 'Helps cover a real part of the season, such as getting to the Pro MX rounds, with your logo on the bike at every race.',
-        ctaLabel: 'Become a Partner', ctaStyle: 'primary',
+        ctaStyle: 'primary',
         features: [
           { text: 'Logo on the bike plastics — side panels', included: true },
           { text: 'Jersey logo — chest', included: true },
@@ -586,9 +612,9 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'title', priceSuffix: '/season',
+        tier: 'title',
         intro: 'The main partner of Frederik\'s season, including the trailer or van that gets him to every race.',
-        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
+        ctaStyle: 'outline',
         features: [
           { text: 'Name on the race transport — trailer or van', included: true },
           { text: 'Main logo on the bike, jersey and helmet', included: true },
@@ -598,43 +624,6 @@ const SITE_DATA = {
           { text: 'Full season photo pack (hi-res)', included: true },
           { text: 'Visits from Frederik during the season', included: true },
           { text: 'First say on the following season', included: true }
-        ]
-      }
-    ],
-    contact: [
-      {
-        tier: 'support', priceSuffix: 'per season',
-        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
-        features: [
-          'Name or logo on the jersey',
-          'Thank-you post on Instagram',
-          'Website partner listing',
-          'Update after every race',
-          'Season photo pack'
-        ]
-      },
-      {
-        tier: 'major', priceSuffix: 'per season',
-        ctaLabel: 'Become a Partner', ctaStyle: 'primary',
-        features: [
-          'Logo on the bike plastics and jersey',
-          'Thank-you post and tags in race reports',
-          'Featured website listing',
-          'Update after every race',
-          'Full season photo pack',
-          'A visit from Frederik to your business'
-        ]
-      },
-      {
-        tier: 'title', priceSuffix: 'per season',
-        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
-        features: [
-          'Name on the race transport',
-          'Main logo on bike, jersey and helmet',
-          'Tagged in every race report',
-          'Homepage feature on the website',
-          'Visits from Frederik during the season',
-          'First say on the following season'
         ]
       }
     ]

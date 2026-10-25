@@ -18,7 +18,7 @@ const NAV_MAP = {
   'story': 'Story',
   'sponsors': 'Partners',
   'dashboard': 'Dashboard',
-  'contact': 'Contact'
+  'contact': 'Get in Touch'
 };
 
 let currentPage = 'home';
@@ -159,7 +159,6 @@ function renderFooters() {
           <ul>
             <li><a class="nav-link" data-page="sponsor-value">Partnership</a></li>
             <li><a class="nav-link" data-page="sponsors">Partners</a></li>
-            <li><a class="nav-link" data-page="contact">Become a Partner</a></li>
           </ul>
         </div>
       </div>
@@ -168,6 +167,7 @@ function renderFooters() {
         <p><a class="mailto-email-link" data-field="contact-email"></a></p>
         <p data-field="contact-phone"></p>
         <p data-field="contact-location"></p>
+        <p><a class="nav-link" data-page="contact">Send a message</a></p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -277,8 +277,6 @@ function renderBacking() {
   bindField('backing-cta-text', b.ctaText);
   bindField('backing-sponsors-cta-title', b.sponsorsCtaTitle);
   bindField('backing-sponsors-cta-text', b.sponsorsCtaText);
-  bindField('backing-contact-heading', b.contactHeading);
-  bindField('backing-contact-subtitle', b.contactSubtitle);
 
   const letter = document.getElementById('backing-letter-container');
   if (letter) letter.innerHTML = b.letter.map(p => `<p class="bio-text">${p}</p>`).join('');
@@ -297,19 +295,6 @@ function renderBacking() {
   };
   cards('backing-needs-container', b.needs);
   cards('backing-commit-container', b.commitments);
-}
-
-function renderSocials() {
-  const container = document.getElementById('socials-container');
-  if (!container) return;
-  const list = SITE_DATA.socials;
-  container.innerHTML = list.map((s, i) => {
-    const border = i < list.length - 1 ? ' border-bottom:1px solid rgba(21,23,27,0.05);' : '';
-    const link = s.url ? ` href="${s.url}" target="_blank" rel="noopener"` : '';
-    return `<a${link} style="display:flex; align-items:center; gap:12px; padding:10px 0;${border} color:var(--text-2); font-size:14px; transition:color 0.2s;">
-                <span>${s.icon}</span> ${s.label}
-              </a>`;
-  }).join('');
 }
 
 function renderSeasonStats() {
@@ -614,10 +599,6 @@ function getTier(id) {
   return SITE_DATA.packages.tiers.find(t => t.id === id);
 }
 
-function formatPrice(amount) {
-  return `${SITE_DATA.packages.currency}${amount.toLocaleString('en-US')}`;
-}
-
 function renderPackages() {
   const p = SITE_DATA.packages;
 
@@ -628,59 +609,81 @@ function renderPackages() {
       return `
       <div class="sv-pkg-card${t.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
         ${t.featured ? `<div class="sv-pkg-popular-badge">${t.badge}</div>` : ''}
-        <div class="sv-pkg-tier-label">${t.name}</div>
-        <div class="sv-pkg-price">From <strong>${formatPrice(t.amount)}</strong><span>${pkg.priceSuffix}</span></div>
+        <h3 class="sv-pkg-name">${t.name}</h3>
         <p class="sv-pkg-intro">${pkg.intro}</p>
         <div class="sv-pkg-sep"></div>
         <ul class="sv-pkg-list">
           ${pkg.features.map(f => `<li class="${f.included ? 'sv-feat-y' : 'sv-feat-n'}">${f.text}</li>`).join('')}
         </ul>
-        <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" data-goto="contact">${pkg.ctaLabel}</button>
+        <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" data-goto="contact" data-tier="${t.id}">Ask about ${t.short}</button>
       </div>`;
     }).join('');
   }
 
-  const contactContainer = document.getElementById('contact-packages-container');
-  if (contactContainer) {
-    contactContainer.innerHTML = p.contact.map(pkg => {
-      const t = getTier(pkg.tier);
-      return `
-      <div class="package-card${t.featured ? ' featured' : ''}">
-        ${t.featured ? `<div class="package-popular">${t.badge}</div>` : ''}
-        <div class="package-tier"${t.featured ? ' style="color:var(--gold);"' : ''}>${t.name}</div>
-        <div class="package-price">From ${formatPrice(t.amount)}</div>
-        <div class="package-price-sub">${pkg.priceSuffix}</div>
-        <ul class="package-features">
-          ${pkg.features.map(f => `<li>${f}</li>`).join('')}
-        </ul>
-        <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'}" style="width:100%;" data-goto="contact">${pkg.ctaLabel}</button>
-      </div>`;
-    }).join('');
-  }
-
-  renderBudgetOptions();
+  renderTierOptions();
 }
 
-/* Contact form tier menu: one option per tier, each range ending
-   just below the next tier's price. Inserted before the "Custom"
-   option that stays in the HTML. */
-function renderBudgetOptions() {
-  const select = document.getElementById('budget');
+/* Get in Touch form tier menu (shown for the Partnership topic):
+   one option per tier, inserted before the "in-kind" option that
+   stays in the HTML. */
+function renderTierOptions() {
+  const select = document.getElementById('tier');
   if (!select) return;
   select.querySelectorAll('option[data-tier]').forEach(o => o.remove());
-  const tiers = [...SITE_DATA.packages.tiers].sort((a, b) => a.amount - b.amount);
-  const custom = select.querySelector('option[value="custom"]');
-  tiers.forEach((t, i) => {
-    const next = tiers[i + 1];
-    const range = next
-      ? `${formatPrice(t.amount)} – ${formatPrice(next.amount - 1)}`
-      : `${formatPrice(t.amount)}+`;
+  const inKind = select.querySelector('option[value="in-kind"]');
+  SITE_DATA.packages.tiers.forEach(t => {
     const option = document.createElement('option');
     option.value = t.id;
     option.dataset.tier = '';
-    option.textContent = `${t.name} (${range})`;
-    select.insertBefore(option, custom);
+    option.textContent = t.name;
+    select.insertBefore(option, inKind);
   });
+}
+
+/* ---- Get in Touch ---- */
+function renderGetInTouch() {
+  const g = SITE_DATA.getInTouch;
+  bindField('touch-label', g.label);
+  bindField('touch-heading', g.heading);
+  bindField('touch-subtitle', g.subtitle);
+  bindField('touch-reply-time', g.replyTime);
+
+  const ways = document.getElementById('touch-ways-container');
+  if (ways) {
+    const instagram = SITE_DATA.socials.find(s => s.url);
+    ways.innerHTML = g.ways.map((w, i) => {
+      let button = '';
+      if (w.link === 'instagram' && instagram) {
+        button = `<a class="btn btn-outline btn-sm" href="${instagram.url}" target="_blank" rel="noopener">${w.cta}</a>`;
+      } else if (w.link === 'email') {
+        button = `<a class="btn btn-outline btn-sm mailto-email-link">${w.cta}</a>`;
+      } else if (w.goto) {
+        button = `<button class="btn btn-outline btn-sm" data-goto="${w.goto}"${w.scroll ? ` data-scroll="${w.scroll}"` : ''}>${w.cta}</button>`;
+      }
+      // The next race lines are filled in by renderCalendar.
+      const nextRace = w.nextRace ? `
+          <div class="contact-way-race">
+            <div id="contact-next-race-venue"></div>
+            <div id="contact-next-race-date"></div>
+          </div>` : '';
+      return `
+        <div class="contact-way animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+          <h3 class="contact-way-title">${w.title}</h3>
+          <p class="contact-way-desc">${w.desc}</p>${nextRace}
+          ${button}
+        </div>`;
+    }).join('');
+  }
+
+  const topic = document.getElementById('topic');
+  if (topic) {
+    g.topics.forEach(t => {
+      const option = document.createElement('option');
+      option.value = t.value;
+      option.textContent = t.label;
+      topic.appendChild(option);
+    });
+  }
 }
 
 function renderDashboard() {
@@ -740,10 +743,10 @@ function renderDashboard() {
 function renderAllData() {
   validateRaceIds();
   renderFooters();
+  renderGetInTouch();
   renderImages();
   renderIdentity();
   renderSeasonStats();
-  renderSocials();
   renderStory();
   renderBacking();
   renderSeasonMetrics();
@@ -1047,6 +1050,13 @@ function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
+  const topic = document.getElementById('topic');
+  const tierGroup = document.getElementById('tier-group');
+  if (topic && tierGroup) {
+    topic.addEventListener('change', () => { tierGroup.hidden = topic.value !== 'partnership'; });
+    form.addEventListener('reset', () => { tierGroup.hidden = true; });
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
@@ -1127,10 +1137,32 @@ function initGallery() {
 
 /* =====================================================   PACKAGE CTA BUTTONS
    ============================================================ */
+/* data-goto buttons go to a page. data-scroll also scrolls to a
+   section on it, and data-tier picks the Partnership topic and that
+   tier in the Get in Touch form. */
 function initPackageButtons() {
   document.querySelectorAll('[data-goto]').forEach(btn => {
-    btn.addEventListener('click', () => navigateTo(btn.dataset.goto));
+    btn.addEventListener('click', () => {
+      const { goto, scroll, tier } = btn.dataset;
+      if (tier) selectPartnerTier(tier);
+      const samePage = goto === currentPage;
+      navigateTo(goto);
+      if (scroll) {
+        const target = document.getElementById(scroll);
+        // Wait for the page fade-in before scrolling.
+        if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), samePage ? 0 : 400);
+      }
+    });
   });
+}
+
+function selectPartnerTier(tierId) {
+  const topic = document.getElementById('topic');
+  const tier = document.getElementById('tier');
+  if (!topic || !tier) return;
+  topic.value = 'partnership';
+  topic.dispatchEvent(new Event('change'));
+  tier.value = tierId;
 }
 
 /* =====================================================   INIT
