@@ -252,7 +252,7 @@ function renderImages() {
   });
 }
 
-/* ---- Sponsor pitch ---- */
+/* ---- Partner pitch ---- */
 function renderBacking() {
   const b = SITE_DATA.backing;
   bindField('backing-hero-label', b.heroLabel);
@@ -264,9 +264,11 @@ function renderBacking() {
   bindField('backing-needs-label', b.needsLabel);
   bindField('backing-needs-heading', b.needsHeading);
   bindField('backing-needs-subtitle', b.needsSubtitle);
-  bindField('backing-thanks-label', b.thanksLabel);
-  bindField('backing-thanks-heading', b.thanksHeading);
-  bindField('backing-thanks-subtitle', b.thanksSubtitle);
+  bindField('backing-commit-label', b.commitLabel);
+  bindField('backing-commit-heading', b.commitHeading);
+  bindField('backing-commit-subtitle', b.commitSubtitle);
+  bindField('backing-network-label', b.networkLabel);
+  bindField('backing-network-heading', b.networkHeading);
   bindField('backing-packages-label', b.packagesLabel);
   bindField('backing-packages-heading', b.packagesHeading);
   bindField('backing-packages-subtitle', b.packagesSubtitle);
@@ -281,6 +283,9 @@ function renderBacking() {
   const letter = document.getElementById('backing-letter-container');
   if (letter) letter.innerHTML = b.letter.map(p => `<p class="bio-text">${p}</p>`).join('');
 
+  const network = document.getElementById('backing-network-container');
+  if (network) network.innerHTML = b.network.map(p => `<p class="bio-text">${p}</p>`).join('');
+
   const cards = (id, items) => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -291,7 +296,7 @@ function renderBacking() {
       </div>`).join('');
   };
   cards('backing-needs-container', b.needs);
-  cards('backing-thanks-container', b.thanks);
+  cards('backing-commit-container', b.commitments);
 }
 
 function renderSocials() {

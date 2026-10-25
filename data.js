@@ -14,10 +14,11 @@
                       on the Story page and the timeline subtitle
      backing        — the partner pitch: Partnership page headings,
                       the family's letter, what partners make possible,
-                      what partners get, and the "become a partner"
-                      wording on the Partners and Contact pages
+                      what we commit to, the partner network, the tier
+                      wording and the "become a partner" wording on
+                      the Partners and Contact pages
      home           — home page text: the proof line under the name
-                      in the hero, the story teaser and the "back the
+                      in the hero, the story teaser and the "join the
                       journey" block
      contact        — email/phone/location used in footers & contact page
      socials        — social accounts on the contact page
@@ -32,7 +33,7 @@
                       Calendar page (both have a season picker), the
                       Story timeline and every race/podium count
      images         — the fixed photos on the pages (hero, bio
-                      portrait, banner, content cards)
+                      portrait, banner)
      media          — media page gallery items
      sponsors       — Partners page: current partners
      packages       — partner tiers and prices (one place), plus
@@ -110,15 +111,26 @@ const SITE_DATA = {
       { title: 'Tyres and race entries', desc: 'The everyday costs of a race season, round after round.' }
     ],
 
-    // "What partners get" cards
-    thanksLabel: 'What you get back',
-    thanksHeading: 'WHAT PARTNERS GET',
-    thanksSubtitle: 'You get a relationship with the rider and his family, not just a logo slot.',
-    thanks: [
+    // "What we commit to" cards: what Frederik and the family give
+    // back. The subtitle says what partners bring.
+    commitLabel: 'A two-way partnership',
+    commitHeading: 'WHAT WE COMMIT TO',
+    commitSubtitle: 'Partners bring cash, products or services, and share the journey with their customers and staff. This is what Frederik and the family bring in return.',
+    commitments: [
       { title: 'Your name on the bike', desc: 'On the plastics or jersey at every race he rides.' },
       { title: 'A thank-you post', desc: 'Every partner is announced on his Instagram, the way his Danish partners Ole Larsen Transport, TKP Byg and Sidelmann Bosch Car Service were.' },
       { title: 'News from every race', desc: 'A personal update from Frederik after each round: how it went and what is next.' },
-      { title: 'A visit from Frederik', desc: 'Frederik and the bike at your shop, workshop or staff day.' }
+      { title: 'A visit from Frederik', desc: 'Frederik and the bike at your shop, workshop or staff day.' },
+      { title: 'Introductions to other partners', desc: 'We introduce you to the other partners and invite you to our partner get-togethers.' },
+      { title: 'An honest season report', desc: 'At the end of the season: how it went, the photos, and what your partnership made possible.' }
+    ],
+
+    // "The partner network" text. Each entry is one paragraph.
+    networkLabel: 'The partner network',
+    networkHeading: 'PARTNERS MEET PARTNERS.',
+    network: [
+      'In Denmark, clubs bring their partners together so they can get to know each other and do business together. We want to do the same around Frederik in Melbourne.',
+      'Every partner is invited to a couple of get-togethers each season, one at a race and one at a partner\'s business, and we introduce you to the other partners. It is a small group of people who love the sport, and a good way to meet other business owners in Melbourne.'
     ],
 
     packagesLabel: 'Ways to partner',
@@ -229,13 +241,7 @@ const SITE_DATA = {
   images: {
     hero: { src: 'images/hero.jpg', alt: 'Frederik Rahn Stampe in action' },
     portrait: { src: 'https://picsum.photos/seed/rider74/800/1066', alt: 'Frederik Rahn Stampe' },
-    storyBanner: { src: 'https://picsum.photos/seed/mxaction/1200/600', alt: 'Race action' },
-    // Partnership page, "content" cards
-    contentRecap: { src: 'https://picsum.photos/seed/mxvid-recap/900/560', alt: 'Race recap series' },
-    contentPodium: { src: 'https://picsum.photos/seed/mxphoto-podium/600/400', alt: 'Podium photography' },
-    contentReel: { src: 'https://picsum.photos/seed/mxreel-brand/600/400', alt: 'Brand reel' },
-    contentTraining: { src: 'https://picsum.photos/seed/mxphoto-train/600/400', alt: 'Training content' },
-    contentDocumentary: { src: 'https://picsum.photos/seed/mxdoc-season/900/560', alt: 'Season documentary' }
+    storyBanner: { src: 'https://picsum.photos/seed/mxaction/1200/600', alt: 'Race action' }
   },
 
   carouselLogos: ['YAMAHA CITY MELBOURNE', 'ONPOINT SUSPENSION', 'NO FEAR MOTOCROSS'],
