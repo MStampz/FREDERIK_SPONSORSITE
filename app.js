@@ -11,12 +11,12 @@
 const PAGES = ['home', 'sponsor-value', 'results', 'media', 'calendar', 'story', 'sponsors', 'contact'];
 const NAV_MAP = {
   'home': 'Home',
-  'sponsor-value': 'Sponsor Value',
+  'sponsor-value': 'Partnership',
   'results': 'Results',
   'media': 'Media',
   'calendar': 'Calendar',
   'story': 'Story',
-  'sponsors': 'Sponsors',
+  'sponsors': 'Partners',
   'dashboard': 'Dashboard',
   'contact': 'Contact'
 };
@@ -609,7 +609,7 @@ function renderPackages() {
   renderBudgetOptions();
 }
 
-/* Contact form budget menu: one option per tier, each range ending
+/* Contact form tier menu: one option per tier, each range ending
    just below the next tier's price. Inserted before the "Custom"
    option that stays in the HTML. */
 function renderBudgetOptions() {
@@ -626,7 +626,7 @@ function renderBudgetOptions() {
     const option = document.createElement('option');
     option.value = t.id;
     option.dataset.tier = '';
-    option.textContent = `${range} (${t.name})`;
+    option.textContent = `${t.name} (${range})`;
     select.insertBefore(option, custom);
   });
 }
