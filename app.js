@@ -1023,8 +1023,8 @@ function initContactForm() {
     btn.textContent = 'Sending...';
     btn.disabled = true;
     try {
-      const budget = form.querySelector('#budget');
-      data.set('budget', budget && budget.selectedIndex > 0 ? budget.options[budget.selectedIndex].text : '');
+      // Send what the visitor saw in each dropdown, not its internal value.
+      form.querySelectorAll('select[name]').forEach(sel => data.set(sel.name, selectedText(sel)));
       data.set('_replyto', data.get('email') || '');
       data.set('_subject', contactSubject(data));
       const res = await fetch(formEndpoint, {
@@ -1044,27 +1044,36 @@ function initContactForm() {
 function contactSubject(data) {
   const name = `${data.get('fname') || ''} ${data.get('lname') || ''}`.trim();
   const company = data.get('company');
-  return `Sponsorship enquiry from ${name}${company ? ` (${company})` : ''}`;
+  return `Website enquiry from ${name}${company ? ` (${company})` : ''}`;
+}
+
+function selectedText(sel) {
+  const opt = sel.options[sel.selectedIndex];
+  return opt && !opt.disabled ? opt.text : '';
+}
+
+// Every filled-in field except the message, labelled as on the form, so the
+// email keeps up with fields being added, renamed or removed.
+function contactFieldLines(form) {
+  return [...form.querySelectorAll('input[name], select[name], textarea[name]')]
+    .filter(el => el.name !== 'message')
+    .map(el => {
+      const value = el.tagName === 'SELECT' ? selectedText(el) : el.value.trim();
+      const label = form.querySelector(`label[for="${el.id}"]`);
+      return value ? `${label ? label.textContent.trim() : el.name}: ${value}` : '';
+    })
+    .filter(Boolean);
 }
 
 function buildContactMailto(to, data) {
   const form = document.getElementById('contactForm');
-  const budget = form.querySelector('#budget');
-  const budgetText = budget && budget.selectedIndex > 0 ? budget.options[budget.selectedIndex].text : '';
-  const lines = [
-    data.get('message') || '',
-    '',
-    '---',
-    `Name: ${data.get('fname') || ''} ${data.get('lname') || ''}`.trim(),
-    data.get('company') ? `Company: ${data.get('company')}` : '',
-    `Email: ${data.get('email') || ''}`,
-    data.get('phone') ? `Phone: ${data.get('phone')}` : '',
-    budgetText ? `Budget: ${budgetText}` : ''
-  ].filter((l, i) => i < 3 || l);
+  const lines = [data.get('message') || '', '', '---', ...contactFieldLines(form)];
   return `mailto:${to}?subject=${encodeURIComponent(contactSubject(data))}&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 
-/* =====================================================   ============================================================ */
+/* ============================================================
+   PAGE-SPECIFIC ANIMATION TRIGGERS
+   ============================================================ */
 function triggerPageAnimations(pageId) {
   const page = document.getElementById('page-' + pageId);
   if (!page) return;
