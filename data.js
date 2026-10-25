@@ -234,7 +234,7 @@ const SITE_DATA = {
       raceId: '2026-vicmc-round2',
       label: 'P2',
       meta: '2026 &nbsp;·&nbsp; Final standings &nbsp;·&nbsp; Australia',
-      image: 'https://picsum.photos/seed/mxrace-vic-state/800/500',
+      image: 'images/hl-victorian-mx3.jpg',
       title: 'VICTORIAN MOTOCROSS CHAMPIONSHIP MX3',
       summary: 'Second overall in the 2026 Victorian Motocross Championship MX3, in his first season in Australia after five months off the bike.'
     },
@@ -242,7 +242,7 @@ const SITE_DATA = {
       label: '2×',
       medal: 2,
       meta: '2019 &nbsp;·&nbsp; Assen &nbsp;·&nbsp; 2021 &nbsp;·&nbsp; Mantova',
-      image: 'https://picsum.photos/seed/mxrace-blucru/800/500',
+      image: 'images/hl-blucru.jpg',
       title: 'TWO-TIME PODIUM · YAMAHA BLU CRU SUPERFINALE',
       summary: "3rd at Assen in 2019 and 2nd at Mantova in 2021, up against Yamaha's best young riders."
     },
@@ -250,14 +250,14 @@ const SITE_DATA = {
       label: '4×',
       medal: 2,
       meta: '2019 – 2024 &nbsp;·&nbsp; Denmark',
-      image: 'https://picsum.photos/seed/mxrace-dm-podiums/800/500',
+      image: 'images/hl-danish-championship.jpg',
       title: 'DANISH CHAMPIONSHIP PODIUMS',
       summary: '4× on the Danish Championship podium: vice champion in 85cc in 2021 and 2022, plus 3rd in 65cc (2019) and 3rd in 125cc (2024).'
     },
     {
       label: '11',
       meta: '2019 – 2026 &nbsp;·&nbsp; 11 countries',
-      image: 'https://picsum.photos/seed/mxrace-international/800/500',
+      image: 'images/hl-international.jpg',
       title: 'INTERNATIONAL EXPERIENCE',
       summary: 'Raced in 11 countries: the FIM Junior World Championship twice, the EMX European Championship in four classes (65, 85, 125 and 250), and six seasons of ADAC MX Masters in Germany.'
     }
@@ -266,13 +266,13 @@ const SITE_DATA = {
   /* Photos. Every photo on the site is set in this file: the fixed
      page photos below, plus `image` on each home highlight and
      gallery item. `src` is a path to a file in the repo's images/
-     folder (e.g. 'images/hero.jpg') or a full URL. The picsum.photos
-     URLs are placeholders: replace them with real photos one at a
-     time. `alt` describes the photo for screen readers. */
+     folder (e.g. 'images/hero.jpg') or a full URL. Resize new photos
+     for the web before adding them (about 1000-1600px wide, under
+     ~400 KB). `alt` describes the photo for screen readers. */
   images: {
     hero: { src: 'images/hero.jpg', alt: 'Frederik Rahn Stampe in action' },
-    portrait: { src: 'https://picsum.photos/seed/rider74/800/1066', alt: 'Frederik Rahn Stampe' },
-    storyBanner: { src: 'https://picsum.photos/seed/mxaction/1200/600', alt: 'Race action' }
+    portrait: { src: 'images/portrait.jpg', alt: 'Frederik Rahn Stampe on his Yamaha, number 215' },
+    storyBanner: { src: 'images/story-banner.jpg', alt: 'Frederik in the air in front of a packed grandstand' }
   },
 
   carouselLogos: ['YAMAHA CITY MELBOURNE', 'ONPOINT SUSPENSION', 'NO FEAR MOTOCROSS'],
@@ -535,18 +535,18 @@ const SITE_DATA = {
      above; `label` is shown on the photo and used as its alt text. */
   media: {
     gallery: [
-      { image: 'https://picsum.photos/seed/mx1/800/600', size: 'large', label: 'Victorian Motocross Championship 2026' },
-      { image: 'https://picsum.photos/seed/mx2/800/600', size: 'normal', label: 'Yamaha City Melbourne' },
-      { image: 'https://picsum.photos/seed/mx3/800/600', size: 'normal', label: 'Sandmasters 2026' },
-      { image: 'https://picsum.photos/seed/mx4/800/600', size: 'normal', label: 'Pro MX Gillman' },
-      { image: 'https://picsum.photos/seed/mx5/800/600', size: 'large', label: 'Victorian Motocross Championship MX2 2026' },
-      { image: 'https://picsum.photos/seed/mx6/800/600', size: 'normal', label: 'MXGP of Australia, Darwin' },
-      { image: 'https://picsum.photos/seed/mx7/800/600', size: 'normal', label: 'Danish Championship 2025' },
-      { image: 'https://picsum.photos/seed/mx8/800/600', size: 'normal', label: 'Fastlane MX Masters Randers' },
-      { image: 'https://picsum.photos/seed/mx9/800/600', size: 'large', label: 'bLU cRU SuperFinale' },
-      { image: 'https://picsum.photos/seed/mx10/800/600', size: 'normal', label: 'ADAC MX Masters' },
-      { image: 'https://picsum.photos/seed/mx11/800/600', size: 'normal', label: 'Winter training in Spain' },
-      { image: 'https://picsum.photos/seed/mx12/800/600', size: 'normal', label: 'Assen 2019, bLU cRU podium' }
+      { image: 'images/gallery-01.jpg', size: 'large', label: 'Roosting the sand, Australia 2026' },
+      { image: 'images/gallery-02.jpg', size: 'normal', label: 'Victorian Motocross Championship 2026' },
+      { image: 'images/gallery-03.jpg', size: 'normal', label: 'Corner exit, Australia 2026' },
+      { image: 'images/gallery-04.jpg', size: 'normal', label: 'Number 215, Australia 2026' },
+      { image: 'images/gallery-05.jpg', size: 'large', label: 'Late light, Australia 2026' },
+      { image: 'images/gallery-06.jpg', size: 'normal', label: 'In front of the crowd, Europe 2025' },
+      { image: 'images/gallery-07.jpg', size: 'normal', label: 'Over the rocks, 2025' },
+      { image: 'images/gallery-08.jpg', size: 'normal', label: 'Germany 2025' },
+      { image: 'images/gallery-09.jpg', size: 'large', label: 'Europe 2025' },
+      { image: 'images/gallery-10.jpg', size: 'normal', label: 'In the pits, 2025' },
+      { image: 'images/gallery-11.jpg', size: 'normal', label: 'Race face' },
+      { image: 'images/gallery-12.jpg', size: 'normal', label: 'Number 5 Yamaha, 2023' }
     ]
   },
 
