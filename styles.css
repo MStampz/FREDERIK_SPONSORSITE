@@ -2176,7 +2176,7 @@ footer {
 }
 .footer-nav-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 32px;
 }
 .footer-nav-section h4 {
@@ -2210,6 +2210,8 @@ footer {
   color: var(--text-2);
   margin-bottom: 6px;
 }
+.footer-contact a { transition: color 0.2s; }
+.footer-contact a:hover { color: var(--sand); }
 .footer-bottom {
   border-top: 1px solid rgba(21,23,27,0.05);
   padding-top: 24px;

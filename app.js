@@ -129,6 +129,54 @@ function getCareerStats() {
   };
 }
 
+/* One footer for every page: each <footer class="site-footer"> gets
+   this markup. The data-field spans are filled in by renderIdentity,
+   so this runs first. */
+function renderFooters() {
+  const socials = SITE_DATA.socials
+    .filter(s => s.url)
+    .map(s => `<a class="footer-social" href="${s.url}" target="_blank" rel="noopener" title="${s.label}">${s.icon}</a>`)
+    .join('');
+  const html = `
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-name" data-field="site-name"></div>
+        <div class="footer-brand-sub" data-field="site-sub"></div>
+        <div class="footer-socials">${socials}</div>
+      </div>
+      <div class="footer-nav-grid">
+        <div class="footer-nav-section">
+          <h4>Rider</h4>
+          <ul>
+            <li><a class="nav-link" data-page="story">My Story</a></li>
+            <li><a class="nav-link" data-page="results">Results</a></li>
+            <li><a class="nav-link" data-page="calendar">Calendar</a></li>
+            <li><a class="nav-link" data-page="media">Media</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-section">
+          <h4>Partnership</h4>
+          <ul>
+            <li><a class="nav-link" data-page="sponsor-value">Partnership</a></li>
+            <li><a class="nav-link" data-page="sponsors">Partners</a></li>
+            <li><a class="nav-link" data-page="contact">Become a Partner</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p><a class="mailto-email-link" data-field="contact-email"></a></p>
+        <p data-field="contact-phone"></p>
+        <p data-field="contact-location"></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-bottom-text"><span data-field="copyright"></span> All rights reserved.</span>
+      <span class="footer-bottom-text" data-field="site-footer-tag"></span>
+    </div>`;
+  document.querySelectorAll('footer.site-footer').forEach(f => { f.innerHTML = html; });
+}
+
 function renderIdentity() {
   const { site, contact } = SITE_DATA;
   const num = `#${site.raceNumber}`;
@@ -181,8 +229,7 @@ function renderIdentity() {
 
   document.title = `${toTitleCase(site.name)} ${num} — Motocross Rider`;
 
-  const mailto = document.getElementById('mailto-email-link');
-  if (mailto) mailto.href = `mailto:${contact.email}`;
+  document.querySelectorAll('.mailto-email-link').forEach(a => { a.href = `mailto:${contact.email}`; });
 }
 
 function renderStory() {
@@ -687,6 +734,7 @@ function renderDashboard() {
 
 function renderAllData() {
   validateRaceIds();
+  renderFooters();
   renderImages();
   renderIdentity();
   renderSeasonStats();
