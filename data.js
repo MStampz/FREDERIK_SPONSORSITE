@@ -250,7 +250,7 @@ const SITE_DATA = {
       label: '4×',
       medal: 2,
       meta: '2019 – 2024 &nbsp;·&nbsp; Denmark',
-      image: 'images/hl-danish-podiums.jpg',
+      image: 'images/hl-danish-championship.jpg',
       title: 'DANISH CHAMPIONSHIP PODIUMS',
       summary: '4× on the Danish Championship podium: vice champion in 85cc in 2021 and 2022, plus 3rd in 65cc (2019) and 3rd in 125cc (2024).'
     },
