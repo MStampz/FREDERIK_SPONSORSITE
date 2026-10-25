@@ -9,19 +9,23 @@
                       country) used in the page title, nav, hero,
                       bio and footers
      titles         — championship titles shown as headline numbers
-                      on the Sponsor Value page
-     story          — longer text: the Sponsor Value intro, the bio
+                      on the Partnership page
+     story          — longer text: the Partnership page intro, the bio
                       on the Story page and the timeline subtitle
-     backing        — the sponsor pitch: Sponsor Value page headings,
-                      the family's letter, what support pays for, how
-                      supporters are thanked, and the "become a
-                      supporter" wording on the Sponsors and Contact
-                      pages
+     backing        — the partner pitch: Partnership page headings,
+                      the family's letter, what partners make possible,
+                      what we commit to, the partner network, the tier
+                      wording and the "become a partner" wording on
+                      the Partners page
      home           — home page text: the proof line under the name
-                      in the hero, the story teaser and the "back the
+                      in the hero, the story teaser and the "join the
                       journey" block
-     contact        — email/phone/location used in footers & contact page
-     socials        — social accounts on the contact page
+     contact        — email/phone/location used in footers & the Get
+                      in Touch page
+     getInTouch     — Get in Touch page text, its cards and the
+                      form's topics
+     socials        — social accounts (footer icons, Follow along
+                      card)
      seasonMetrics  — home page social counter (race counts and
                       podiums are counted from seasons instead)
      homeHighlights — home page "Career Highlights" cards (four)
@@ -33,13 +37,12 @@
                       Calendar page (both have a season picker), the
                       Story timeline and every race/podium count
      images         — the fixed photos on the pages (hero, bio
-                      portrait, banner, content cards)
+                      portrait, banner)
      media          — media page gallery items
-     sponsors       — sponsors page partners
-     packages       — sponsorship tiers and prices (one place), plus
-                      the wording for the sponsor-value page's
-                      detailed cards and the contact page's simpler
-                      cards — see note below
+     sponsors       — Partners page: current partners
+     packages       — partner tiers (one place), plus
+                      the wording for the tier cards on the
+                      Partnership page — see note below
      dashboard      — dashboard page data. PLACEHOLDER numbers: the
                       page is hidden from the nav until real
                       Instagram Insights figures replace them
@@ -63,7 +66,7 @@ const SITE_DATA = {
     heroLine: 'Racing in Australia'
   },
 
-  /* Headline titles. The first one is shown in the Sponsor Value
+  /* Headline titles. The first one is shown in the Partnership
      hero and its "Titles" card. */
   titles: [
     { count: '2×', label: 'Danish Vice Champion', detail: '85cc · 2021 and 2022' }
@@ -71,7 +74,7 @@ const SITE_DATA = {
 
   /* Longer text. Each `bio` entry is one paragraph. */
   story: {
-    pitch: 'Frederik is a 17-year-old Danish motocross rider who moved to Melbourne with his family at the end of 2025 and started over. We are looking for a few people who love the sport and would like to help him make it here.',
+    pitch: 'Frederik is a 17-year-old Danish motocross rider who moved to Melbourne with his family at the end of 2025 and started over. We are looking for a few partners who love the sport and want to be part of his journey here.',
     bioHeading: 'FROM RANDERS TO MELBOURNE.',
     bio: [
       'Frederik Rahn Stampe grew up racing at Randers Motor Sport in Denmark. On a Yamaha YZ65 he finished third in the 2019 Danish 65cc championship, third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen, and raced the FIM Junior World Championship in Italy.',
@@ -81,16 +84,16 @@ const SITE_DATA = {
     timelineSubtitle: 'From the 65cc class in Denmark to MX2 in Australia, one season at a time.'
   },
 
-  /* The sponsor pitch. Aimed at people who love the sport and want
+  /* The partner pitch. Aimed at people who love the sport and want
      to see Frederik make it, often people who have made a move like
      this themselves, rather than at brands buying reach. */
   backing: {
-    heroLabel: 'Back the journey',
+    heroLabel: 'Join the journey',
     heroTitle: 'From Denmark to',
-    heroTitleHighlight: 'the Australian podium',
+    heroTitleHighlight: 'Australia',
 
     // A personal letter from the family. Each entry is one paragraph.
-    letterLabel: 'Why we are asking',
+    letterLabel: 'Why we are looking for partners',
     letterHeading: 'STARTING OVER, ONE RACE AT A TIME.',
     letter: [
       'At the end of 2025 our family moved from Denmark to Melbourne. Frederik had raced for Randers Motor Sport since the 65cc class, had twice been Danish vice champion on the 85, and had just finished fourth in the Danish MX2 championship. Then he had to start again in a new country.',
@@ -100,9 +103,9 @@ const SITE_DATA = {
     ],
     letterSignoff: 'Frederik and the Stampe family',
 
-    // "What your support pays for" cards
+    // "What our partners make possible" cards
     needsLabel: 'Where it goes',
-    needsHeading: 'WHAT YOUR SUPPORT PAYS FOR',
+    needsHeading: 'WHAT OUR PARTNERS MAKE POSSIBLE',
     needsSubtitle: 'Concrete things, not a media budget.',
     needs: [
       { title: 'Getting to the races', desc: 'Travel to Pro MX rounds outside Victoria. In 2026 he had to skip Toowoomba because his setup could not get him there.' },
@@ -111,28 +114,37 @@ const SITE_DATA = {
       { title: 'Tyres and race entries', desc: 'The everyday costs of a race season, round after round.' }
     ],
 
-    // "How we say thank you" cards
-    thanksLabel: 'What you get back',
-    thanksHeading: 'HOW WE SAY THANK YOU',
-    thanksSubtitle: 'You get a relationship with the rider and his family, not just a logo slot.',
-    thanks: [
+    // "What we commit to" cards: what Frederik and the family give
+    // back. The subtitle says what partners bring.
+    commitLabel: 'A two-way partnership',
+    commitHeading: 'WHAT WE COMMIT TO',
+    commitSubtitle: 'Partners bring cash, products or services, and share the journey with their customers and staff. This is what Frederik and the family bring in return.',
+    commitments: [
       { title: 'Your name on the bike', desc: 'On the plastics or jersey at every race he rides.' },
-      { title: 'A thank-you post', desc: 'Every supporter is announced on his Instagram, the way his Danish supporters Ole Larsen Transport, TKP Byg and Sidelmann Bosch Car Service were.' },
+      { title: 'A thank-you post', desc: 'Every partner is announced on his Instagram, the way his Danish partners Ole Larsen Transport, TKP Byg and Sidelmann Bosch Car Service were.' },
       { title: 'News from every race', desc: 'A personal update from Frederik after each round: how it went and what is next.' },
-      { title: 'A visit from Frederik', desc: 'Frederik and the bike at your shop, workshop or staff day.' }
+      { title: 'A visit from Frederik', desc: 'Frederik and the bike at your shop, workshop or staff day.' },
+      { title: 'Introductions to other partners', desc: 'We introduce you to the other partners and invite you to our partner get-togethers.' },
+      { title: 'An honest season report', desc: 'At the end of the season: how it went, the photos, and what your partnership made possible.' }
     ],
 
-    packagesLabel: 'Ways to help',
-    packagesHeading: 'SUPPORTER LEVELS',
-    packagesSubtitle: 'Three levels to start a conversation. Every one can be shaped around what you would like to help with.',
-    packagesNote: 'Would you rather cover something specific, such as a trip to a Pro MX round or a set of tyres? Get in touch and we will work it out together.',
+    // "The partner network" text. Each entry is one paragraph.
+    networkLabel: 'The partner network',
+    networkHeading: 'PARTNERS MEET PARTNERS.',
+    network: [
+      'In Denmark, clubs bring their partners together so they can get to know each other and do business together. We want to do the same around Frederik in Melbourne.',
+      'Every partner is invited to a couple of get-togethers each season, one at a race and one at a partner\'s business, and we introduce you to the other partners. It is a small group of people who love the sport, and a good way to meet other business owners in Melbourne.'
+    ],
+
+    packagesLabel: 'Ways to partner',
+    packagesHeading: 'PARTNER TIERS',
+    packagesSubtitle: 'Three tiers to start a conversation. Every partnership is tailored, so get in touch and we will find what fits.',
+    packagesNote: 'Would you rather bring something specific, such as your products or services, a trip to a Pro MX round or a set of tyres? Get in touch and we will work it out together.',
 
     ctaTitle: 'Want to be part of it?',
-    ctaText: 'Supporter places are open for next season. Back a young rider who moved across the world to chase it, and follow every step with him.',
-    sponsorsCtaTitle: 'BECOME A SUPPORTER',
-    sponsorsCtaText: 'Supporter places are open for next season. Help a young Dane make it in Australia and follow every race with him.',
-    contactHeading: 'BECOME A SUPPORTER',
-    contactSubtitle: 'Pick a level as a starting point, or tell us what you would like to help with. Prices are in Australian dollars and everything can be tailored.'
+    ctaText: 'Partner places are open for next season. Join a young rider who moved across the world to chase it, and follow every step with him.',
+    sponsorsCtaTitle: 'BECOME A PARTNER',
+    sponsorsCtaText: 'Partner places are open for next season. Be part of a young Dane making it in Australia and follow every race with him.'
   },
 
   /* Home page text. The hero proof line is `heroResult`, then the
@@ -145,9 +157,9 @@ const SITE_DATA = {
     storyHeading: 'FROM DENMARK TO MELBOURNE.',
     storyText: 'Frederik grew up racing at Randers Motor Sport in Denmark, where he was twice Danish vice champion on the 85 and fourth in the Danish MX2 championship in 2025. At the end of 2025 the family moved to Melbourne, and within months of getting back on the bike he was second overall in MX3 at the Victorian Motocross Championship.',
 
-    supportLabel: 'Back the journey',
+    supportLabel: 'Join the journey',
     supportHeading: 'BE PART OF THE NEXT CHAPTER.',
-    supportText: 'Yamaha City Melbourne got him on a bike. What is missing is everything around it: getting to the Pro MX rounds, a trailer of his own, parts and tyres. We are looking for a few people who love the sport and would like to help him make it here.'
+    supportText: 'Yamaha City Melbourne got him on a bike. What is missing is everything around it: getting to the Pro MX rounds, a trailer of his own, parts and tyres. We are looking for a few partners who love the sport and want to be part of his journey here.'
   },
 
   contact: {
@@ -157,8 +169,38 @@ const SITE_DATA = {
     locationFlag: '🇦🇺'
   },
 
-  /* Social accounts listed on the contact page. `url` is optional:
-     leave it out to show the label without a link. */
+  /* Get in Touch page (page id `contact`). `ways` are the cards under
+     the heading. A card's button does one of three things:
+       link: 'instagram' — opens the first account in `socials`
+       link: 'email'     — opens an email to contact.email
+       goto: '<page>'    — goes to that page, and to the section with
+                           id `scroll` on it when given
+     `nextRace: true` adds the current season's next race to the card.
+     `topics` fill the form's "What's it about?" menu; picking the
+     `partnership` topic shows the partner tier menu. */
+  getInTouch: {
+    label: 'Say hello',
+    heading: 'GET IN TOUCH',
+    subtitle: 'Fan, fellow rider, club, journalist or business, we would love to hear from you. Send a message, follow along on Instagram, or come and say hi at a race.',
+    replyTime: 'We will get back to you within a couple of days.',
+    ways: [
+      { title: 'Follow along', desc: 'Race reports after every round, and life as a young Dane racing in Australia.', cta: 'Follow on Instagram', link: 'instagram' },
+      { title: 'Come to a race', desc: 'Come and say hi in the paddock.', cta: 'See the calendar', goto: 'calendar', nextRace: true },
+      { title: 'Media and interviews', desc: 'For interviews, photos or race information, email us and we will get back to you.', cta: 'Email us', link: 'email' },
+      { title: 'Partner with Frederik', desc: 'Want to be part of his next season? See what partners make possible and the partner tiers.', cta: 'See partner tiers', goto: 'sponsor-value', scroll: 'partner-tiers' }
+    ],
+    topics: [
+      { value: 'hello', label: 'Just saying hi' },
+      { value: 'partnership', label: 'Partnership' },
+      { value: 'media', label: 'Media or interview' },
+      { value: 'racing', label: 'Racing or team' },
+      { value: 'other', label: 'Something else' }
+    ]
+  },
+
+  /* Social accounts, shown as icons in the footer. The first one is
+     the "Follow along" card on the Get in Touch page. Accounts
+     without a `url` are left out. */
   socials: [
     { icon: '📸', label: '@frederik_stampe', url: 'https://www.instagram.com/frederik_stampe/' }
   ],
@@ -230,13 +272,7 @@ const SITE_DATA = {
   images: {
     hero: { src: 'images/hero.jpg', alt: 'Frederik Rahn Stampe in action' },
     portrait: { src: 'https://picsum.photos/seed/rider74/800/1066', alt: 'Frederik Rahn Stampe' },
-    storyBanner: { src: 'https://picsum.photos/seed/mxaction/1200/600', alt: 'Race action' },
-    // Sponsor Value page, "content" cards
-    contentRecap: { src: 'https://picsum.photos/seed/mxvid-recap/900/560', alt: 'Race recap series' },
-    contentPodium: { src: 'https://picsum.photos/seed/mxphoto-podium/600/400', alt: 'Podium photography' },
-    contentReel: { src: 'https://picsum.photos/seed/mxreel-brand/600/400', alt: 'Brand reel' },
-    contentTraining: { src: 'https://picsum.photos/seed/mxphoto-train/600/400', alt: 'Training content' },
-    contentDocumentary: { src: 'https://picsum.photos/seed/mxdoc-season/900/560', alt: 'Season documentary' }
+    storyBanner: { src: 'https://picsum.photos/seed/mxaction/1200/600', alt: 'Race action' }
   },
 
   carouselLogos: ['YAMAHA CITY MELBOURNE', 'ONPOINT SUSPENSION', 'NO FEAR MOTOCROSS'],
@@ -258,7 +294,7 @@ const SITE_DATA = {
                                result, shown as its own badge next to
                                `badge` (podium or top 10 years)
        focus                 — optional, the series raced, shown on
-                               the Sponsor Value page for the
+                               the Partnership page for the
                                current season
        summary               — one line for the Story timeline
        nextRace              — optional, only for the current season:
@@ -530,30 +566,25 @@ const SITE_DATA = {
     ]
   },
 
-  /* Sponsorship packages. `tiers` is the single place for each
-     tier's name, price and badge: the sponsor-value page cards, the
-     contact page cards and the contact form's budget menu are all
-     built from it, so a price change here shows up everywhere.
-     `amount` is a plain number in `currency`; the site formats it
-     ("A$5,000") and works out the budget ranges for the form.
+  /* Partner tiers, smallest first. `tiers` is the single place for
+     each tier's name, short name and optional badge: the Partnership page cards
+     (title and "Ask about <short>" button) and the tier menu on the
+     Get in Touch form are built from it. No prices are shown on the
+     site: every partnership is tailored.
 
-     `sponsorValue` (detailed, with an included/excluded feature
-     matrix) and `contact` (simple, included-features-only) hold the
-     page-specific wording for each tier, matched by `tier` id.
-     Feature bullet wording is page-specific by design (long-form vs
-     short). */
+     `sponsorValue` holds the card wording for each tier (with an
+     included/excluded feature list), matched by `tier` id. */
   packages: {
-    currency: 'A$',
     tiers: [
-      { id: 'support', name: 'Supporter', amount: 5000 },
-      { id: 'major', name: 'Race Partner', amount: 13000, featured: true, badge: 'Recommended' },
-      { id: 'title', name: 'Season Partner', amount: 33000 }
+      { id: 'support', name: 'Bronze Partner', short: 'Bronze' },
+      { id: 'major', name: 'Silver Partner', short: 'Silver', featured: true },
+      { id: 'title', name: 'Gold Partner', short: 'Gold' }
     ],
     sponsorValue: [
       {
-        tier: 'support', priceSuffix: '/season',
+        tier: 'support',
         intro: 'For a local business or a fan of the sport who wants to help with the basics and follow the season up close.',
-        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
+        ctaStyle: 'outline',
         features: [
           { text: 'Name or logo on the jersey — arm / back', included: true },
           { text: 'Thank-you announcement on Instagram', included: true },
@@ -566,9 +597,9 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'major', priceSuffix: '/season',
+        tier: 'major',
         intro: 'Helps cover a real part of the season, such as getting to the Pro MX rounds, with your logo on the bike at every race.',
-        ctaLabel: 'Become a Supporter', ctaStyle: 'primary',
+        ctaStyle: 'primary',
         features: [
           { text: 'Logo on the bike plastics — side panels', included: true },
           { text: 'Jersey logo — chest', included: true },
@@ -581,9 +612,9 @@ const SITE_DATA = {
         ]
       },
       {
-        tier: 'title', priceSuffix: '/season',
-        intro: 'The main supporter of Frederik\'s season, including the trailer or van that gets him to every race.',
-        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
+        tier: 'title',
+        intro: 'The main partner of Frederik\'s season, including the trailer or van that gets him to every race.',
+        ctaStyle: 'outline',
         features: [
           { text: 'Name on the race transport — trailer or van', included: true },
           { text: 'Main logo on the bike, jersey and helmet', included: true },
@@ -593,43 +624,6 @@ const SITE_DATA = {
           { text: 'Full season photo pack (hi-res)', included: true },
           { text: 'Visits from Frederik during the season', included: true },
           { text: 'First say on the following season', included: true }
-        ]
-      }
-    ],
-    contact: [
-      {
-        tier: 'support', priceSuffix: 'per season',
-        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
-        features: [
-          'Name or logo on the jersey',
-          'Thank-you post on Instagram',
-          'Website partner listing',
-          'Update after every race',
-          'Season photo pack'
-        ]
-      },
-      {
-        tier: 'major', priceSuffix: 'per season',
-        ctaLabel: 'Become a Supporter', ctaStyle: 'primary',
-        features: [
-          'Logo on the bike plastics and jersey',
-          'Thank-you post and tags in race reports',
-          'Featured website listing',
-          'Update after every race',
-          'Full season photo pack',
-          'A visit from Frederik to your business'
-        ]
-      },
-      {
-        tier: 'title', priceSuffix: 'per season',
-        ctaLabel: 'Get in Touch', ctaStyle: 'outline',
-        features: [
-          'Name on the race transport',
-          'Main logo on bike, jersey and helmet',
-          'Tagged in every race report',
-          'Homepage feature on the website',
-          'Visits from Frederik during the season',
-          'First say on the following season'
         ]
       }
     ]
