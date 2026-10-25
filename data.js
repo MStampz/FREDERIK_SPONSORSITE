@@ -154,7 +154,12 @@ const SITE_DATA = {
     email: 'info@frederikstampe.com',
     phone: '+61 472 625 887',
     location: 'Melbourne, Australia',
-    locationFlag: '🇦🇺'
+    locationFlag: '🇦🇺',
+    // Contact form delivery. Paste a Formspree endpoint here (e.g.
+    // 'https://formspree.io/f/abcdwxyz') to have submissions emailed to you
+    // directly. Leave empty to fall back to opening the visitor's email app
+    // with the message pre-filled and addressed to `email` above.
+    formEndpoint: ''
   },
 
   /* Social accounts listed on the contact page. `url` is optional:

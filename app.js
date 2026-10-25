@@ -994,27 +994,85 @@ function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
-    const originalText = btn.textContent;
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
+    const originalHTML = btn.innerHTML;
+    const { email, formEndpoint } = SITE_DATA.contact;
+    const data = new FormData(form);
 
-    setTimeout(() => {
-      btn.textContent = '✓ Message Sent!';
-      btn.style.background = 'var(--success)';
+    const showResult = (text, color, reset) => {
+      btn.textContent = text;
+      btn.style.background = color;
       setTimeout(() => {
-        btn.textContent = originalText;
+        btn.innerHTML = originalHTML;
         btn.style.background = '';
         btn.disabled = false;
-        form.reset();
+        if (reset) form.reset();
       }, 3000);
-    }, 1200);
+    };
+
+    // No endpoint configured: hand the message to the visitor's email app.
+    if (!formEndpoint) {
+      window.location.href = buildContactMailto(email, data);
+      showResult('✓ Opening your email app...', 'var(--success)', false);
+      btn.disabled = true;
+      return;
+    }
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+      // Send what the visitor saw in each dropdown, not its internal value.
+      form.querySelectorAll('select[name]').forEach(sel => data.set(sel.name, selectedText(sel)));
+      data.set('_replyto', data.get('email') || '');
+      data.set('_subject', contactSubject(data));
+      const res = await fetch(formEndpoint, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      showResult('✓ Message Sent!', 'var(--success)', true);
+    } catch (err) {
+      console.error('Contact form failed to send:', err);
+      showResult(`Couldn't send. Please email ${email}`, 'var(--danger)', false);
+    }
   });
 }
 
-/* =====================================================   PAGE-SPECIFIC ANIMATION TRIGGERS
+function contactSubject(data) {
+  const name = `${data.get('fname') || ''} ${data.get('lname') || ''}`.trim();
+  const company = data.get('company');
+  return `Website enquiry from ${name}${company ? ` (${company})` : ''}`;
+}
+
+function selectedText(sel) {
+  const opt = sel.options[sel.selectedIndex];
+  return opt && !opt.disabled ? opt.text : '';
+}
+
+// Every filled-in field except the message, labelled as on the form, so the
+// email keeps up with fields being added, renamed or removed.
+function contactFieldLines(form) {
+  return [...form.querySelectorAll('input[name], select[name], textarea[name]')]
+    .filter(el => el.name !== 'message')
+    .map(el => {
+      const value = el.tagName === 'SELECT' ? selectedText(el) : el.value.trim();
+      const label = form.querySelector(`label[for="${el.id}"]`);
+      return value ? `${label ? label.textContent.trim() : el.name}: ${value}` : '';
+    })
+    .filter(Boolean);
+}
+
+function buildContactMailto(to, data) {
+  const form = document.getElementById('contactForm');
+  const lines = [data.get('message') || '', '', '---', ...contactFieldLines(form)];
+  return `mailto:${to}?subject=${encodeURIComponent(contactSubject(data))}&body=${encodeURIComponent(lines.join('\n'))}`;
+}
+
+/* ============================================================
+   PAGE-SPECIFIC ANIMATION TRIGGERS
    ============================================================ */
 function triggerPageAnimations(pageId) {
   const page = document.getElementById('page-' + pageId);
