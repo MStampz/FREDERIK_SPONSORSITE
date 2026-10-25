@@ -608,7 +608,7 @@ function renderPackages() {
       const t = getTier(pkg.tier);
       return `
       <div class="sv-pkg-card${t.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
-        ${t.featured ? `<div class="sv-pkg-popular-badge">${t.badge}</div>` : ''}
+        ${t.badge ? `<div class="sv-pkg-popular-badge">${t.badge}</div>` : ''}
         <h3 class="sv-pkg-name">${t.name}</h3>
         <p class="sv-pkg-intro">${pkg.intro}</p>
         <div class="sv-pkg-sep"></div>

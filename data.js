@@ -567,7 +567,7 @@ const SITE_DATA = {
   },
 
   /* Partner tiers, smallest first. `tiers` is the single place for
-     each tier's name, short name and badge: the Partnership page cards
+     each tier's name, short name and optional badge: the Partnership page cards
      (title and "Ask about <short>" button) and the tier menu on the
      Get in Touch form are built from it. No prices are shown on the
      site: every partnership is tailored.
@@ -577,7 +577,7 @@ const SITE_DATA = {
   packages: {
     tiers: [
       { id: 'support', name: 'Bronze Partner', short: 'Bronze' },
-      { id: 'major', name: 'Silver Partner', short: 'Silver', featured: true, badge: 'Recommended' },
+      { id: 'major', name: 'Silver Partner', short: 'Silver', featured: true },
       { id: 'title', name: 'Gold Partner', short: 'Gold' }
     ],
     sponsorValue: [
