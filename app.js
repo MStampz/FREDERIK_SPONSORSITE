@@ -1,12 +1,14 @@
-/* ============================================================
-   FREDERIK RAHN STAMPE #74 — SPA JavaScript
+/* =====================================================   FREDERIK RAHN STAMPE — SPA JavaScript
    Routing, Animations, Interactions
    ============================================================ */
 
 'use strict';
 
 /* ---- Constants ---- */
-const PAGES = ['home', 'sponsor-value', 'results', 'media', 'calendar', 'story', 'sponsors', 'dashboard', 'contact'];
+/* The dashboard page is left out until it has real Instagram
+   Insights numbers (see the dashboard section in data.js). Add
+   'dashboard' back here and to the nav to show it again. */
+const PAGES = ['home', 'sponsor-value', 'results', 'media', 'calendar', 'story', 'sponsors', 'contact'];
 const NAV_MAP = {
   'home': 'Home',
   'sponsor-value': 'Sponsor Value',
@@ -22,8 +24,7 @@ const NAV_MAP = {
 let currentPage = 'home';
 let mobileNavOpen = false;
 
-/* ============================================================
-   DATA-DRIVEN RENDERING
+/* =====================================================   DATA-DRIVEN RENDERING
    Populates DOM containers from SITE_DATA (data.js). All content
    that changes over a season lives in data.js — edit values there,
    not here.
@@ -33,147 +34,484 @@ function bindField(field, value) {
   document.querySelectorAll(`[data-field="${field}"]`).forEach(el => { el.textContent = value; });
 }
 
+/* ---- Seasons ---- */
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+function getSeason(year) {
+  return SITE_DATA.seasons.find(s => s.year === year) || SITE_DATA.seasons[0];
+}
+
+function getCurrentSeason() {
+  return getSeason(SITE_DATA.currentSeason);
+}
+
+/* ---- Race ids ---- */
+const RACE_ID_PATTERN = /^(\d{4})-([a-z0-9]+)-round([1-9]\d*)$/;
+
+function findRace(id) {
+  for (const season of SITE_DATA.seasons) {
+    const race = season.races.find(r => r.id === id);
+    if (race) return { race, season };
+  }
+  return null;
+}
+
+/* The next race of a season, if it names one that is still to run. */
+function getNextRace(season) {
+  const found = season.nextRace && findRace(season.nextRace.raceId);
+  return found && found.season === season && found.race.upcoming ? found.race : null;
+}
+
+/* Warns in the browser console about race ids that break the
+   <year>-<series>-round<N> rules in data.js, and about references
+   to races that don't exist. */
+function validateRaceIds() {
+  const seen = new Set();
+  const warn = msg => console.warn(`data.js: ${msg}`);
+  SITE_DATA.seasons.forEach(season => {
+    season.races.forEach((race, i) => {
+      const where = `${season.year} race ${i + 1} (${race.track})`;
+      const m = RACE_ID_PATTERN.exec(race.id || '');
+      if (!m) return warn(`${where} has id "${race.id}", expected <year>-<series>-round<N>`);
+      if (Number(m[1]) !== season.year) warn(`${where}: id "${race.id}" is filed under the ${season.year} season`);
+      if (!SITE_DATA.series[m[2]]) warn(`${where}: series "${m[2]}" is not listed in series`);
+      if (seen.has(race.id)) warn(`${where}: duplicate id "${race.id}"`);
+      seen.add(race.id);
+    });
+    if (season.nextRace && !findRace(season.nextRace.raceId)) warn(`${season.year} nextRace points at unknown race "${season.nextRace.raceId}"`);
+  });
+  SITE_DATA.homeHighlights.forEach(h => {
+    if (h.raceId && !findRace(h.raceId)) warn(`home highlight "${h.title}" points at unknown race "${h.raceId}"`);
+    if (!h.raceId && !(h.label && h.meta)) warn(`home highlight "${h.title}" has no raceId, so it needs its own label and meta`);
+  });
+}
+
+/* The season shown on the Results and Calendar pages. Both pages
+   share it, so picking 2024 on one page shows 2024 on the other. */
+let selectedSeasonYear = SITE_DATA.currentSeason;
+
+/* `date` is 'YYYY-MM' (month only) or 'YYYY-MM-DD'. */
+function formatRaceDate(date) {
+  const [y, m, d] = date.split('-').map(Number);
+  const month = MONTHS[m - 1];
+  return d
+    ? { short: `${month.slice(0, 3)} ${d}`, full: `${month} ${d}, ${y}` }
+    : { short: month.slice(0, 3), full: `${month} ${y}` };
+}
+
+/* Season totals counted from the race list, so every page that
+   quotes a race or podium count agrees with the Results table. */
+function getSeasonStats(season = getCurrentSeason()) {
+  const races = season.races;
+  const completed = races.filter(r => !r.upcoming);
+  const countries = [...new Map(races.map(r => [r.country, r.flag])).entries()];
+  return {
+    rounds: races.length,
+    racesDone: completed.length,
+    podiums: completed.filter(r => r.pos && r.pos <= 3).length,
+    wins: completed.filter(r => r.pos === 1).length,
+    countryCount: countries.length,
+    countryFlags: countries.map(([, flag]) => flag).join(' ')
+  };
+}
+
+function getCareerStats() {
+  const all = SITE_DATA.seasons.flatMap(s => s.races.filter(r => !r.upcoming));
+  const countries = [...new Map(all.map(r => [r.country, r.flag])).entries()];
+  return {
+    seasons: SITE_DATA.seasons.length,
+    firstYear: Math.min(...SITE_DATA.seasons.map(s => s.year)),
+    races: all.length,
+    podiums: all.filter(r => r.pos && r.pos <= 3).length,
+    wins: all.filter(r => r.pos === 1).length,
+    countryCount: countries.length,
+    countryFlags: countries.map(([, flag]) => flag).join(' ')
+  };
+}
+
 function renderIdentity() {
   const { site, contact } = SITE_DATA;
+  const num = `#${site.raceNumber}`;
   bindField('site-name', site.name);
-  bindField('site-sub', site.tagline);
+  bindField('site-sub', `${num} · ${site.raceClass} · ${site.country}`);
+  bindField('site-footer-tag', `Stampe Racing · ${site.raceClass} · ${num}`);
+  bindField('rider-number', site.raceNumber);
+  bindField('rider-class', site.raceClass);
+  bindField('rider-nationality', `${site.nationality} ${site.countryFlag}`);
+  bindField('rider-birthplace', site.birthplace);
+  bindField('rider-bike', site.bike);
+  bindField('rider-based', site.basedIn);
   bindField('contact-email', contact.email);
   bindField('contact-phone', contact.phone);
   bindField('contact-location', contact.location);
-  bindField('contact-location-flag', `${contact.location} 🇸🇪`);
+  bindField('contact-location-flag', `${contact.location} ${contact.locationFlag}`);
+
+  bindField('rider-home-club', `${site.homeClub} ${site.countryFlag}`);
+  bindField('rider-bike-partner', toTitleCase(SITE_DATA.sponsors.lead.name));
+  bindField('hero-line', site.heroLine);
+  bindField('hero-sub', `${site.nationality} Motocross Rider · ${site.basedInCity}`);
+
+  const home = SITE_DATA.home;
+  const firstTitle = SITE_DATA.titles[0];
+  const heroProof = document.getElementById('hero-proof');
+  if (heroProof) {
+    const items = [home.heroResult, firstTitle && `${firstTitle.count} ${firstTitle.label}`, `${getCareerStats().podiums} career podiums`];
+    heroProof.innerHTML = items.filter(Boolean).map(t => `<span>${t}</span>`).join('');
+  }
+  bindField('home-story-label', home.storyLabel);
+  bindField('home-story-heading', home.storyHeading);
+  bindField('home-story-text', home.storyText);
+  bindField('home-support-label', home.supportLabel);
+  bindField('home-support-heading', home.supportHeading);
+  bindField('home-support-text', home.supportText);
+  bindField('copyright', `© ${new Date().getFullYear()} ${toTitleCase(site.name)} Racing.`);
+
+  const heroName = document.getElementById('hero-name');
+  if (heroName) {
+    const [first, ...rest] = site.name.split(' ');
+    heroName.innerHTML = `${first}<br><span>${rest.join(' ')}</span>`;
+  }
+
+  const title = SITE_DATA.titles[0];
+  if (title) {
+    bindField('title-count', title.count);
+    bindField('title-label', title.label);
+    bindField('title-detail', title.detail);
+  }
+
+  document.title = `${toTitleCase(site.name)} ${num} — Motocross Rider`;
 
   const mailto = document.getElementById('mailto-email-link');
   if (mailto) mailto.href = `mailto:${contact.email}`;
 }
 
+function renderStory() {
+  const st = SITE_DATA.story;
+  bindField('story-pitch', st.pitch);
+  bindField('bio-heading', st.bioHeading);
+  bindField('timeline-subtitle', st.timelineSubtitle);
+  const bio = document.getElementById('bio-text-container');
+  if (bio) bio.innerHTML = st.bio.map(p => `<p class="bio-text">${p}</p>`).join('');
+}
+
+/* Fixed page photos: <img data-image="hero"> gets its src and alt
+   from SITE_DATA.images.hero. */
+function renderImages() {
+  document.querySelectorAll('img[data-image]').forEach(img => {
+    const image = SITE_DATA.images[img.dataset.image];
+    if (!image) return console.warn(`data.js: no images.${img.dataset.image}`);
+    img.src = image.src;
+    img.alt = image.alt;
+  });
+}
+
+/* ---- Sponsor pitch ---- */
+function renderBacking() {
+  const b = SITE_DATA.backing;
+  bindField('backing-hero-label', b.heroLabel);
+  bindField('backing-hero-title', b.heroTitle);
+  bindField('backing-hero-highlight', b.heroTitleHighlight);
+  bindField('backing-letter-label', b.letterLabel);
+  bindField('backing-letter-heading', b.letterHeading);
+  bindField('backing-letter-signoff', b.letterSignoff);
+  bindField('backing-needs-label', b.needsLabel);
+  bindField('backing-needs-heading', b.needsHeading);
+  bindField('backing-needs-subtitle', b.needsSubtitle);
+  bindField('backing-thanks-label', b.thanksLabel);
+  bindField('backing-thanks-heading', b.thanksHeading);
+  bindField('backing-thanks-subtitle', b.thanksSubtitle);
+  bindField('backing-packages-label', b.packagesLabel);
+  bindField('backing-packages-heading', b.packagesHeading);
+  bindField('backing-packages-subtitle', b.packagesSubtitle);
+  bindField('backing-packages-note', b.packagesNote);
+  bindField('backing-cta-title', b.ctaTitle);
+  bindField('backing-cta-text', b.ctaText);
+  bindField('backing-sponsors-cta-title', b.sponsorsCtaTitle);
+  bindField('backing-sponsors-cta-text', b.sponsorsCtaText);
+  bindField('backing-contact-heading', b.contactHeading);
+  bindField('backing-contact-subtitle', b.contactSubtitle);
+
+  const letter = document.getElementById('backing-letter-container');
+  if (letter) letter.innerHTML = b.letter.map(p => `<p class="bio-text">${p}</p>`).join('');
+
+  const cards = (id, items) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = items.map((c, i) => `
+      <div class="sv-vis-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        <h3 class="sv-vis-name">${c.title}</h3>
+        <p class="sv-vis-desc">${c.desc}</p>
+      </div>`).join('');
+  };
+  cards('backing-needs-container', b.needs);
+  cards('backing-thanks-container', b.thanks);
+}
+
+function renderSocials() {
+  const container = document.getElementById('socials-container');
+  if (!container) return;
+  const list = SITE_DATA.socials;
+  container.innerHTML = list.map((s, i) => {
+    const border = i < list.length - 1 ? ' border-bottom:1px solid rgba(255,255,255,0.05);' : '';
+    const link = s.url ? ` href="${s.url}" target="_blank" rel="noopener"` : '';
+    return `<a${link} style="display:flex; align-items:center; gap:12px; padding:10px 0;${border} color:var(--text-2); font-size:14px; transition:color 0.2s;">
+                <span>${s.icon}</span> ${s.label}
+              </a>`;
+  }).join('');
+}
+
+function renderSeasonStats() {
+  const s = getSeasonStats();
+  const c = getCareerStats();
+  const m = SITE_DATA.seasonMetrics;
+  bindField('current-season', SITE_DATA.currentSeason);
+  bindField('season-rounds', s.rounds);
+  bindField('season-races-done', s.racesDone);
+  bindField('season-podiums', s.podiums);
+  bindField('season-wins', s.wins);
+  bindField('season-country-count', s.countryCount);
+  bindField('season-country-flags', s.countryFlags);
+  bindField('career-seasons', c.seasons);
+  bindField('career-first-year', c.firstYear);
+  bindField('season-focus', getCurrentSeason().focus || '');
+  bindField('career-races', c.races);
+  bindField('career-podiums', c.podiums);
+  bindField('career-wins', c.wins);
+  bindField('career-country-count', c.countryCount);
+  bindField('career-country-flags', c.countryFlags);
+  bindField('instagram-followers', `${m.instagramFollowers}${m.instagramFollowersSuffix}`);
+  bindField('top-reel-likes', m.topReelLikes);
+  if (SITE_DATA.socials[0]) bindField('main-social', SITE_DATA.socials[0].label);
+}
+
 function renderSeasonMetrics() {
   const m = SITE_DATA.seasonMetrics;
+  const s = getSeasonStats();
+  const c = getCareerStats();
   const races = document.getElementById('metric-races');
   const podiums = document.getElementById('metric-podiums');
-  const wins = document.getElementById('metric-wins');
-  const reach = document.getElementById('metric-reach');
-  const views = document.getElementById('metric-views');
-  if (races) races.dataset.target = m.races;
-  if (podiums) podiums.dataset.target = m.podiums;
-  if (wins) wins.dataset.target = m.wins;
-  if (reach) reach.innerHTML = `${m.socialReach}<span style="font-size:0.55em;color:var(--text-2);">${m.socialReachSuffix}</span>`;
-  if (views) views.innerHTML = `${m.videoViews}<span style="font-size:0.55em;color:var(--text-2);">${m.videoViewsSuffix}</span>`;
+  const careerPodiums = document.getElementById('metric-career-podiums');
+  const followers = document.getElementById('metric-followers');
+  if (races) races.dataset.target = s.racesDone;
+  if (podiums) podiums.dataset.target = s.podiums;
+  if (careerPodiums) careerPodiums.dataset.target = c.podiums;
+  if (followers) followers.innerHTML = `${m.instagramFollowers}<span style="font-size:0.55em;color:var(--text-2);">${m.instagramFollowersSuffix}</span>`;
 }
 
 function renderHomeHighlights() {
   const container = document.getElementById('home-highlights-container');
   if (!container) return;
-  container.innerHTML = SITE_DATA.homeHighlights.map((race, i) => `
+  // A card either points at one race (raceId) or carries its own
+  // label and meta line; skip a race card whose race can't be found.
+  const cards = SITE_DATA.homeHighlights.filter(h => !h.raceId || findRace(h.raceId));
+  container.innerHTML = cards.map((h, i) => {
+    const found = h.raceId ? findRace(h.raceId) : null;
+    const r = found && found.race;
+    const label = h.label || (r.pos ? `P${r.pos}` : r.result);
+    const medal = h.medal || (r && r.pos && r.pos <= 3 ? r.pos : null);
+    const posClass = medal ? ` hp-result-${medal}` : '';
+    const meta = h.meta || `${found.season.year} &nbsp;·&nbsp; ${r.track}, ${r.country} &nbsp;·&nbsp; ${formatRaceDate(r.date).short}`;
+    return `
     <div class="hp-race-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
       <div class="hp-race-img-wrap">
-        <img src="https://picsum.photos/seed/${race.imageSeed}/800/500" alt="${race.title} race photo" loading="lazy" />
-        <div class="hp-race-result ${race.resultClass}">${race.posLabel}</div>
+        <img src="${h.image}" alt="${h.title} race photo" loading="lazy" />
+        <div class="hp-race-result${posClass}">${label}</div>
       </div>
       <div class="hp-race-body">
-        <div class="hp-race-meta">${race.metaLine}</div>
-        <h3 class="hp-race-name">${race.title}</h3>
-        <p class="hp-race-summary">${race.summary}</p>
+        <div class="hp-race-meta">${meta}</div>
+        <h3 class="hp-race-name">${h.title}</h3>
+        <p class="hp-race-summary">${h.summary}</p>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function renderCarousel() {
   const track = document.getElementById('carousel-track');
   if (!track) return;
-  const items = SITE_DATA.carouselLogos.map(name => `<div class="hp-carousel-item"><div class="hp-carousel-logo">${name}</div></div>`).join('');
+  // Repeated so a short partner list still fills the strip.
+  const once = SITE_DATA.carouselLogos.map(name => `<div class="hp-carousel-item"><div class="hp-carousel-logo">${name}</div></div>`).join('');
+  const items = once.repeat(Math.max(1, Math.ceil(8 / SITE_DATA.carouselLogos.length)));
   track.innerHTML = items + items; // duplicated for seamless loop
 }
 
-function renderResultsTable() {
-  const tbody = document.getElementById('results-tbody');
-  if (!tbody) return;
-  tbody.innerHTML = SITE_DATA.raceResults
-    .filter(r => !r.upcoming)
-    .map(r => {
-      const roundNum = String(r.round).padStart(2, '0');
-      return `
-      <tr>
-        <td><span class="round-num">${roundNum}</span></td>
-        <td><span class="track-name">${r.track}</span></td>
-        <td>${r.flag} ${r.country}</td>
-        <td>${r.shortDate}</td>
-        <td>${r.championship}</td>
-        <td><span class="pos-badge pos-${r.pos}">P${r.pos}</span></td>
-      </tr>`;
-    }).join('');
+/* Season picker shown on the Results and Calendar pages. */
+function renderSeasonTabs() {
+  document.querySelectorAll('[data-season-tabs]').forEach(container => {
+    container.innerHTML = SITE_DATA.seasons.map(s => `
+      <button class="season-tab${s.year === selectedSeasonYear ? ' active' : ''}" data-season="${s.year}" aria-pressed="${s.year === selectedSeasonYear}">${s.year}</button>
+    `).join('');
+  });
 }
 
-function renderCalendar() {
-  const races = SITE_DATA.raceResults;
-  const nextRace = races.find(r => r.upcoming);
-  const extra = SITE_DATA.calendar.nextRace;
+function selectSeason(year) {
+  selectedSeasonYear = year;
+  renderSeasonTabs();
+  renderResultsTable(true);
+  renderCalendar(true);
+}
+
+function initSeasonTabs() {
+  document.addEventListener('click', e => {
+    const tab = e.target.closest('.season-tab');
+    if (tab) selectSeason(Number(tab.dataset.season));
+  });
+}
+
+/* A season's most important results: the headline result (`badge`)
+   and, as its own badge, the bLU cRU SuperFinale result when there
+   is one. */
+function keyResultsHtml(season) {
+  return `<span class="badge badge-gold key-result">${season.badge}</span>`
+    + (season.bluCru ? `<span class="badge badge-gold key-result">${season.bluCru}</span>` : '');
+}
+
+function renderResultsTable() {
+  const season = getSeason(selectedSeasonYear);
+  bindField('results-season-label', `Season ${season.year}`);
+  const keyResults = document.getElementById('results-key-results');
+  if (keyResults) keyResults.innerHTML = keyResultsHtml(season);
+
+  const tbody = document.getElementById('results-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = season.races
+    .filter(r => !r.upcoming)
+    .map((r, i) => `
+      <tr>
+        <td><span class="round-num">${String(i + 1).padStart(2, '0')}</span></td>
+        <td><span class="track-name">${r.track}</span></td>
+        <td>${r.flag} ${r.country}</td>
+        <td>${formatRaceDate(r.date).short}</td>
+        <td>${r.championship}</td>
+        <td>${r.pos ? `<span class="pos-badge pos-${Math.min(r.pos, 4)}">P${r.pos}</span>` : ''}${r.result ? ` <span class="pos-result">${r.result}</span>` : ''}</td>
+      </tr>`).join('');
+}
+
+/* `instant` skips the fade-in when the season picker re-renders the
+   page that is already on screen. */
+function renderCalendar(instant = false) {
+  const season = getSeason(selectedSeasonYear);
+  const races = season.races;
+  const isCurrent = season.year === SITE_DATA.currentSeason;
+  const nextRace = isCurrent ? getNextRace(season) : null;
+  const stats = getSeasonStats(season);
+
+  bindField('calendar-title', `${season.year} SEASON CALENDAR`);
+  bindField('calendar-subtitle', season.subtitle);
 
   const venue = document.getElementById('next-race-venue');
   const country = document.getElementById('next-race-country');
   const round = document.getElementById('next-race-round');
   const date = document.getElementById('next-race-date');
-  if (venue) venue.textContent = nextRace.track.toUpperCase();
-  if (country) country.textContent = `${nextRace.flag} ${nextRace.country}`;
-  if (round) round.textContent = `Round ${nextRace.round} of ${races.length}`;
-  if (date) date.textContent = nextRace.fullDate;
-
+  const heroBadge = document.querySelector('.next-race-badge');
+  const countdown = document.querySelector('.next-race-countdown');
   const badgesEl = document.getElementById('next-race-badges');
-  if (badgesEl) {
-    badgesEl.innerHTML = extra.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('')
-      + `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);" id="next-race-note">${extra.note}</span>`;
+  const separators = document.querySelectorAll('.next-race-meta > span:not([id])');
+  const hero = document.querySelector('.next-race-hero');
+  const noteStyle = "font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);";
+
+  if (nextRace) {
+    const extra = season.nextRace;
+    const n = races.indexOf(nextRace) + 1;
+    if (heroBadge) heroBadge.textContent = 'Next Race';
+    if (venue) venue.textContent = nextRace.track.toUpperCase();
+    if (country) country.textContent = `${nextRace.flag} ${nextRace.country}`;
+    if (round) round.textContent = `Race ${n} of ${races.length}`;
+    if (date) date.textContent = formatRaceDate(nextRace.date).full;
+    separators.forEach(el => { el.style.display = ''; });
+    if (badgesEl) badgesEl.innerHTML = (extra.badges || []).map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('')
+      + `<span style="${noteStyle}" id="next-race-note">${extra.note || ''}</span>`;
+    if (countdown) countdown.style.display = '';
+    if (hero) { hero.classList.remove('season-complete'); hero.dataset.year = season.year; }
+  } else {
+    // No upcoming race in this season: show the season summary.
+    if (heroBadge) heroBadge.textContent = isCurrent ? 'Season Complete' : 'Season';
+    if (venue) venue.textContent = season.title;
+    if (country) country.textContent = `${stats.racesDone} races · ${stats.countryFlags}`;
+    if (round) round.textContent = '';
+    if (date) date.textContent = '';
+    separators.forEach(el => { el.style.display = 'none'; });
+    if (badgesEl) badgesEl.innerHTML = keyResultsHtml(season)
+      + (isCurrent ? `<span style="${noteStyle}" id="next-race-note">Next season's plans coming soon</span>` : '');
+    if (countdown) countdown.style.display = 'none';
+    if (hero) { hero.classList.add('season-complete'); hero.dataset.year = season.year; }
   }
 
+  // The contact page always shows the current season's next race.
+  const current = getCurrentSeason();
+  const currentNext = getNextRace(current);
   const contactVenue = document.getElementById('contact-next-race-venue');
   const contactDate = document.getElementById('contact-next-race-date');
-  if (contactVenue) contactVenue.textContent = `${nextRace.track}, ${nextRace.country}`;
-  if (contactDate) contactDate.textContent = nextRace.fullDate;
+  if (currentNext) {
+    if (contactVenue) contactVenue.textContent = `${currentNext.track}, ${currentNext.country}`;
+    if (contactDate) contactDate.textContent = formatRaceDate(currentNext.date).full;
+  } else {
+    if (contactVenue) contactVenue.textContent = `${current.year} season complete`;
+    if (contactDate) contactDate.textContent = `${current.year + 1} calendar coming soon`;
+  }
 
   const grid = document.getElementById('race-grid-container');
   if (grid) {
+    grid.classList.toggle('season-done', !races.some(r => r.upcoming));
+    const anim = instant ? ' in-view' : '';
     grid.innerHTML = races.map((race, i) => {
-      const isNext = !!race.upcoming;
+      const isNext = race === nextRace;
       const win = race.pos === 1;
       const delay = i === 0 ? '' : ` animate-delay-${((i - 1) % 3) + 1}`;
       const goldStyle = isNext ? ' style="color:var(--gold);"' : '';
-      const resultOrFinale = isNext
+      const resultHtml = race.upcoming
         ? `<div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(196,151,62,0.15);">
-             <span class="badge badge-gold" style="font-size:10px;">Season Finale · Home Race</span>
+             <span class="badge badge-gold" style="font-size:10px;">${race.championship}</span>
            </div>`
         : `<div class="race-result">
-             <span class="race-result-pos"${race.pos === 4 ? ' style="color:var(--text-2);"' : ''}>P${race.pos}</span>
-             <span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-3);">${race.points} points</span>
+             ${race.pos ? `<span class="race-result-pos"${race.pos >= 4 ? ' style="color:var(--text-2);"' : ''}>P${race.pos}</span>` : ''}
+             ${race.result ? `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);">${race.result}</span>` : ''}
              ${win ? '<span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>' : ''}
            </div>`;
+      const status = isNext ? 'Next Race' : race.upcoming ? 'Upcoming' : 'Completed';
       return `
-        <div class="race-card ${isNext ? 'next' : 'completed'} animate-fade-up${delay}">
+        <div class="race-card ${race.upcoming ? 'next' : 'completed'} animate-fade-up${delay}${anim}">
           <div class="race-card-header">
-            <span class="race-round"${goldStyle}>Round ${race.round}</span>
-            <span class="race-status ${isNext ? 'status-next' : 'status-completed'}">${isNext ? 'Next Race' : 'Completed'}</span>
+            <span class="race-round"${goldStyle}>Race ${i + 1}</span>
+            <span class="race-status ${race.upcoming ? 'status-next' : 'status-completed'}">${status}</span>
           </div>
           <div class="race-venue"${goldStyle}>${race.track}</div>
-          <div class="race-location">${race.flag} ${race.country}</div>
-          <div class="race-date"${isNext ? ' style="color:var(--text);"' : ''}>${race.fullDate}</div>
-          ${resultOrFinale}
+          <div class="race-location">${race.flag} ${race.country} · ${race.championship}</div>
+          <div class="race-date"${isNext ? ' style="color:var(--text);"' : ''}>${formatRaceDate(race.date).full}</div>
+          ${resultHtml}
         </div>`;
     }).join('');
   }
 }
 
+/* Story page career timeline, oldest season first, built from the
+   season summaries. */
+function renderStoryTimeline() {
+  const container = document.getElementById('story-timeline');
+  if (!container) return;
+  const seasons = [...SITE_DATA.seasons].sort((a, b) => a.year - b.year);
+  container.innerHTML = seasons.map((s, i) => {
+    const isCurrent = s.year === SITE_DATA.currentSeason;
+    const delay = ` animate-delay-${(i % 2) + 1}`;
+    const highlight = isCurrent ? ' style="border-color: rgba(196,151,62,0.25); background: rgba(196,151,62,0.04);"' : '';
+    return `
+        <div class="timeline-item animate-fade-up${delay}">
+          <div class="timeline-year">${s.year}</div>
+          <div class="timeline-content"${highlight}>
+            <div class="timeline-event"${isCurrent ? ' style="color:var(--gold);"' : ''}>${s.badge}</div>
+            <div class="timeline-desc">${s.summary}</div>
+          </div>
+        </div>`;
+  }).join('');
+}
+
 function renderMedia() {
   const m = SITE_DATA.media;
-  const photos = document.getElementById('media-stat-photos');
-  const videos = document.getElementById('media-stat-videos');
-  const press = document.getElementById('media-stat-press');
-  if (photos) photos.textContent = m.stats.photos;
-  if (videos) videos.textContent = m.stats.videos;
-  if (press) press.textContent = m.stats.pressFeatures;
-
   const gallery = document.getElementById('gallery-container');
   if (gallery) {
     gallery.innerHTML = m.gallery.map(item => `
       <div class="gallery-item${item.size === 'large' ? ' large' : ''}">
-        <img src="https://picsum.photos/seed/${item.seed}/800/600" alt="Race action ${item.seed}" loading="lazy" />
+        <img src="${item.image}" alt="${item.label}" loading="lazy" />
         <div class="gallery-item-overlay"><span class="gallery-item-label">${item.label}</span></div>
       </div>
     `).join('');
@@ -187,25 +525,25 @@ function toTitleCase(str) {
 function renderSponsors() {
   const s = SITE_DATA.sponsors;
 
-  const titleContainer = document.getElementById('title-sponsor-container');
-  if (titleContainer) {
-    const badgesHtml = s.title.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('');
-    titleContainer.innerHTML = `
+  const leadContainer = document.getElementById('title-sponsor-container');
+  if (leadContainer) {
+    const badgesHtml = s.lead.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('');
+    leadContainer.innerHTML = `
       <div>
-        <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">${s.title.tagline}</div>
-        <div class="sponsor-logo-text">${s.title.name}</div>
-        <p class="sponsor-desc">${s.title.desc}</p>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">${s.lead.tagline}</div>
+        <div class="sponsor-logo-text">${s.lead.name}</div>
+        <p class="sponsor-desc">${s.lead.desc}</p>
         <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">${badgesHtml}</div>
       </div>
       <div style="text-align:center; padding:32px; background:rgba(196,151,62,0.06); border:1px solid rgba(196,151,62,0.15); border-radius:12px; min-width:180px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:80px; color:rgba(196,151,62,0.4); line-height:1; letter-spacing:0.04em;">${s.title.initial}</div>
-        <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; margin-top:8px;">${toTitleCase(s.title.name)}</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:80px; color:rgba(196,151,62,0.4); line-height:1; letter-spacing:0.04em;">${s.lead.initial}</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; margin-top:8px;">${toTitleCase(s.lead.name)}</div>
       </div>`;
   }
 
-  const officialContainer = document.getElementById('official-partners-container');
-  if (officialContainer) {
-    officialContainer.innerHTML = s.official.map((p, i) => `
+  const partnersContainer = document.getElementById('official-partners-container');
+  if (partnersContainer) {
+    partnersContainer.innerHTML = s.partners.map((p, i) => `
       <div class="partner-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
         <div style="font-size:40px; margin-bottom:12px;">${p.icon}</div>
         <div class="partner-logo-text">${p.name}</div>
@@ -217,17 +555,15 @@ function renderSponsors() {
       </div>
     `).join('');
   }
+}
 
-  const supportingContainer = document.getElementById('supporting-sponsors-container');
-  if (supportingContainer) {
-    supportingContainer.innerHTML = s.supporting.map((p, i) => `
-      <div class="supporting-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
-        <div style="font-size:24px; margin-bottom:8px;">${p.icon}</div>
-        <div class="supporting-logo">${p.name}</div>
-        <div class="supporting-type">${p.type}</div>
-      </div>
-    `).join('');
-  }
+/* ---- Packages ---- */
+function getTier(id) {
+  return SITE_DATA.packages.tiers.find(t => t.id === id);
+}
+
+function formatPrice(amount) {
+  return `${SITE_DATA.packages.currency}${amount.toLocaleString('en-US')}`;
 }
 
 function renderPackages() {
@@ -235,36 +571,64 @@ function renderPackages() {
 
   const svContainer = document.getElementById('sv-packages-container');
   if (svContainer) {
-    svContainer.innerHTML = p.sponsorValue.map((pkg, i) => `
-      <div class="sv-pkg-card${pkg.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
-        ${pkg.featured ? `<div class="sv-pkg-popular-badge">${pkg.badge}</div>` : ''}
-        <div class="sv-pkg-tier-label">${pkg.tier}</div>
-        <div class="sv-pkg-price">From <strong>${pkg.price}</strong><span>${pkg.priceSuffix}</span></div>
+    svContainer.innerHTML = p.sponsorValue.map((pkg, i) => {
+      const t = getTier(pkg.tier);
+      return `
+      <div class="sv-pkg-card${t.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        ${t.featured ? `<div class="sv-pkg-popular-badge">${t.badge}</div>` : ''}
+        <div class="sv-pkg-tier-label">${t.name}</div>
+        <div class="sv-pkg-price">From <strong>${formatPrice(t.amount)}</strong><span>${pkg.priceSuffix}</span></div>
         <p class="sv-pkg-intro">${pkg.intro}</p>
         <div class="sv-pkg-sep"></div>
         <ul class="sv-pkg-list">
           ${pkg.features.map(f => `<li class="${f.included ? 'sv-feat-y' : 'sv-feat-n'}">${f.text}</li>`).join('')}
         </ul>
         <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" data-goto="contact">${pkg.ctaLabel}</button>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
 
   const contactContainer = document.getElementById('contact-packages-container');
   if (contactContainer) {
-    contactContainer.innerHTML = p.contact.map(pkg => `
-      <div class="package-card${pkg.featured ? ' featured' : ''}">
-        ${pkg.featured ? `<div class="package-popular">${pkg.badge}</div>` : ''}
-        <div class="package-tier"${pkg.featured ? ' style="color:var(--gold);"' : ''}>${pkg.tier}</div>
-        <div class="package-price">${pkg.price}</div>
+    contactContainer.innerHTML = p.contact.map(pkg => {
+      const t = getTier(pkg.tier);
+      return `
+      <div class="package-card${t.featured ? ' featured' : ''}">
+        ${t.featured ? `<div class="package-popular">${t.badge}</div>` : ''}
+        <div class="package-tier"${t.featured ? ' style="color:var(--gold);"' : ''}>${t.name}</div>
+        <div class="package-price">From ${formatPrice(t.amount)}</div>
         <div class="package-price-sub">${pkg.priceSuffix}</div>
         <ul class="package-features">
           ${pkg.features.map(f => `<li>${f}</li>`).join('')}
         </ul>
         <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'}" style="width:100%;" data-goto="contact">${pkg.ctaLabel}</button>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
+
+  renderBudgetOptions();
+}
+
+/* Contact form budget menu: one option per tier, each range ending
+   just below the next tier's price. Inserted before the "Custom"
+   option that stays in the HTML. */
+function renderBudgetOptions() {
+  const select = document.getElementById('budget');
+  if (!select) return;
+  select.querySelectorAll('option[data-tier]').forEach(o => o.remove());
+  const tiers = [...SITE_DATA.packages.tiers].sort((a, b) => a.amount - b.amount);
+  const custom = select.querySelector('option[value="custom"]');
+  tiers.forEach((t, i) => {
+    const next = tiers[i + 1];
+    const range = next
+      ? `${formatPrice(t.amount)} – ${formatPrice(next.amount - 1)}`
+      : `${formatPrice(t.amount)}+`;
+    const option = document.createElement('option');
+    option.value = t.id;
+    option.dataset.tier = '';
+    option.textContent = `${range} (${t.name})`;
+    select.insertBefore(option, custom);
+  });
 }
 
 function renderDashboard() {
@@ -322,20 +686,27 @@ function renderDashboard() {
 }
 
 function renderAllData() {
+  validateRaceIds();
+  renderImages();
   renderIdentity();
+  renderSeasonStats();
+  renderSocials();
+  renderStory();
+  renderBacking();
   renderSeasonMetrics();
   renderHomeHighlights();
   renderCarousel();
+  renderSeasonTabs();
   renderResultsTable();
   renderCalendar();
+  renderStoryTimeline();
   renderMedia();
   renderSponsors();
   renderPackages();
   renderDashboard();
 }
 
-/* ============================================================
-   SPA ROUTER
+/* =====================================================   SPA ROUTER
    ============================================================ */
 function navigateTo(pageId, pushState = true) {
   if (!PAGES.includes(pageId)) pageId = 'home';
@@ -409,8 +780,7 @@ function getPageFromHash() {
   return PAGES.includes(hash) ? hash : 'home';
 }
 
-/* ============================================================
-   NAVIGATION
+/* =====================================================   NAVIGATION
    ============================================================ */
 function initNav() {
   // Logo click
@@ -469,8 +839,7 @@ function closeMobileNav() {
   setTimeout(() => { overlay.style.display = 'none'; }, 300);
 }
 
-/* ============================================================
-   INTERSECTION OBSERVER — FADE UP ANIMATIONS
+/* =====================================================   INTERSECTION OBSERVER — FADE UP ANIMATIONS
    ============================================================ */
 function initIntersectionObserver() {
   const observer = new IntersectionObserver((entries) => {
@@ -489,8 +858,7 @@ function initIntersectionObserver() {
   return observer;
 }
 
-/* ============================================================
-   BAR CHART & PROGRESS BAR ANIMATIONS
+/* =====================================================   BAR CHART & PROGRESS BAR ANIMATIONS
    ============================================================ */
 function animateBars(container) {
   const fills = container.querySelectorAll('[data-bar-width]');
@@ -521,8 +889,7 @@ function initBarObserver() {
   document.querySelectorAll('.animate-bars').forEach(el => observer.observe(el));
 }
 
-/* ============================================================
-   COUNTER ANIMATIONS
+/* =====================================================   COUNTER ANIMATIONS
    ============================================================ */
 function animateCounter(el) {
   const target = parseInt(el.dataset.target || el.textContent, 10);
@@ -555,11 +922,13 @@ function initCounters() {
   document.querySelectorAll('.counter').forEach(el => observer.observe(el));
 }
 
-/* ============================================================
-   COUNTDOWN TIMER
+/* =====================================================   COUNTDOWN TIMER
    ============================================================ */
 function initCountdown() {
-  const target = new Date(SITE_DATA.calendar.nextRace.countdownTarget);
+  const season = getCurrentSeason();
+  const next = season.nextRace;
+  if (!next || !next.countdownTarget || !getNextRace(season)) return;
+  const target = new Date(next.countdownTarget);
 
   function update() {
     const now = new Date();
@@ -593,8 +962,7 @@ function initCountdown() {
   setInterval(update, 1000);
 }
 
-/* ============================================================
-   HERO PARALLAX
+/* =====================================================   HERO PARALLAX
    ============================================================ */
 function initParallax() {
   const hero = document.querySelector('.hero');
@@ -609,8 +977,7 @@ function initParallax() {
   }, { passive: true });
 }
 
-/* ============================================================
-   DASHBOARD TABS
+/* =====================================================   DASHBOARD TABS
    ============================================================ */
 function initDashboardTabs() {
   document.querySelectorAll('.dash-tab').forEach(tab => {
@@ -621,8 +988,7 @@ function initDashboardTabs() {
   });
 }
 
-/* ============================================================
-   CONTACT FORM
+/* =====================================================   CONTACT FORM
    ============================================================ */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -698,9 +1064,7 @@ function buildContactMailto(to, data) {
   return `mailto:${to}?subject=${encodeURIComponent(contactSubject(data))}&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 
-/* ============================================================
-   PAGE-SPECIFIC ANIMATION TRIGGERS
-   ============================================================ */
+/* =====================================================   ============================================================ */
 function triggerPageAnimations(pageId) {
   const page = document.getElementById('page-' + pageId);
   if (!page) return;
@@ -723,8 +1087,7 @@ function triggerPageAnimations(pageId) {
   });
 }
 
-/* ============================================================
-   GALLERY LIGHTBOX (simple)
+/* =====================================================   GALLERY LIGHTBOX (simple)
    ============================================================ */
 function initGallery() {
   document.querySelectorAll('.gallery-item').forEach(item => {
@@ -758,8 +1121,7 @@ function initGallery() {
   });
 }
 
-/* ============================================================
-   PACKAGE CTA BUTTONS
+/* =====================================================   PACKAGE CTA BUTTONS
    ============================================================ */
 function initPackageButtons() {
   document.querySelectorAll('[data-goto]').forEach(btn => {
@@ -767,8 +1129,7 @@ function initPackageButtons() {
   });
 }
 
-/* ============================================================
-   INIT
+/* =====================================================   INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   // Render all data-driven content first so subsequent init steps
@@ -804,6 +1165,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBarObserver();
   initCounters();
   initCountdown();
+  initSeasonTabs();
   initParallax();
   initDashboardTabs();
   initContactForm();
