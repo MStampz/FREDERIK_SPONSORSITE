@@ -1,7 +1,7 @@
 # Uploads the site to GoDaddy hosting (public_html) over FTP on every push to main.
 # Needs three repository secrets (Settings → Secrets and variables → Actions):
 #   FTP_SERVER    e.g. ftp.yourdomain.com
-#   FTP_USERNAME  a cPanel FTP account
+#   FTP_USERNAME  a cPanel FTP account whose directory is public_html
 #   FTP_PASSWORD  that account's password
 name: Deploy to GoDaddy
 
@@ -29,7 +29,8 @@ jobs:
           protocol: ftps
           # GoDaddy's certificate is issued for its own server name, not your domain
           security: loose
-          server-dir: public_html/
+          # The FTP account's own folder is public_html, so upload to its root
+          server-dir: ./
           exclude: |
             **/.git*
             **/.git*/**
