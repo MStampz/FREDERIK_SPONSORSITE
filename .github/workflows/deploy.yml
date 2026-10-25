@@ -1,0 +1,39 @@
+# Uploads the site to GoDaddy hosting (public_html) over FTP on every push to main.
+# Needs three repository secrets (Settings → Secrets and variables → Actions):
+#   FTP_SERVER    e.g. ftp.yourdomain.com
+#   FTP_USERNAME  a cPanel FTP account whose directory is public_html
+#   FTP_PASSWORD  that account's password
+name: Deploy to GoDaddy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload site over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          # GoDaddy's certificate is issued for its own server name, not your domain
+          security: loose
+          # The FTP account's own folder is public_html, so upload to its root
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            README.md
+            tictactoe.html
