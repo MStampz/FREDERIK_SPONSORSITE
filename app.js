@@ -8,7 +8,8 @@
 /* The dashboard page is left out until it has real Instagram
    Insights numbers (see the dashboard section in data.js). Add
    'dashboard' back here and to the nav to show it again. */
-const PAGES = ['home', 'sponsor-value', 'results', 'media', 'calendar', 'story', 'sponsors', 'contact'];
+const PAGES = ['home', 'sponsor-value', 'results', 'media', 'calendar', 'story', 'sponsors', 'contact']
+  .concat(SITE_DATA.partners.filter(p => p.page).map(p => 'partner-' + p.id));
 const NAV_MAP = {
   'home': 'Home',
   'sponsor-value': 'Partnership',
@@ -22,6 +23,24 @@ const NAV_MAP = {
 };
 
 let currentPage = 'home';
+
+/* Every partner page shares one page element, #page-partner, and
+   counts as the Partners menu item. */
+function getPartnerId(pageId) {
+  return pageId.startsWith('partner-') ? pageId.slice('partner-'.length) : null;
+}
+
+function getPageElement(pageId) {
+  return document.getElementById(getPartnerId(pageId) ? 'page-partner' : 'page-' + pageId);
+}
+
+function siteTitle() {
+  return `${toTitleCase(SITE_DATA.site.name)} #${SITE_DATA.site.raceNumber} — Motocross Rider`;
+}
+
+function getNavPage(pageId) {
+  return getPartnerId(pageId) ? 'sponsors' : pageId;
+}
 let mobileNavOpen = false;
 
 /* =====================================================   DATA-DRIVEN RENDERING
@@ -195,7 +214,6 @@ function renderIdentity() {
   bindField('contact-location-flag', `${contact.location} ${contact.locationFlag}`);
 
   bindField('rider-home-club', `${site.homeClub} ${site.countryFlag}`);
-  bindField('rider-bike-partner', toTitleCase(SITE_DATA.sponsors.lead.name));
   bindField('hero-line', site.heroLine);
   bindField('hero-sub', `${site.nationality} Motocross Rider · ${site.basedInCity}`);
 
@@ -227,7 +245,7 @@ function renderIdentity() {
     bindField('title-detail', title.detail);
   }
 
-  document.title = `${toTitleCase(site.name)} ${num} — Motocross Rider`;
+  document.title = siteTitle();
 
   document.querySelectorAll('.mailto-email-link').forEach(a => { a.href = `mailto:${contact.email}`; });
 }
@@ -367,8 +385,9 @@ function renderCarousel() {
   const track = document.getElementById('carousel-track');
   if (!track) return;
   // Repeated so a short partner list still fills the strip.
-  const once = SITE_DATA.carouselLogos.map(name => `<div class="hp-carousel-item"><div class="hp-carousel-logo">${name}</div></div>`).join('');
-  const items = once.repeat(Math.max(1, Math.ceil(8 / SITE_DATA.carouselLogos.length)));
+  const names = SITE_DATA.partners.map(p => p.name.toUpperCase());
+  const once = names.map(name => `<div class="hp-carousel-item"><div class="hp-carousel-logo">${name}</div></div>`).join('');
+  const items = once.repeat(Math.max(1, Math.ceil(8 / names.length)));
   track.innerHTML = items + items; // duplicated for seamless loop
 }
 
@@ -559,39 +578,106 @@ function toTitleCase(str) {
   return str.split(' ').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ');
 }
 
-function renderSponsors() {
-  const s = SITE_DATA.sponsors;
-
-  const leadContainer = document.getElementById('title-sponsor-container');
-  if (leadContainer) {
-    const badgesHtml = s.lead.badges.map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('');
-    leadContainer.innerHTML = `
+/* Partners page: one section per tier that has partners, highest
+   tier first. Partners with page content get a button to it. */
+function renderPartners() {
+  const container = document.getElementById('partner-tiers-container');
+  if (!container) return;
+  const tiers = [...SITE_DATA.packages.tiers].reverse();
+  container.innerHTML = tiers.map(tier => {
+    const partners = SITE_DATA.partners.filter(p => p.tier === tier.id);
+    if (!partners.length) return '';
+    return `
       <div>
-        <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:12px;">${s.lead.tagline}</div>
-        <div class="sponsor-logo-text">${s.lead.name}</div>
-        <p class="sponsor-desc">${s.lead.desc}</p>
-        <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">${badgesHtml}</div>
-      </div>
-      <div style="text-align:center; padding:32px; background:rgba(200,16,46,0.06); border:1px solid rgba(200,16,46,0.15); border-radius:12px; min-width:180px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:80px; color:rgba(200,16,46,0.4); line-height:1; letter-spacing:0.04em;">${s.lead.initial}</div>
-        <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; margin-top:8px;">${toTitleCase(s.lead.name)}</div>
+        <div class="sponsor-tier-label">${tier.short} Partners</div>
+        <div class="partners-grid">
+          ${partners.map((p, i) => `
+          <div class="partner-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+            ${p.logo
+              ? `<img class="partner-card-logo" src="${p.logo.src}" alt="${p.logo.alt}" loading="lazy" onerror="this.outerHTML='<div class=&quot;partner-logo-text&quot;>${p.name}</div>'"/>`
+              : `<div class="partner-logo-text">${p.name}</div>`}
+            <div class="partner-type">${p.type}</div>
+            <p class="partner-summary">${p.summary}</p>
+            ${p.page ? `<button class="btn btn-primary" data-goto="partner-${p.id}">Meet ${p.name}</button>` : ''}
+          </div>`).join('')}
+        </div>
       </div>`;
-  }
+  }).join('');
+}
 
-  const partnersContainer = document.getElementById('official-partners-container');
-  if (partnersContainer) {
-    partnersContainer.innerHTML = s.partners.map((p, i) => `
-      <div class="partner-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
-        <div style="font-size:40px; margin-bottom:12px;">${p.icon}</div>
-        <div class="partner-logo-text">${p.name}</div>
-        <div class="partner-type">${p.type}</div>
-        <p style="font-size:13px; color:var(--text-2); margin-top:12px; line-height:1.6;">${p.desc}</p>
-        <div style="margin-top:16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-          <span class="badge badge-sand">${p.badge}</span>
+/* A partner's own page, filled in when it is opened. */
+function renderPartnerPage(id) {
+  const container = document.getElementById('partner-page-container');
+  const partner = SITE_DATA.partners.find(p => p.id === id);
+  if (!container || !partner || !partner.page) return;
+  const pg = partner.page;
+  const tier = getTier(partner.tier);
+  const c = pg.contact;
+  const link = l => l ? `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>` : '';
+  const cards = items => items.map((item, i) => `
+    <div class="sv-vis-card animate-fade-up${i % 3 ? ' animate-delay-' + (i % 3) : ''}">
+      <h3 class="sv-vis-name">${item.title}</h3>
+      <p class="sv-vis-desc">${item.desc}</p>
+    </div>`).join('');
+
+  container.innerHTML = `
+    <button class="partner-back" data-goto="sponsors">← All partners</button>
+
+    <div class="partner-hero animate-fade-up">
+      <div class="partner-hero-text">
+        <div class="section-label">${tier.name}</div>
+        <h1 class="section-title partner-hero-title">${pg.fullName}</h1>
+        <p class="section-subtitle">${pg.tagline}</p>
+        <div class="partner-hero-actions">
+          <a class="btn btn-primary" href="${c.booking.url}" target="_blank" rel="noopener">${c.booking.label}</a>
+          <a class="btn btn-outline" href="${c.website.url}" target="_blank" rel="noopener">Visit website</a>
         </div>
       </div>
-    `).join('');
-  }
+      ${pg.photo ? `<figure class="partner-hero-photo"><img src="${pg.photo.src}" alt="${pg.photo.alt}" onerror="this.parentNode.remove()"/></figure>` : ''}
+    </div>
+
+    <div class="partner-section partner-with-frederik animate-fade-up">
+      <div class="section-label">With Frederik</div>
+      <h2 class="partner-section-title">${pg.withFrederikHeading}</h2>
+      ${pg.withFrederik.map(p => `<p class="bio-text">${p}</p>`).join('')}
+    </div>
+
+    <div class="partner-section partner-about">
+      <div class="animate-fade-up">
+        <div class="section-label">The business</div>
+        <h2 class="partner-section-title">${pg.aboutHeading}</h2>
+        ${pg.about.map(p => `<p class="bio-text">${p}</p>`).join('')}
+      </div>
+      <div class="partner-about-side animate-fade-up animate-delay-1">
+        ${partner.logo ? `<div class="partner-logo-box"><img src="${partner.logo.src}" alt="${partner.logo.alt}" loading="lazy" onerror="this.parentNode.remove()"/></div>` : ''}
+        <ul class="partner-facts">
+        ${pg.facts.map(f => `<li>${f}</li>`).join('')}
+      </ul>
+      </div>
+    </div>
+
+    <div class="partner-section">
+      <div class="section-label">Services</div>
+      <h2 class="partner-section-title">${pg.servicesHeading}</h2>
+      <div class="partner-services">${cards(pg.services)}</div>
+    </div>
+
+    <div class="partner-section partner-contact animate-fade-up">
+      <div>
+        <div class="section-label">Visit ${partner.name}</div>
+        <h2 class="partner-section-title">GET IN TOUCH WITH THEM</h2>
+      </div>
+      <dl class="partner-contact-list">
+        <dt>Workshop</dt><dd>${c.address}</dd>
+        <dt>Phone</dt><dd><a href="tel:${c.phone.replace(/\s/g, '')}">${c.phone}</a></dd>
+        <dt>Website</dt><dd>${link(c.website)} · ${link(c.services)}</dd>
+        <dt>Instagram</dt><dd>${link(c.instagram)}</dd>
+      </dl>
+    </div>`;
+
+  // The buttons were just created, so bind them here.
+  container.querySelectorAll('[data-goto]').forEach(bindGotoButton);
+  document.title = `${partner.name} — ${tier.name} — ${toTitleCase(SITE_DATA.site.name)}`;
 }
 
 /* ---- Packages ---- */
@@ -757,7 +843,7 @@ function renderAllData() {
   renderCalendar();
   renderStoryTimeline();
   renderMedia();
-  renderSponsors();
+  renderPartners();
   renderPackages();
   renderDashboard();
 }
@@ -768,13 +854,17 @@ function navigateTo(pageId, pushState = true) {
   if (!PAGES.includes(pageId)) pageId = 'home';
   if (pageId === currentPage) { closeMobileNav(); return; }
 
-  const oldPage = document.getElementById('page-' + currentPage);
-  const newPage = document.getElementById('page-' + pageId);
+  const oldPage = getPageElement(currentPage);
+  const newPage = getPageElement(pageId);
 
   if (!newPage) return;
+  const partnerId = getPartnerId(pageId);
+  if (partnerId) renderPartnerPage(partnerId);
+  else if (getPartnerId(currentPage)) document.title = siteTitle();
 
-  // Fade out old
-  if (oldPage) {
+  // Fade out old (unless going from one partner page to another,
+  // which reuses the same page element)
+  if (oldPage && oldPage !== newPage) {
     oldPage.classList.remove('active');
     oldPage.style.opacity = '0';
     oldPage.style.transform = 'translateY(8px)';
@@ -803,10 +893,10 @@ function navigateTo(pageId, pushState = true) {
 
   // Update nav active state
   document.querySelectorAll('.nav-link').forEach(link => {
-    link.classList.toggle('active', link.dataset.page === pageId);
+    link.classList.toggle('active', link.dataset.page === getNavPage(pageId));
   });
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
-    link.classList.toggle('active', link.dataset.page === pageId);
+    link.classList.toggle('active', link.dataset.page === getNavPage(pageId));
   });
 
   // Push history state
@@ -1080,7 +1170,7 @@ function initContactForm() {
 /* =====================================================   PAGE-SPECIFIC ANIMATION TRIGGERS
    ============================================================ */
 function triggerPageAnimations(pageId) {
-  const page = document.getElementById('page-' + pageId);
+  const page = getPageElement(pageId);
   if (!page) return;
 
   // Trigger fade-up for visible elements in new page
@@ -1141,18 +1231,22 @@ function initGallery() {
    section on it, and data-tier picks the Partnership topic and that
    tier in the Get in Touch form. */
 function initPackageButtons() {
-  document.querySelectorAll('[data-goto]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const { goto, scroll, tier } = btn.dataset;
-      if (tier) selectPartnerTier(tier);
-      const samePage = goto === currentPage;
-      navigateTo(goto);
-      if (scroll) {
-        const target = document.getElementById(scroll);
-        // Wait for the page fade-in before scrolling.
-        if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), samePage ? 0 : 400);
-      }
-    });
+  document.querySelectorAll('[data-goto]').forEach(bindGotoButton);
+}
+
+function bindGotoButton(btn) {
+  if (btn.dataset.bound) return;
+  btn.dataset.bound = 'true';
+  btn.addEventListener('click', () => {
+    const { goto, scroll, tier } = btn.dataset;
+    if (tier) selectPartnerTier(tier);
+    const samePage = goto === currentPage;
+    navigateTo(goto);
+    if (scroll) {
+      const target = document.getElementById(scroll);
+      // Wait for the page fade-in before scrolling.
+      if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), samePage ? 0 : 400);
+    }
   });
 }
 
@@ -1177,7 +1271,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const initialPage = getPageFromHash();
 
   // Show initial page immediately
-  const initPage = document.getElementById('page-' + initialPage);
+  const initPage = getPageElement(initialPage);
+  const initPartner = getPartnerId(initialPage);
+  if (initPartner) renderPartnerPage(initPartner);
   if (initPage) {
     initPage.style.display = 'block';
     initPage.classList.add('active');
@@ -1189,7 +1285,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Update nav active state
   document.querySelectorAll('.nav-link').forEach(link => {
-    link.classList.toggle('active', link.dataset.page === initialPage);
+    link.classList.toggle('active', link.dataset.page === getNavPage(initialPage));
   });
 
   // Push initial state
