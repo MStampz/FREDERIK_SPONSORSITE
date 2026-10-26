@@ -642,6 +642,8 @@ function renderPartnerPage(id) {
       ${pg.withFrederik.map(p => `<p class="bio-text">${p}</p>`).join('')}
     </div>
 
+    ${pg.photo ? `<figure class="partner-photo animate-fade-up"><img src="${pg.photo.src}" alt="${pg.photo.alt}" loading="lazy" onerror="this.parentNode.remove()"/></figure>` : ''}
+
     <div class="partner-section partner-about">
       <div class="animate-fade-up">
         <div class="section-label">The business</div>

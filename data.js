@@ -579,6 +579,10 @@ const SITE_DATA = {
           'They have backed him through his first season in Australia, and you will find them tagged in almost every race report on his Instagram.'
         ],
 
+        // Shown across the top of the "About" section. Taken from the
+        // OnPoint website; ask OnPoint for a copy to keep in images/.
+        photo: { src: 'https://www.onpointmotorcycles.com.au/cdn/shop/files/IMG_20250922_200757_290_1.webp?v=1764649883&width=1500', alt: 'On Point Motorcycles & Suspension' },
+
         aboutHeading: 'ABOUT ONPOINT',
         about: [
           'On Point Motorcycles & Suspension is a workshop in Croydon South, about 15 minutes from EastLink in Melbourne\'s eastern suburbs. The team has more than 15 years in the motorcycle industry, as riders and as technicians.',
