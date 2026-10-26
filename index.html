@@ -564,7 +564,7 @@
             <div class="bio-fact"><div class="bio-fact-label">Based In</div><div class="bio-fact-value" data-field="rider-based">Melbourne, Australia</div></div>
             <div class="bio-fact"><div class="bio-fact-label">Nationality</div><div class="bio-fact-value" data-field="rider-nationality">Danish 🇩🇰</div></div>
             <div class="bio-fact"><div class="bio-fact-label">Bike</div><div class="bio-fact-value" data-field="rider-bike">Yamaha 250</div></div>
-            <div class="bio-fact"><div class="bio-fact-label">Bike Partner</div><div class="bio-fact-value" data-field="rider-bike-partner"></div></div>
+            <div class="bio-fact"><div class="bio-fact-label">Race Number</div><div class="bio-fact-value">#<span data-field="rider-number">215</span></div></div>
             <div class="bio-fact"><div class="bio-fact-label">Class</div><div class="bio-fact-value" data-field="rider-class">MX2</div></div>
             <div class="bio-fact"><div class="bio-fact-label">Home Club</div><div class="bio-fact-value" data-field="rider-home-club"></div></div>
           </div>
@@ -616,21 +616,9 @@
         </div>
       </div>
 
-      <div class="sponsor-tiers">
-
-        <!-- Title Sponsor -->
-        <div>
-          <div class="sponsor-tier-label">Bike Partner</div>
-          <div class="title-sponsor-card animate-fade-up" id="title-sponsor-container"></div>
-        </div>
-
-        <!-- Official Partners -->
-        <div>
-          <div class="sponsor-tier-label">Partners</div>
-          <div class="partners-grid" id="official-partners-container"></div>
-        </div>
-
-      </div>
+      <!-- One section per tier that has partners, built from
+           SITE_DATA.partners -->
+      <div class="sponsor-tiers" id="partner-tiers-container"></div>
 
       <!-- CTA -->
       <div class="cta-section animate-fade-up">
@@ -643,6 +631,20 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <footer class="site-footer"></footer>
+</div>
+
+
+<!-- ============================================================
+     PARTNER PAGE — one page per partner with `page` content in
+     SITE_DATA.partners, at #partner-<id>. Not in the menu: opened
+     from the partner's card on the Partners page.
+     ============================================================ -->
+<div class="page" id="page-partner">
+  <section class="section">
+    <div class="container" id="partner-page-container"></div>
   </section>
 
   <footer class="site-footer"></footer>

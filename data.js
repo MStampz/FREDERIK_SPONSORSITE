@@ -29,7 +29,6 @@
      seasonMetrics  — home page social counter (race counts and
                       podiums are counted from seasons instead)
      homeHighlights — home page "Career Highlights" cards (four)
-     carouselLogos  — home page scrolling partner logo strip
      currentSeason  — the year the home page, calendar countdown and
                       season counters are about
      seasons        — every season's races, newest first. Single
@@ -39,7 +38,9 @@
      images         — the fixed photos on the pages (hero, bio
                       portrait, banner)
      media          — media page gallery items
-     sponsors       — Partners page: current partners
+     partners       — current partners by tier: the Partners page,
+                      the home page logo strip, and a page of its
+                      own for each partner that has `page` content
      packages       — partner tiers (one place), plus
                       the wording for the tier cards on the
                       Partnership page — see note below
@@ -79,7 +80,7 @@ const SITE_DATA = {
     bio: [
       'Frederik Rahn Stampe grew up racing at Randers Motor Sport in Denmark. On a Yamaha YZ65 he finished third in the 2019 Danish 65cc championship, third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen, and raced the FIM Junior World Championship in Italy.',
       'On the 85 he was Danish vice champion two years running, in 2021 and 2022, and an official Yamaha contract rider. He moved up to the 125 with Wozniak MX Racing Team, finished third in the Danish 125cc championship in 2024, and on a 250 in 2025 he was fourth in the Danish MX2 championship, two points off the podium, while racing ADAC MX Masters and EMX250.',
-      'At the end of 2025 the family moved to Melbourne. Backed by Yamaha City Melbourne, he was back on the podium within weeks: second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, alongside his Pro MX debut.'
+      'At the end of 2025 the family moved to Melbourne. He was back on the podium within weeks: second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, alongside his Pro MX debut.'
     ],
     timelineSubtitle: 'From the 65cc class in Denmark to MX2 in Australia, one season at a time.'
   },
@@ -97,7 +98,7 @@ const SITE_DATA = {
     letterHeading: 'STARTING OVER, ONE RACE AT A TIME.',
     letter: [
       'At the end of 2025 our family moved from Denmark to Melbourne. Frederik had raced for Randers Motor Sport since the 65cc class, had twice been Danish vice champion on the 85, and had just finished fourth in the Danish MX2 championship. Then he had to start again in a new country.',
-      'After five months off the bike he was racing again in April. By May he was second overall in MX3 at the Victorian Motocross Championship, with two holeshots from three starts. Yamaha City Melbourne got him on a bike and OnPoint Suspension looks after him at the track.',
+      'After five months off the bike he was racing again in April. By May he was second overall in MX3 at the Victorian Motocross Championship, with two holeshots from three starts. OnPoint Suspension looks after his bike at the track and No Fear Motocross kits him out.',
       'What is missing is everything around the bike. This year he skipped a Pro MX round because we could not get him there, borrowed a trailer to get to the Victorian Motocross Championship, and lost races to technical problems.',
       'We are not offering reach targets or a media campaign. We are looking for a few people who love the sport, and maybe know what it takes to make it in a new country, who would like to be part of the next chapter. If that is you, we would love to hear from you.'
     ],
@@ -159,7 +160,7 @@ const SITE_DATA = {
 
     supportLabel: 'Join the journey',
     supportHeading: 'BE PART OF THE NEXT CHAPTER.',
-    supportText: 'Yamaha City Melbourne got him on a bike. What is missing is everything around it: getting to the Pro MX rounds, a trailer of his own, parts and tyres. We are looking for a few partners who love the sport and want to be part of his journey here.'
+    supportText: 'He is back on the bike and racing. What is missing is everything around it: getting to the Pro MX rounds, a trailer of his own, parts and tyres. We are looking for a few partners who love the sport and want to be part of his journey here.'
   },
 
   contact: {
@@ -275,8 +276,6 @@ const SITE_DATA = {
     storyBanner: { src: 'images/story-banner.jpg', alt: 'Frederik in the air in front of a packed grandstand' }
   },
 
-  carouselLogos: ['YAMAHA CITY MELBOURNE', 'ONPOINT SUSPENSION', 'NO FEAR MOTOCROSS'],
-
   /* The season the home page counters, Story and Calendar countdown
      are about. */
   currentSeason: 2026,
@@ -361,7 +360,7 @@ const SITE_DATA = {
     {
       year: 2026,
       title: '2026 SEASON',
-      subtitle: 'First season in Australia, backed by Yamaha City Melbourne — Victorian Motocross Championship (MX3 and MX2), Pro MX and the MXGP of Australia.',
+      subtitle: 'First season in Australia — Victorian Motocross Championship (MX3 and MX2), Pro MX and the MXGP of Australia.',
       badge: 'P2 Victorian Motocross Championship MX3',
       focus: 'Victorian Motocross Championship · Pro MX',
       summary: 'Moved to Melbourne. Second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, Pro MX debut and a trip to the MXGP of Australia.',
@@ -552,19 +551,74 @@ const SITE_DATA = {
 
   /* Current partners. `lead` is the large card at the top of the
      Sponsors page; `partners` are the cards below it. */
-  sponsors: {
-    lead: {
-      name: 'YAMAHA CITY MELBOURNE',
-      tagline: 'Bike Partner · 2026 Season',
-      desc: 'The Melbourne Yamaha dealer that got Frederik back on a bike after the move from Denmark, and backs his racing in Victoria and Pro MX.',
-      badges: ['Bike Partner', 'Yamaha'],
-      initial: 'Y'
+  /* Current partners. `tier` is a tier id from packages.tiers. The
+     Partners page shows one section per tier that has partners,
+     highest tier first, and the home page logo strip lists them all.
+
+     A partner with `page` content gets a page of its own at
+     #partner-<id>, opened from its card on the Partners page. It is
+     not in the top menu. Every Gold partner should get one; until
+     its content is written the card simply has no page button.
+
+     Images can be a file in images/ or a full https:// address. */
+  partners: [
+    {
+      id: 'onpoint',
+      tier: 'title',
+      name: 'OnPoint Suspension',
+      type: 'Suspension',
+      summary: 'Suspension specialists in Croydon South who set up Frederik\'s bike and look after him at the track.',
+      logo: { src: 'https://www.onpointmotorcycles.com.au/cdn/shop/files/OPS_Horizontal_Dark.jpg?v=1761028379&width=800', alt: 'On Point Motorcycles & Suspension logo' },
+      page: {
+        fullName: 'On Point Motorcycles & Suspension',
+        tagline: 'Suspension specialists in Melbourne\'s east',
+
+        withFrederikHeading: 'HOW ONPOINT BACKS FREDERIK',
+        withFrederik: [
+          'OnPoint sets up Frederik\'s suspension and looks after him at the races. When his shock needed fixing during a race weekend this season, they sorted it in the pits.',
+          'They have backed him through his first season in Australia, and you will find them tagged in almost every race report on his Instagram.'
+        ],
+
+        aboutHeading: 'ABOUT ONPOINT',
+        about: [
+          'On Point Motorcycles & Suspension is a workshop in Croydon South, about 15 minutes from EastLink in Melbourne\'s eastern suburbs. The team has more than 15 years in the motorcycle industry, as riders and as technicians.',
+          'They service and tune all makes and models, from motocross and enduro to adventure bikes, and set suspension up for each rider\'s weight, skill and riding style, from weekend riders to pro racers. Parts go out by post every day, anywhere in Australia.'
+        ],
+        facts: [
+          'WP Authorised Dealer',
+          'WP Suspension National Sales #1 Dealer, 2025',
+          'Authorised Fox and RockShox service centre',
+          '15+ years as riders and technicians'
+        ],
+
+        servicesHeading: 'WHAT THEY DO',
+        services: [
+          { title: 'Suspension servicing', desc: 'Fork seals, shock services and hour-based services, using SKF, K-Tech, WP, KYB, Showa and Maxima parts and fluids.' },
+          { title: 'Setup and revalving', desc: 'Springs and valving set up for your weight and riding, with packages from Track Rider and Clubman up to Expert and Pro.' },
+          { title: 'Coatings and custom builds', desc: 'Kashima, Ti Nitride and hard-anodised finishes for forks and shocks. In their words: "If you have a vision we can make it a reality."' },
+          { title: 'Restoration and vintage', desc: 'Re-chroming, zinc plating, polishing and vintage MX setups. Restoring suspension is one of their greatest passions.' },
+          { title: 'Bike servicing and rebuilds', desc: 'Everything from a basic service and repairs to full engine rebuilds.' },
+          { title: 'Mountain bike suspension', desc: 'Fox and RockShox servicing, warranty repairs and performance upgrades.' }
+        ],
+
+        contact: {
+          address: '6/54 Merrindale Drive, Croydon South VIC 3136',
+          phone: '+61 403 527 105',
+          website: { label: 'onpointmotorcycles.com.au', url: 'https://www.onpointmotorcycles.com.au/' },
+          services: { label: 'Services and prices', url: 'https://www.onpointmotorcycles.com.au/pages/suspension-services' },
+          instagram: { label: '@onpoint_suspension', url: 'https://www.instagram.com/onpoint_suspension/' },
+          booking: { label: 'Contact OnPoint', url: 'https://www.onpointmotorcycles.com.au/pages/contact' }
+        }
+      }
     },
-    partners: [
-      { icon: '🔧', name: 'ONPOINT SUSPENSION', type: 'Suspension', desc: 'Suspension setup and trackside support at the races.', badge: 'Suspension Partner' },
-      { icon: '🦺', name: 'NO FEAR MOTOCROSS', type: 'Riding Gear', desc: 'Motocross gear partner for the 2026 season.', badge: 'Gear Partner' }
-    ]
-  },
+    {
+      id: 'nofear',
+      tier: 'title',
+      name: 'No Fear Motocross',
+      type: 'Riding Gear',
+      summary: 'Motocross gear partner for the 2026 season.'
+    }
+  ],
 
   /* Partner tiers, smallest first. `tiers` is the single place for
      each tier's name, short name and optional badge: the Partnership page cards
