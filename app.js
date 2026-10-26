@@ -633,7 +633,7 @@ function renderPartnerPage(id) {
           <a class="btn btn-outline" href="${c.website.url}" target="_blank" rel="noopener">Visit website</a>
         </div>
       </div>
-      ${partner.logo ? `<div class="partner-hero-logo"><img src="${partner.logo.src}" alt="${partner.logo.alt}" onerror="this.parentNode.remove()"/></div>` : ''}
+      ${pg.photo ? `<figure class="partner-hero-photo"><img src="${pg.photo.src}" alt="${pg.photo.alt}" onerror="this.parentNode.remove()"/></figure>` : ''}
     </div>
 
     <div class="partner-section partner-with-frederik animate-fade-up">
@@ -642,17 +642,18 @@ function renderPartnerPage(id) {
       ${pg.withFrederik.map(p => `<p class="bio-text">${p}</p>`).join('')}
     </div>
 
-    ${pg.photo ? `<figure class="partner-photo animate-fade-up"><img src="${pg.photo.src}" alt="${pg.photo.alt}" loading="lazy" onerror="this.parentNode.remove()"/></figure>` : ''}
-
     <div class="partner-section partner-about">
       <div class="animate-fade-up">
         <div class="section-label">The business</div>
         <h2 class="partner-section-title">${pg.aboutHeading}</h2>
         ${pg.about.map(p => `<p class="bio-text">${p}</p>`).join('')}
       </div>
-      <ul class="partner-facts animate-fade-up animate-delay-1">
+      <div class="partner-about-side animate-fade-up animate-delay-1">
+        ${partner.logo ? `<div class="partner-logo-box"><img src="${partner.logo.src}" alt="${partner.logo.alt}" loading="lazy" onerror="this.parentNode.remove()"/></div>` : ''}
+        <ul class="partner-facts">
         ${pg.facts.map(f => `<li>${f}</li>`).join('')}
       </ul>
+      </div>
     </div>
 
     <div class="partner-section">

@@ -579,8 +579,9 @@ const SITE_DATA = {
           'They have backed him through his first season in Australia, and you will find them tagged in almost every race report on his Instagram.'
         ],
 
-        // Shown across the top of the "About" section. Taken from the
-        // OnPoint website; ask OnPoint for a copy to keep in images/.
+        // Shown top right of the page; the logo sits in the "About"
+        // section. Taken from the OnPoint website; ask OnPoint for a
+        // copy to keep in images/.
         photo: { src: 'https://www.onpointmotorcycles.com.au/cdn/shop/files/IMG_20250922_200757_290_1.webp?v=1764649883&width=1500', alt: 'On Point Motorcycles & Suspension' },
 
         aboutHeading: 'ABOUT ONPOINT',
