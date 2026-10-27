@@ -2596,8 +2596,8 @@ footer {
   user-select: none;
 }
 .hp-carousel-img {
-  height: 48px;
-  max-width: 180px;
+  height: 56px;
+  width: 180px;
   object-fit: contain;
   mix-blend-mode: multiply; /* white logo backgrounds blend into the strip */
   opacity: 0.85;
@@ -3235,7 +3235,9 @@ footer {
    ============================================================ */
 .partner-card { display: flex; flex-direction: column; align-items: center; }
 .partner-card-logo {
-  height: 64px;
+  /* Same box for every partner, so Gold logos carry equal weight */
+  width: 240px;
+  height: 88px;
   max-width: 100%;
   object-fit: contain;
   margin-bottom: 12px;
@@ -3393,7 +3395,6 @@ footer {
   border-radius: 12px;
   margin: 8px 0 40px;
 }
-.page-photo-wide { height: 320px; margin: 0 0 48px; object-position: center 30%; }
 .photo-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3421,9 +3422,46 @@ footer {
   border-radius: 12px;
 }
 @media (max-width: 768px) {
-  .page-photo, .page-photo-wide { height: 220px; margin-bottom: 32px; }
+  .page-photo { height: 220px; margin-bottom: 32px; }
   .photo-split { grid-template-columns: 1fr; gap: 32px; }
   .photo-strip { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 48px; }
   .photo-strip img { height: 180px; }
   .photo-strip img:first-child { grid-column: 1 / -1; height: 220px; }
+}
+
+/* Results page: photo on the right of the page title, at a size the
+   photo is sharp at; the table stays near the top */
+.page-header-photo {
+  width: 420px;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+@media (max-width: 900px) {
+  .page-header-inner:has(.page-header-photo) { flex-direction: column; align-items: flex-start; }
+  .page-header-photo { width: 100%; max-width: 520px; aspect-ratio: 16 / 9; }
+}
+
+/* Partners page: "Become a partner" box with a photo on the left,
+   cropped to the photo's own shape so the whole rider shows */
+.cta-photo-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  text-align: left;
+  padding: 24px 48px 24px 24px;
+}
+.cta-photo {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.cta-photo-split .cta-actions { justify-content: flex-start; }
+@media (max-width: 768px) {
+  .cta-photo-split { grid-template-columns: 1fr; gap: 24px; padding: 16px 16px 32px; text-align: center; }
+  .cta-photo-split .section-label { justify-content: center; }
+  .cta-photo-split .cta-actions { justify-content: center; }
 }
