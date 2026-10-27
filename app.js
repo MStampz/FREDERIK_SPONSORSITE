@@ -8,14 +8,13 @@
 /* The dashboard page is left out until it has real Instagram
    Insights numbers (see the dashboard section in data.js). Add
    'dashboard' back here and to the nav to show it again. */
-const PAGES = ['home', 'sponsor-value', 'results', 'media', 'calendar', 'story', 'sponsors', 'contact']
+const PAGES = ['home', 'sponsor-value', 'results', 'media', 'story', 'sponsors', 'contact']
   .concat(SITE_DATA.partners.filter(p => p.page).map(p => 'partner-' + p.id));
 const NAV_MAP = {
   'home': 'Home',
   'sponsor-value': 'Partnership',
   'results': 'Results',
   'media': 'Media',
-  'calendar': 'Calendar',
   'story': 'Story',
   'sponsors': 'Partners',
   'dashboard': 'Dashboard',
@@ -105,8 +104,7 @@ function validateRaceIds() {
   });
 }
 
-/* The season shown on the Results and Calendar pages. Both pages
-   share it, so picking 2024 on one page shows 2024 on the other. */
+/* The season shown on the Results page. */
 let selectedSeasonYear = SITE_DATA.currentSeason;
 
 /* `date` is 'YYYY-MM' (month only) or 'YYYY-MM-DD'. */
@@ -123,30 +121,33 @@ function formatRaceDate(date) {
 function getSeasonStats(season = getCurrentSeason()) {
   const races = season.races;
   const completed = races.filter(r => !r.upcoming);
-  const countries = [...new Map(races.map(r => [r.country, r.flag])).entries()];
+  const countries = [...new Set(races.map(r => r.country))];
   return {
     rounds: races.length,
     racesDone: completed.length,
     podiums: completed.filter(r => r.pos && r.pos <= 3).length,
     wins: completed.filter(r => r.pos === 1).length,
-    countryCount: countries.length,
-    countryFlags: countries.map(([, flag]) => flag).join(' ')
+    countryCount: countries.length
   };
 }
 
 function getCareerStats() {
   const all = SITE_DATA.seasons.flatMap(s => s.races.filter(r => !r.upcoming));
-  const countries = [...new Map(all.map(r => [r.country, r.flag])).entries()];
+  const countries = [...new Set(all.map(r => r.country))];
   return {
     seasons: SITE_DATA.seasons.length,
     firstYear: Math.min(...SITE_DATA.seasons.map(s => s.year)),
     races: all.length,
     podiums: all.filter(r => r.pos && r.pos <= 3).length,
     wins: all.filter(r => r.pos === 1).length,
-    countryCount: countries.length,
-    countryFlags: countries.map(([, flag]) => flag).join(' ')
+    countryCount: countries.length
   };
 }
+
+/* Line icons for the social accounts in data.js, by `platform`. */
+const SOCIAL_ICONS = {
+  Instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></svg>'
+};
 
 /* One footer for every page: each <footer class="site-footer"> gets
    this markup. The data-field spans are filled in by renderIdentity,
@@ -154,7 +155,7 @@ function getCareerStats() {
 function renderFooters() {
   const socials = SITE_DATA.socials
     .filter(s => s.url)
-    .map(s => `<a class="footer-social" href="${s.url}" target="_blank" rel="noopener" title="${s.label}">${s.icon}</a>`)
+    .map(s => `<a class="footer-social" href="${s.url}" target="_blank" rel="noopener" title="${s.label}" aria-label="${s.platform} ${s.label}">${SOCIAL_ICONS[s.platform] || s.platform}</a>`)
     .join('');
   const html = `
     <div class="footer-inner">
@@ -169,14 +170,13 @@ function renderFooters() {
           <ul>
             <li><a class="nav-link" data-page="story">My Story</a></li>
             <li><a class="nav-link" data-page="results">Results</a></li>
-            <li><a class="nav-link" data-page="calendar">Calendar</a></li>
             <li><a class="nav-link" data-page="media">Media</a></li>
           </ul>
         </div>
         <div class="footer-nav-section">
           <h4>Partnership</h4>
           <ul>
-            <li><a class="nav-link" data-page="sponsor-value">Partnership</a></li>
+            <li><a class="nav-link" data-page="sponsor-value">Become a Partner</a></li>
             <li><a class="nav-link" data-page="sponsors">Partners</a></li>
           </ul>
         </div>
@@ -204,16 +204,15 @@ function renderIdentity() {
   bindField('site-footer-tag', `Stampe Racing · ${site.raceClass} · ${num}`);
   bindField('rider-number', site.raceNumber);
   bindField('rider-class', site.raceClass);
-  bindField('rider-nationality', `${site.nationality} ${site.countryFlag}`);
+  bindField('rider-nationality', site.nationality);
   bindField('rider-birthplace', site.birthplace);
   bindField('rider-bike', site.bike);
   bindField('rider-based', site.basedIn);
   bindField('contact-email', contact.email);
   bindField('contact-phone', contact.phone);
   bindField('contact-location', contact.location);
-  bindField('contact-location-flag', `${contact.location} ${contact.locationFlag}`);
 
-  bindField('rider-home-club', `${site.homeClub} ${site.countryFlag}`);
+  bindField('rider-home-club', site.homeClub);
   bindField('hero-line', site.heroLine);
   bindField('hero-sub', `${site.nationality} Motocross Rider · ${site.basedInCity}`);
 
@@ -282,9 +281,6 @@ function renderBacking() {
   bindField('backing-needs-label', b.needsLabel);
   bindField('backing-needs-heading', b.needsHeading);
   bindField('backing-needs-subtitle', b.needsSubtitle);
-  bindField('backing-commit-label', b.commitLabel);
-  bindField('backing-commit-heading', b.commitHeading);
-  bindField('backing-commit-subtitle', b.commitSubtitle);
   bindField('backing-network-label', b.networkLabel);
   bindField('backing-network-heading', b.networkHeading);
   bindField('backing-packages-label', b.packagesLabel);
@@ -312,31 +308,23 @@ function renderBacking() {
       </div>`).join('');
   };
   cards('backing-needs-container', b.needs);
-  cards('backing-commit-container', b.commitments);
 }
 
 function renderSeasonStats() {
   const s = getSeasonStats();
   const c = getCareerStats();
-  const m = SITE_DATA.seasonMetrics;
   bindField('current-season', SITE_DATA.currentSeason);
   bindField('season-rounds', s.rounds);
   bindField('season-races-done', s.racesDone);
   bindField('season-podiums', s.podiums);
   bindField('season-wins', s.wins);
   bindField('season-country-count', s.countryCount);
-  bindField('season-country-flags', s.countryFlags);
   bindField('career-seasons', c.seasons);
   bindField('career-first-year', c.firstYear);
-  bindField('season-focus', getCurrentSeason().focus || '');
   bindField('career-races', c.races);
   bindField('career-podiums', c.podiums);
   bindField('career-wins', c.wins);
   bindField('career-country-count', c.countryCount);
-  bindField('career-country-flags', c.countryFlags);
-  bindField('instagram-followers', `${m.instagramFollowers}${m.instagramFollowersSuffix}`);
-  bindField('top-reel-likes', m.topReelLikes);
-  if (SITE_DATA.socials[0]) bindField('main-social', SITE_DATA.socials[0].label);
 }
 
 function renderSeasonMetrics() {
@@ -384,14 +372,17 @@ function renderHomeHighlights() {
 function renderCarousel() {
   const track = document.getElementById('carousel-track');
   if (!track) return;
+  // Each partner's logo, or its name until there is a logo file.
   // Repeated so a short partner list still fills the strip.
-  const names = SITE_DATA.partners.map(p => p.name.toUpperCase());
-  const once = names.map(name => `<div class="hp-carousel-item"><div class="hp-carousel-logo">${name}</div></div>`).join('');
-  const items = once.repeat(Math.max(1, Math.ceil(8 / names.length)));
+  const partners = SITE_DATA.partners;
+  const once = partners.map(p => `<div class="hp-carousel-item">${p.logo
+    ? `<img class="hp-carousel-img" src="${p.logo.src}" alt="${p.logo.alt}" onerror="this.outerHTML='<div class=&quot;hp-carousel-logo&quot;>${p.name.toUpperCase()}</div>'"/>`
+    : `<div class="hp-carousel-logo">${p.name.toUpperCase()}</div>`}</div>`).join('');
+  const items = once.repeat(Math.max(1, Math.ceil(8 / partners.length)));
   track.innerHTML = items + items; // duplicated for seamless loop
 }
 
-/* Season picker shown on the Results and Calendar pages. */
+/* Season picker shown on the Results page. */
 function renderSeasonTabs() {
   document.querySelectorAll('[data-season-tabs]').forEach(container => {
     container.innerHTML = SITE_DATA.seasons.map(s => `
@@ -404,7 +395,6 @@ function selectSeason(year) {
   selectedSeasonYear = year;
   renderSeasonTabs();
   renderResultsTable(true);
-  renderCalendar(true);
 }
 
 function initSeasonTabs() {
@@ -430,70 +420,24 @@ function renderResultsTable() {
 
   const tbody = document.getElementById('results-tbody');
   if (!tbody) return;
+  // Races not yet run are listed too, marked Upcoming.
   tbody.innerHTML = season.races
-    .filter(r => !r.upcoming)
     .map((r, i) => `
       <tr>
         <td><span class="round-num">${String(i + 1).padStart(2, '0')}</span></td>
         <td><span class="track-name">${r.track}</span></td>
-        <td>${r.flag} ${r.country}</td>
+        <td>${r.country}</td>
         <td>${formatRaceDate(r.date).short}</td>
         <td>${r.championship}</td>
-        <td>${r.pos ? `<span class="pos-badge pos-${Math.min(r.pos, 4)}">P${r.pos}</span>` : ''}${r.result ? ` <span class="pos-result">${r.result}</span>` : ''}</td>
+        <td>${r.upcoming
+          ? '<span class="badge badge-sand">Upcoming</span>'
+          : `${r.pos ? `<span class="pos-badge pos-${Math.min(r.pos, 4)}">P${r.pos}</span>` : ''}${r.result ? ` <span class="pos-result">${r.result}</span>` : ''}`}</td>
       </tr>`).join('');
 }
 
-/* `instant` skips the fade-in when the season picker re-renders the
-   page that is already on screen. */
-function renderCalendar(instant = false) {
-  const season = getSeason(selectedSeasonYear);
-  const races = season.races;
-  const isCurrent = season.year === SITE_DATA.currentSeason;
-  const nextRace = isCurrent ? getNextRace(season) : null;
-  const stats = getSeasonStats(season);
-
-  bindField('calendar-title', `${season.year} SEASON CALENDAR`);
-  bindField('calendar-subtitle', season.subtitle);
-
-  const venue = document.getElementById('next-race-venue');
-  const country = document.getElementById('next-race-country');
-  const round = document.getElementById('next-race-round');
-  const date = document.getElementById('next-race-date');
-  const heroBadge = document.querySelector('.next-race-badge');
-  const countdown = document.querySelector('.next-race-countdown');
-  const badgesEl = document.getElementById('next-race-badges');
-  const separators = document.querySelectorAll('.next-race-meta > span:not([id])');
-  const hero = document.querySelector('.next-race-hero');
-  const noteStyle = "font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);";
-
-  if (nextRace) {
-    const extra = season.nextRace;
-    const n = races.indexOf(nextRace) + 1;
-    if (heroBadge) heroBadge.textContent = 'Next Race';
-    if (venue) venue.textContent = nextRace.track.toUpperCase();
-    if (country) country.textContent = `${nextRace.flag} ${nextRace.country}`;
-    if (round) round.textContent = `Race ${n} of ${races.length}`;
-    if (date) date.textContent = formatRaceDate(nextRace.date).full;
-    separators.forEach(el => { el.style.display = ''; });
-    if (badgesEl) badgesEl.innerHTML = (extra.badges || []).map((b, i) => `<span class="badge ${i === 0 ? 'badge-gold' : 'badge-sand'}">${b}</span>`).join('')
-      + `<span style="${noteStyle}" id="next-race-note">${extra.note || ''}</span>`;
-    if (countdown) countdown.style.display = '';
-    if (hero) { hero.classList.remove('season-complete'); hero.dataset.year = season.year; }
-  } else {
-    // No upcoming race in this season: show the season summary.
-    if (heroBadge) heroBadge.textContent = isCurrent ? 'Season Complete' : 'Season';
-    if (venue) venue.textContent = season.title;
-    if (country) country.textContent = `${stats.racesDone} races · ${stats.countryFlags}`;
-    if (round) round.textContent = '';
-    if (date) date.textContent = '';
-    separators.forEach(el => { el.style.display = 'none'; });
-    if (badgesEl) badgesEl.innerHTML = keyResultsHtml(season)
-      + (isCurrent ? `<span style="${noteStyle}" id="next-race-note">Next season's plans coming soon</span>` : '');
-    if (countdown) countdown.style.display = 'none';
-    if (hero) { hero.classList.add('season-complete'); hero.dataset.year = season.year; }
-  }
-
-  // The contact page always shows the current season's next race.
+/* The "Come to a race" card on Get in Touch: the current season's
+   next race, or a note that the season is over. */
+function renderContactNextRace() {
   const current = getCurrentSeason();
   const currentNext = getNextRace(current);
   const contactVenue = document.getElementById('contact-next-race-venue');
@@ -503,40 +447,7 @@ function renderCalendar(instant = false) {
     if (contactDate) contactDate.textContent = formatRaceDate(currentNext.date).full;
   } else {
     if (contactVenue) contactVenue.textContent = `${current.year} season complete`;
-    if (contactDate) contactDate.textContent = `${current.year + 1} calendar coming soon`;
-  }
-
-  const grid = document.getElementById('race-grid-container');
-  if (grid) {
-    grid.classList.toggle('season-done', !races.some(r => r.upcoming));
-    const anim = instant ? ' in-view' : '';
-    grid.innerHTML = races.map((race, i) => {
-      const isNext = race === nextRace;
-      const win = race.pos === 1;
-      const delay = i === 0 ? '' : ` animate-delay-${((i - 1) % 3) + 1}`;
-      const goldStyle = isNext ? ' style="color:var(--gold);"' : '';
-      const resultHtml = race.upcoming
-        ? `<div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(200,16,46,0.15);">
-             <span class="badge badge-gold" style="font-size:10px;">${race.championship}</span>
-           </div>`
-        : `<div class="race-result">
-             ${race.pos ? `<span class="race-result-pos"${race.pos >= 4 ? ' style="color:var(--text-2);"' : ''}>P${race.pos}</span>` : ''}
-             ${race.result ? `<span style="font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--text-2);">${race.result}</span>` : ''}
-             ${win ? '<span class="badge badge-gold" style="margin-left:auto; font-size:9px;">WIN</span>' : ''}
-           </div>`;
-      const status = isNext ? 'Next Race' : race.upcoming ? 'Upcoming' : 'Completed';
-      return `
-        <div class="race-card ${race.upcoming ? 'next' : 'completed'} animate-fade-up${delay}${anim}">
-          <div class="race-card-header">
-            <span class="race-round"${goldStyle}>Race ${i + 1}</span>
-            <span class="race-status ${race.upcoming ? 'status-next' : 'status-completed'}">${status}</span>
-          </div>
-          <div class="race-venue"${goldStyle}>${race.track}</div>
-          <div class="race-location">${race.flag} ${race.country} · ${race.championship}</div>
-          <div class="race-date"${isNext ? ' style="color:var(--text);"' : ''}>${formatRaceDate(race.date).full}</div>
-          ${resultHtml}
-        </div>`;
-    }).join('');
+    if (contactDate) contactDate.textContent = `${current.year + 1} races coming soon`;
   }
 }
 
@@ -693,7 +604,7 @@ function renderPackages() {
     svContainer.innerHTML = p.sponsorValue.map((pkg, i) => {
       const t = getTier(pkg.tier);
       return `
-      <div class="sv-pkg-card${t.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+      <div class="sv-pkg-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
         ${t.badge ? `<div class="sv-pkg-popular-badge">${t.badge}</div>` : ''}
         <h3 class="sv-pkg-name">${t.name}</h3>
         <p class="sv-pkg-intro">${pkg.intro}</p>
@@ -701,7 +612,7 @@ function renderPackages() {
         <ul class="sv-pkg-list">
           ${pkg.features.map(f => `<li class="${f.included ? 'sv-feat-y' : 'sv-feat-n'}">${f.text}</li>`).join('')}
         </ul>
-        <button class="btn ${pkg.ctaStyle === 'primary' ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" data-goto="contact" data-tier="${t.id}">Ask about ${t.short}</button>
+        <button class="btn btn-primary sv-pkg-cta" data-goto="contact" data-tier="${t.id}">Ask about ${t.short}</button>
       </div>`;
     }).join('');
   }
@@ -746,7 +657,7 @@ function renderGetInTouch() {
       } else if (w.goto) {
         button = `<button class="btn btn-outline btn-sm" data-goto="${w.goto}"${w.scroll ? ` data-scroll="${w.scroll}"` : ''}>${w.cta}</button>`;
       }
-      // The next race lines are filled in by renderCalendar.
+      // The next race lines are filled in by renderContactNextRace.
       const nextRace = w.nextRace ? `
           <div class="contact-way-race">
             <div id="contact-next-race-venue"></div>
@@ -803,7 +714,7 @@ function renderDashboard() {
   if (platformTbody) {
     platformTbody.innerHTML = d.platforms.map(p => `
       <tr>
-        <td><span class="platform-name">${p.icon} ${p.name}</span></td>
+        <td><span class="platform-name">${p.name}</span></td>
         <td>${p.followers}</td>
         <td>${p.reach}</td>
         <td>${p.engagement}</td>
@@ -840,7 +751,7 @@ function renderAllData() {
   renderCarousel();
   renderSeasonTabs();
   renderResultsTable();
-  renderCalendar();
+  renderContactNextRace();
   renderStoryTimeline();
   renderMedia();
   renderPartners();
@@ -1068,46 +979,6 @@ function initCounters() {
   document.querySelectorAll('.counter').forEach(el => observer.observe(el));
 }
 
-/* =====================================================   COUNTDOWN TIMER
-   ============================================================ */
-function initCountdown() {
-  const season = getCurrentSeason();
-  const next = season.nextRace;
-  if (!next || !next.countdownTarget || !getNextRace(season)) return;
-  const target = new Date(next.countdownTarget);
-
-  function update() {
-    const now = new Date();
-    const diff = target - now;
-
-    if (diff <= 0) {
-      ['days', 'hours', 'mins', 'secs'].forEach(u => {
-        const el = document.getElementById('cd-' + u);
-        if (el) el.textContent = '00';
-      });
-      return;
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-    const fmt = n => String(n).padStart(2, '0');
-    const dEl = document.getElementById('cd-days');
-    const hEl = document.getElementById('cd-hours');
-    const mEl = document.getElementById('cd-mins');
-    const sEl = document.getElementById('cd-secs');
-    if (dEl) dEl.textContent = fmt(days);
-    if (hEl) hEl.textContent = fmt(hours);
-    if (mEl) mEl.textContent = fmt(mins);
-    if (sEl) sEl.textContent = fmt(secs);
-  }
-
-  update();
-  setInterval(update, 1000);
-}
-
 /* =====================================================   HERO PARALLAX
    ============================================================ */
 function initParallax() {
@@ -1296,7 +1167,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initIntersectionObserver();
   initBarObserver();
   initCounters();
-  initCountdown();
   initSeasonTabs();
   initParallax();
   initDashboardTabs();

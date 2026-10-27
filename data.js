@@ -14,7 +14,7 @@
                       on the Story page and the timeline subtitle
      backing        — the partner pitch: Partnership page headings,
                       the family's letter, what partners make possible,
-                      what we commit to, the partner network, the tier
+                      the partner network, the tier
                       wording and the "become a partner" wording on
                       the Partners page
      home           — home page text: the proof line under the name
@@ -24,19 +24,18 @@
                       in Touch page
      getInTouch     — Get in Touch page text, its cards and the
                       form's topics
-     socials        — social accounts (footer icons, Follow along
-                      card)
+     socials        — social accounts (footer icons)
      seasonMetrics  — home page social counter (race counts and
                       podiums are counted from seasons instead)
      homeHighlights — home page "Career Highlights" cards (four)
-     currentSeason  — the year the home page, calendar countdown and
+     currentSeason  — the year the home page, Results page and
                       season counters are about
      seasons        — every season's races, newest first. Single
-                      source of truth for the Results page, the
-                      Calendar page (both have a season picker), the
-                      Story timeline and every race/podium count
+                      source of truth for the Results page (it has a
+                      season picker), the Story timeline and every
+                      race/podium count
      images         — the fixed photos on the pages (hero, bio
-                      portrait, banner)
+                      portrait, banner and one extra photo per page)
      media          — media page gallery items
      partners       — current partners by tier: the Partners page,
                       the home page logo strip, and a page of its
@@ -56,7 +55,6 @@ const SITE_DATA = {
     raceNumber: '215',
     raceClass: 'MX2',
     country: 'Denmark',
-    countryFlag: '🇩🇰',
     nationality: 'Danish',
     birthplace: 'Aarhus, Denmark',
     bike: 'Yamaha 250',
@@ -115,20 +113,6 @@ const SITE_DATA = {
       { title: 'Tyres and race entries', desc: 'The everyday costs of a race season, round after round.' }
     ],
 
-    // "What we commit to" cards: what Frederik and the family give
-    // back. The subtitle says what partners bring.
-    commitLabel: 'A two-way partnership',
-    commitHeading: 'WHAT WE COMMIT TO',
-    commitSubtitle: 'Partners bring cash, products or services, and share the journey with their customers and staff. This is what Frederik and the family bring in return.',
-    commitments: [
-      { title: 'Your name on the bike', desc: 'On the plastics or jersey at every race he rides.' },
-      { title: 'A thank-you post', desc: 'Every partner is announced on his Instagram, the way his Danish partners Ole Larsen Transport, TKP Byg and Sidelmann Bosch Car Service were.' },
-      { title: 'News from every race', desc: 'A personal update from Frederik after each round: how it went and what is next.' },
-      { title: 'A visit from Frederik', desc: 'Frederik and the bike at your shop, workshop or staff day.' },
-      { title: 'Introductions to other partners', desc: 'We introduce you to the other partners and invite you to our partner get-togethers.' },
-      { title: 'An honest season report', desc: 'At the end of the season: how it went, the photos, and what your partnership made possible.' }
-    ],
-
     // "The partner network" text. Each entry is one paragraph.
     networkLabel: 'The partner network',
     networkHeading: 'PARTNERS MEET PARTNERS.',
@@ -166,8 +150,7 @@ const SITE_DATA = {
   contact: {
     email: 'info@frederikstampe.com',
     phone: '+61 472 625 887',
-    location: 'Melbourne, Australia',
-    locationFlag: '🇦🇺'
+    location: 'Melbourne, Australia'
   },
 
   /* Get in Touch page (page id `contact`). `ways` are the cards under
@@ -182,12 +165,10 @@ const SITE_DATA = {
   getInTouch: {
     label: 'Say hello',
     heading: 'GET IN TOUCH',
-    subtitle: 'Fan, fellow rider, club, journalist or business, we would love to hear from you. Send a message, follow along on Instagram, or come and say hi at a race.',
+    subtitle: 'Fan, fellow rider, club, journalist or business, we would love to hear from you. Send a message, or come and say hi at a race.',
     replyTime: 'We will get back to you within a couple of days.',
     ways: [
-      { title: 'Follow along', desc: 'Race reports after every round, and life as a young Dane racing in Australia.', cta: 'Follow on Instagram', link: 'instagram' },
-      { title: 'Come to a race', desc: 'Come and say hi in the paddock.', cta: 'See the calendar', goto: 'calendar', nextRace: true },
-      { title: 'Media and interviews', desc: 'For interviews, photos or race information, email us and we will get back to you.', cta: 'Email us', link: 'email' },
+      { title: 'Come to a race', desc: 'Come and say hi in the paddock.', cta: 'See the races', goto: 'results', nextRace: true },
       { title: 'Partner with Frederik', desc: 'Want to be part of his next season? See what partners make possible and the partner tiers.', cta: 'See partner tiers', goto: 'sponsor-value', scroll: 'partner-tiers' }
     ],
     topics: [
@@ -199,11 +180,11 @@ const SITE_DATA = {
     ]
   },
 
-  /* Social accounts, shown as icons in the footer. The first one is
-     the "Follow along" card on the Get in Touch page. Accounts
-     without a `url` are left out. */
+  /* Social accounts, shown as icons in the footer. `platform` picks
+     the icon (Instagram has one). Accounts without a `url` are left
+     out. */
   socials: [
-    { icon: '📸', label: '@frederik_stampe', url: 'https://www.instagram.com/frederik_stampe/' }
+    { platform: 'Instagram', label: '@frederik_stampe', url: 'https://www.instagram.com/frederik_stampe/' }
   ],
 
   /* Only numbers that can be checked go here. Races and podiums are
@@ -211,9 +192,7 @@ const SITE_DATA = {
      profile (Oct 2026). */
   seasonMetrics: {
     instagramFollowers: '3.1',
-    instagramFollowersSuffix: 'K',
-    // Likes on the most-watched reel
-    topReelLikes: '10K'
+    instagramFollowersSuffix: 'K'
   },
 
   /* Career highlight cards on the home page (four, best first; on a
@@ -251,7 +230,7 @@ const SITE_DATA = {
       label: '4×',
       medal: 2,
       meta: '2019 – 2024 &nbsp;·&nbsp; Denmark',
-      image: 'images/hl-danish-championship.jpg',
+      image: 'images/gallery-09.jpg',
       title: 'DANISH CHAMPIONSHIP PODIUMS',
       summary: '4× on the Danish Championship podium: vice champion in 85cc in 2021 and 2022, plus 3rd in 65cc (2019) and 3rd in 125cc (2024).'
     },
@@ -273,10 +252,19 @@ const SITE_DATA = {
   images: {
     hero: { src: 'images/hero.jpg', alt: 'Frederik Rahn Stampe in action' },
     portrait: { src: 'images/portrait.jpg', alt: 'Frederik Rahn Stampe on his Yamaha, number 215' },
-    storyBanner: { src: 'images/story-banner.jpg', alt: 'Frederik in the air in front of a packed grandstand' }
+    storyBanner: { src: 'images/story-banner.jpg', alt: 'Frederik in the air in front of a packed grandstand' },
+    // One extra photo per page
+    homeStory: { src: 'images/gallery-06.jpg', alt: 'Frederik in the air in front of the crowd' },
+    partnershipLetter: { src: 'images/gallery-05.jpg', alt: 'Frederik cornering in the late light' },
+    resultsBanner: { src: 'images/gallery-07.jpg', alt: 'Frederik jumping over the rocks against a blue sky' },
+    storyStrip1: { src: 'images/gallery-11.jpg', alt: 'Close-up of Frederik in his helmet' },
+    storyStrip2: { src: 'images/gallery-03.jpg', alt: 'Frederik exiting a corner on his Yamaha' },
+    storyStrip3: { src: 'images/gallery-10.jpg', alt: 'Young Frederik on his number 5 Yamaha in the pits' },
+    partnersBanner: { src: 'images/gallery-01.jpg', alt: 'Frederik roosting the sand in a corner' },
+    contact: { src: 'images/gallery-04.jpg', alt: 'Frederik on his number 215 Yamaha' }
   },
 
-  /* The season the home page counters, Story and Calendar countdown
+  /* The season the home page counters, Story and Results page
      are about. */
   currentSeason: 2026,
 
@@ -286,28 +274,26 @@ const SITE_DATA = {
      race date is known and the site shows it.
 
      Season fields:
-       year, title, subtitle — shown on the Results and Calendar pages
+       year, title, subtitle — shown on the Results page
        badge                 — headline result for the season, shown
-                               first on the Results and Calendar pages
+                               first on the Results page
        bluCru                — optional, the Yamaha bLU cRU SuperFinale
                                result, shown as its own badge next to
                                `badge` (podium or top 10 years)
-       focus                 — optional, the series raced, shown on
-                               the Partnership page for the
-                               current season
        summary               — one line for the Story timeline
        nextRace              — optional, only for the current season:
-                               { raceId, badges, note, countdownTarget }
+                               { raceId } — shown on the Get in Touch
+                               "Come to a race" card
                                where `raceId` is a race id below
      Race fields:
        id      — permanent race id, see the rules below
-       track, flag, country, date, championship
+       track, country, date, championship
        pos     — overall finishing position, or null when there is
                  no single overall result
        result  — short text shown next to/instead of `pos`, e.g.
                  moto scores '3-2-2' or 'DNS'
-       upcoming: true — a race not yet run (shown on the Calendar,
-                 left out of the Results table) */
+       upcoming: true — a race not yet run (listed on the Results
+                 page as Upcoming) */
   /* Race ids
      Every race has an id in the form  <year>-<series>-round<N>,
      e.g. '2026-vicmc-round2'. Home page highlights and the next
@@ -362,18 +348,17 @@ const SITE_DATA = {
       title: '2026 SEASON',
       subtitle: 'First season in Australia — Victorian Motocross Championship (MX3 and MX2), Pro MX and the MXGP of Australia.',
       badge: 'P2 Victorian Motocross Championship MX3',
-      focus: 'Victorian Motocross Championship · Pro MX',
       summary: 'Moved to Melbourne. Second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, Pro MX debut and a trip to the MXGP of Australia.',
       races: [
-        { id: '2026-vicmc-round1', track: 'Round 1', flag: '🇦🇺', country: 'Australia', date: '2026-04', championship: 'Victorian Motocross Championship', pos: null, result: 'MX3 6-4-5 · MX2 7-6-5' },
-        { id: '2026-promx-round1', track: 'Canberra', flag: '🇦🇺', country: 'Australia', date: '2026-04', championship: 'Pro MX', pos: null, result: '27-25' },
-        { id: '2026-sandmasters-round1', track: 'Sandmasters', flag: '🇦🇺', country: 'Australia', date: '2026-05', championship: 'Sandmasters', pos: null, result: '1-1-DNF-DNS' },
-        { id: '2026-promx-round2', track: 'Gillman', flag: '🇦🇺', country: 'Australia', date: '2026-05', championship: 'Pro MX', pos: null, result: '11-17' },
-        { id: '2026-vicmc-round2', track: 'Round 2', flag: '🇦🇺', country: 'Australia', date: '2026-05', championship: 'Victorian Motocross Championship MX3', pos: 2, result: '3-2-2' },
-        { id: '2026-promx-round5', track: 'Appin', flag: '🇦🇺', country: 'Australia', date: '2026-06', championship: 'Pro MX', pos: null, result: 'Round 5' },
-        { id: '2026-vicmc-round3', track: 'Round 3', flag: '🇦🇺', country: 'Australia', date: '2026-07', championship: 'Victorian Motocross Championship MX2', pos: 2, result: 'MX3 P3' },
-        { id: '2026-vicmc-round4', track: 'Round 4', flag: '🇦🇺', country: 'Australia', date: '2026-08', championship: 'Victorian Motocross Championship MX3', pos: 3, result: 'P2 in championship' },
-        { id: '2026-mxgp-round1', track: 'Darwin', flag: '🇦🇺', country: 'Australia', date: '2026-09', championship: 'MXGP of Australia', pos: null, result: 'DNS' }
+        { id: '2026-vicmc-round1', track: 'Round 1', country: 'Australia', date: '2026-04', championship: 'Victorian Motocross Championship', pos: null, result: 'MX3 6-4-5 · MX2 7-6-5' },
+        { id: '2026-promx-round1', track: 'Canberra', country: 'Australia', date: '2026-04', championship: 'Pro MX', pos: null, result: '27-25' },
+        { id: '2026-sandmasters-round1', track: 'Sandmasters', country: 'Australia', date: '2026-05', championship: 'Sandmasters', pos: null, result: '1-1-DNF-DNS' },
+        { id: '2026-promx-round2', track: 'Gillman', country: 'Australia', date: '2026-05', championship: 'Pro MX', pos: null, result: '11-17' },
+        { id: '2026-vicmc-round2', track: 'Round 2', country: 'Australia', date: '2026-05', championship: 'Victorian Motocross Championship MX3', pos: 2, result: '3-2-2' },
+        { id: '2026-promx-round5', track: 'Appin', country: 'Australia', date: '2026-06', championship: 'Pro MX', pos: null, result: 'Round 5' },
+        { id: '2026-vicmc-round3', track: 'Round 3', country: 'Australia', date: '2026-07', championship: 'Victorian Motocross Championship MX2', pos: 2, result: 'MX3 P3' },
+        { id: '2026-vicmc-round4', track: 'Round 4', country: 'Australia', date: '2026-08', championship: 'Victorian Motocross Championship MX3', pos: 3, result: 'P2 in championship' },
+        { id: '2026-mxgp-round1', track: 'Darwin', country: 'Australia', date: '2026-09', championship: 'MXGP of Australia', pos: null, result: 'DNS' }
       ]
     },
     {
@@ -383,22 +368,22 @@ const SITE_DATA = {
       badge: '4th Danish MX2 Championship',
       summary: 'Stepped up to the 250. Fourth in the Danish MX2 championship, two points off the podium, plus ADAC MX Masters and EMX250. His own word for it: a breakthrough year.',
       races: [
-        { id: '2025-dutchopener-round1', track: 'Lierop', flag: '🇳🇱', country: 'Netherlands', date: '2025-02', championship: 'Dutch MX season opener', pos: null, result: 'B-final P4' },
-        { id: '2025-wintercup-round1', track: 'Sønderborg', flag: '🇩🇰', country: 'Denmark', date: '2025-03', championship: 'Winter Cup', pos: null, result: 'DNF-7' },
-        { id: '2025-preseason-round1', track: 'Korskro', flag: '🇩🇰', country: 'Denmark', date: '2025-03', championship: 'Pre-season race', pos: null, result: '11-8' },
-        { id: '2025-preseason-round2', track: 'Vesterbæk', flag: '🇩🇰', country: 'Denmark', date: '2025-03', championship: 'Pre-season race', pos: null, result: '6-DNF' },
-        { id: '2025-adac-round1', track: 'Drehna', flag: '🇩🇪', country: 'Germany', date: '2025-04', championship: 'ADAC MX Masters', pos: null, result: 'LCQ P5' },
-        { id: '2025-fastlane-round1', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2025-05', championship: 'Fastlane MX Masters', pos: 5, result: '3-9' },
-        { id: '2025-adac-round2', track: 'Mölln', flag: '🇩🇪', country: 'Germany', date: '2025-05', championship: 'ADAC MX Masters', pos: 31, result: '27-33-30' },
-        { id: '2025-dmmx2-round1', track: 'Hjørring', flag: '🇩🇰', country: 'Denmark', date: '2025-05', championship: 'Danish Championship MX2', pos: 4, result: '6-3' },
-        { id: '2025-adac-round3', track: 'Dreetz', flag: '🇩🇪', country: 'Germany', date: '2025-06', championship: 'ADAC MX Masters', pos: null, result: 'DNF-23-29' },
-        { id: '2025-dmmx2-round2', track: 'Herning', flag: '🇩🇰', country: 'Denmark', date: '2025-06', championship: 'Danish Championship MX2', pos: 6, result: '7-6' },
-        { id: '2025-adac-round4', track: 'Tensfeld', flag: '🇩🇪', country: 'Germany', date: '2025-07', championship: 'ADAC MX Masters', pos: null, result: 'DNS-24-DNF' },
-        { id: '2025-emx250-round1', track: 'Uddevalla', flag: '🇸🇪', country: 'Sweden', date: '2025-08', championship: 'EMX250', pos: null, result: '' },
-        { id: '2025-dmmx2-round3', track: 'Esbjerg', flag: '🇩🇰', country: 'Denmark', date: '2025-08', championship: 'Danish Championship MX2', pos: null, result: '8-7' },
-        { id: '2025-dkclub-round1', track: 'Danish Club Championship', flag: '🇩🇰', country: 'Denmark', date: '2025-09', championship: 'Danish Club Championship', pos: null, result: '10-6' },
-        { id: '2025-adac-round5', track: 'Holzgerlingen', flag: '🇩🇪', country: 'Germany', date: '2025-09', championship: 'ADAC MX Masters', pos: null, result: 'DNS-DNS-33' },
-        { id: '2025-dmmx2-round4', track: 'Season final', flag: '🇩🇰', country: 'Denmark', date: '2025-09', championship: 'Danish Championship MX2', pos: null, result: '6-4 · 4th in championship' }
+        { id: '2025-dutchopener-round1', track: 'Lierop', country: 'Netherlands', date: '2025-02', championship: 'Dutch MX season opener', pos: null, result: 'B-final P4' },
+        { id: '2025-wintercup-round1', track: 'Sønderborg', country: 'Denmark', date: '2025-03', championship: 'Winter Cup', pos: null, result: 'DNF-7' },
+        { id: '2025-preseason-round1', track: 'Korskro', country: 'Denmark', date: '2025-03', championship: 'Pre-season race', pos: null, result: '11-8' },
+        { id: '2025-preseason-round2', track: 'Vesterbæk', country: 'Denmark', date: '2025-03', championship: 'Pre-season race', pos: null, result: '6-DNF' },
+        { id: '2025-adac-round1', track: 'Drehna', country: 'Germany', date: '2025-04', championship: 'ADAC MX Masters', pos: null, result: 'LCQ P5' },
+        { id: '2025-fastlane-round1', track: 'Randers', country: 'Denmark', date: '2025-05', championship: 'Fastlane MX Masters', pos: 5, result: '3-9' },
+        { id: '2025-adac-round2', track: 'Mölln', country: 'Germany', date: '2025-05', championship: 'ADAC MX Masters', pos: 31, result: '27-33-30' },
+        { id: '2025-dmmx2-round1', track: 'Hjørring', country: 'Denmark', date: '2025-05', championship: 'Danish Championship MX2', pos: 4, result: '6-3' },
+        { id: '2025-adac-round3', track: 'Dreetz', country: 'Germany', date: '2025-06', championship: 'ADAC MX Masters', pos: null, result: 'DNF-23-29' },
+        { id: '2025-dmmx2-round2', track: 'Herning', country: 'Denmark', date: '2025-06', championship: 'Danish Championship MX2', pos: 6, result: '7-6' },
+        { id: '2025-adac-round4', track: 'Tensfeld', country: 'Germany', date: '2025-07', championship: 'ADAC MX Masters', pos: null, result: 'DNS-24-DNF' },
+        { id: '2025-emx250-round1', track: 'Uddevalla', country: 'Sweden', date: '2025-08', championship: 'EMX250', pos: null, result: '' },
+        { id: '2025-dmmx2-round3', track: 'Esbjerg', country: 'Denmark', date: '2025-08', championship: 'Danish Championship MX2', pos: null, result: '8-7' },
+        { id: '2025-dkclub-round1', track: 'Danish Club Championship', country: 'Denmark', date: '2025-09', championship: 'Danish Club Championship', pos: null, result: '10-6' },
+        { id: '2025-adac-round5', track: 'Holzgerlingen', country: 'Germany', date: '2025-09', championship: 'ADAC MX Masters', pos: null, result: 'DNS-DNS-33' },
+        { id: '2025-dmmx2-round4', track: 'Season final', country: 'Denmark', date: '2025-09', championship: 'Danish Championship MX2', pos: null, result: '6-4 · 4th in championship' }
       ]
     },
     {
@@ -409,20 +394,20 @@ const SITE_DATA = {
       bluCru: 'Top 10 Yamaha bLU cRU SuperFinale · England',
       summary: 'Third overall in the Danish 125cc championship. Raced EMX125, the Junior World Championship and ADAC, qualified second in his first ever 250 race, and top 10 at the Yamaha bLU cRU SuperFinale in England.',
       races: [
-        { id: '2024-dutchopener-round1', track: 'Lierop', flag: '🇳🇱', country: 'Netherlands', date: '2024-03', championship: 'Dutch season opener', pos: 13, result: '' },
-        { id: '2024-emx125-round1', track: 'Riola Sardo', flag: '🇮🇹', country: 'Italy', date: '2024-04', championship: 'EMX125', pos: null, result: '25-22' },
-        { id: '2024-emx125-round2', track: 'Arco di Trento', flag: '🇮🇹', country: 'Italy', date: '2024-04', championship: 'EMX125', pos: null, result: 'DNQ' },
-        { id: '2024-dm125-round1', track: 'Svendborg', flag: '🇩🇰', country: 'Denmark', date: '2024-04', championship: 'Danish Championship 125cc', pos: 4, result: '' },
-        { id: '2024-adac-round1', track: 'Dreetz', flag: '🇩🇪', country: 'Germany', date: '2024-04', championship: 'ADAC MX Masters', pos: null, result: '26-11' },
-        { id: '2024-dmmx2-round1', track: 'Danish Championship MX2', flag: '🇩🇰', country: 'Denmark', date: '2024-05', championship: 'Danish Championship MX2', pos: 13, result: '15-13 on a 125' },
-        { id: '2024-adac-round2', track: 'Vellahn', flag: '🇩🇪', country: 'Germany', date: '2024-05', championship: 'ADAC MX Masters', pos: null, result: '20-22-24' },
-        { id: '2024-dm125-round2', track: 'Herning', flag: '🇩🇰', country: 'Denmark', date: '2024-06', championship: 'Danish Championship 125cc', pos: null, result: '6-3' },
-        { id: '2024-dutchnationals-round1', track: 'Heerde', flag: '🇳🇱', country: 'Netherlands', date: '2024-07', championship: 'Dutch Nationals', pos: null, result: '10-15' },
-        { id: '2024-jwc-round1', track: 'Junior World Championship', flag: '🇳🇱', country: 'Netherlands', date: '2024-07', championship: 'FIM Junior World Championship 125', pos: null, result: 'DNQ' },
-        { id: '2024-emx125-round3', track: 'Uddevalla', flag: '🇸🇪', country: 'Sweden', date: '2024-08', championship: 'EMX125', pos: null, result: '28-DNF' },
-        { id: '2024-dm125-round3', track: 'Hedeland', flag: '🇩🇰', country: 'Denmark', date: '2024-09', championship: 'Danish Championship 125cc', pos: null, result: 'Race 1 P4' },
-        { id: '2024-dmmx2-round2', track: 'First 250 race', flag: '🇩🇰', country: 'Denmark', date: '2024-09', championship: 'Danish Championship MX2', pos: null, result: 'Qualified P2 · DNF-DNF' },
-        { id: '2024-blucru-round1', track: 'England', flag: '🇬🇧', country: 'United Kingdom', date: '2024-10', championship: 'Yamaha bLU cRU SuperFinale', pos: 9, result: 'Top 10' }
+        { id: '2024-dutchopener-round1', track: 'Lierop', country: 'Netherlands', date: '2024-03', championship: 'Dutch season opener', pos: 13, result: '' },
+        { id: '2024-emx125-round1', track: 'Riola Sardo', country: 'Italy', date: '2024-04', championship: 'EMX125', pos: null, result: '25-22' },
+        { id: '2024-emx125-round2', track: 'Arco di Trento', country: 'Italy', date: '2024-04', championship: 'EMX125', pos: null, result: 'DNQ' },
+        { id: '2024-dm125-round1', track: 'Svendborg', country: 'Denmark', date: '2024-04', championship: 'Danish Championship 125cc', pos: 4, result: '' },
+        { id: '2024-adac-round1', track: 'Dreetz', country: 'Germany', date: '2024-04', championship: 'ADAC MX Masters', pos: null, result: '26-11' },
+        { id: '2024-dmmx2-round1', track: 'Danish Championship MX2', country: 'Denmark', date: '2024-05', championship: 'Danish Championship MX2', pos: 13, result: '15-13 on a 125' },
+        { id: '2024-adac-round2', track: 'Vellahn', country: 'Germany', date: '2024-05', championship: 'ADAC MX Masters', pos: null, result: '20-22-24' },
+        { id: '2024-dm125-round2', track: 'Herning', country: 'Denmark', date: '2024-06', championship: 'Danish Championship 125cc', pos: null, result: '6-3' },
+        { id: '2024-dutchnationals-round1', track: 'Heerde', country: 'Netherlands', date: '2024-07', championship: 'Dutch Nationals', pos: null, result: '10-15' },
+        { id: '2024-jwc-round1', track: 'Junior World Championship', country: 'Netherlands', date: '2024-07', championship: 'FIM Junior World Championship 125', pos: null, result: 'DNQ' },
+        { id: '2024-emx125-round3', track: 'Uddevalla', country: 'Sweden', date: '2024-08', championship: 'EMX125', pos: null, result: '28-DNF' },
+        { id: '2024-dm125-round3', track: 'Hedeland', country: 'Denmark', date: '2024-09', championship: 'Danish Championship 125cc', pos: null, result: 'Race 1 P4' },
+        { id: '2024-dmmx2-round2', track: 'First 250 race', country: 'Denmark', date: '2024-09', championship: 'Danish Championship MX2', pos: null, result: 'Qualified P2 · DNF-DNF' },
+        { id: '2024-blucru-round1', track: 'England', country: 'United Kingdom', date: '2024-10', championship: 'Yamaha bLU cRU SuperFinale', pos: 9, result: 'Top 10' }
       ]
     },
     {
@@ -432,20 +417,20 @@ const SITE_DATA = {
       badge: '4th Danish Championship 125cc',
       summary: 'Joined Wozniak MX Racing Team on a 125. Fourth in the Danish 125cc championship, raced Danish MX2 against the 250s on his 125, and ADAC, and 11th at the bLU cRU SuperFinale in Ernée.',
       races: [
-        { id: '2023-club-round1', track: 'Season opener', flag: '🇩🇰', country: 'Denmark', date: '2023-03', championship: 'First race on the 125', pos: 2, result: '2-2' },
-        { id: '2023-adac-round1', track: 'Fürstlich Drehna', flag: '🇩🇪', country: 'Germany', date: '2023-04', championship: 'ADAC MX Masters', pos: null, result: '22-DNF' },
-        { id: '2023-dm125-round1', track: 'Han Herred', flag: '🇩🇰', country: 'Denmark', date: '2023-04', championship: 'Danish Championship 125cc', pos: 5, result: '5-5' },
-        { id: '2023-dmmx2-round1', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2023-05', championship: 'Danish Championship MX2', pos: null, result: '23-31 · on a 125' },
-        { id: '2023-adac-round2', track: 'Mölln', flag: '🇩🇪', country: 'Germany', date: '2023-05', championship: 'ADAC MX Masters', pos: null, result: '37-31' },
-        { id: '2023-adac-round3', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2023-05', championship: 'ADAC MX Masters', pos: null, result: '33-23' },
-        { id: '2023-dm125-round2', track: 'Svebølle', flag: '🇩🇰', country: 'Denmark', date: '2023-06', championship: 'Danish Championship 125cc', pos: null, result: '6-6' },
-        { id: '2023-dmmx2-round2', track: 'Svendborg', flag: '🇩🇰', country: 'Denmark', date: '2023-07', championship: 'Danish Championship MX2', pos: null, result: '18-16 (DSQ) · on a 125' },
-        { id: '2023-adac-round4', track: 'Gaildorf', flag: '🇩🇪', country: 'Germany', date: '2023-08', championship: 'ADAC MX Masters', pos: null, result: '29-30' },
-        { id: '2023-dmmx2-round3', track: 'Mors', flag: '🇩🇰', country: 'Denmark', date: '2023-08', championship: 'Danish Championship MX2', pos: null, result: '23-19 · on a 125' },
-        { id: '2023-adac-round5', track: 'Holzgerlingen', flag: '🇩🇪', country: 'Germany', date: '2023-09', championship: 'ADAC MX Masters', pos: null, result: '20-21' },
-        { id: '2023-dmmx2-round4', track: 'Næstved', flag: '🇩🇰', country: 'Denmark', date: '2023-09', championship: 'Danish Championship MX2', pos: null, result: '20-21 · on a 125' },
-        { id: '2023-dm125-round3', track: 'Holstebro', flag: '🇩🇰', country: 'Denmark', date: '2023-10', championship: 'Danish Championship 125cc', pos: 4, result: '4-4 · 4th in championship' },
-        { id: '2023-blucru-round1', track: 'Ernée', flag: '🇫🇷', country: 'France', date: '2023-10', championship: 'Yamaha bLU cRU SuperFinale', pos: 11, result: '' }
+        { id: '2023-club-round1', track: 'Season opener', country: 'Denmark', date: '2023-03', championship: 'First race on the 125', pos: 2, result: '2-2' },
+        { id: '2023-adac-round1', track: 'Fürstlich Drehna', country: 'Germany', date: '2023-04', championship: 'ADAC MX Masters', pos: null, result: '22-DNF' },
+        { id: '2023-dm125-round1', track: 'Han Herred', country: 'Denmark', date: '2023-04', championship: 'Danish Championship 125cc', pos: 5, result: '5-5' },
+        { id: '2023-dmmx2-round1', track: 'Randers', country: 'Denmark', date: '2023-05', championship: 'Danish Championship MX2', pos: null, result: '23-31 · on a 125' },
+        { id: '2023-adac-round2', track: 'Mölln', country: 'Germany', date: '2023-05', championship: 'ADAC MX Masters', pos: null, result: '37-31' },
+        { id: '2023-adac-round3', track: 'Randers', country: 'Denmark', date: '2023-05', championship: 'ADAC MX Masters', pos: null, result: '33-23' },
+        { id: '2023-dm125-round2', track: 'Svebølle', country: 'Denmark', date: '2023-06', championship: 'Danish Championship 125cc', pos: null, result: '6-6' },
+        { id: '2023-dmmx2-round2', track: 'Svendborg', country: 'Denmark', date: '2023-07', championship: 'Danish Championship MX2', pos: null, result: '18-16 (DSQ) · on a 125' },
+        { id: '2023-adac-round4', track: 'Gaildorf', country: 'Germany', date: '2023-08', championship: 'ADAC MX Masters', pos: null, result: '29-30' },
+        { id: '2023-dmmx2-round3', track: 'Mors', country: 'Denmark', date: '2023-08', championship: 'Danish Championship MX2', pos: null, result: '23-19 · on a 125' },
+        { id: '2023-adac-round5', track: 'Holzgerlingen', country: 'Germany', date: '2023-09', championship: 'ADAC MX Masters', pos: null, result: '20-21' },
+        { id: '2023-dmmx2-round4', track: 'Næstved', country: 'Denmark', date: '2023-09', championship: 'Danish Championship MX2', pos: null, result: '20-21 · on a 125' },
+        { id: '2023-dm125-round3', track: 'Holstebro', country: 'Denmark', date: '2023-10', championship: 'Danish Championship 125cc', pos: 4, result: '4-4 · 4th in championship' },
+        { id: '2023-blucru-round1', track: 'Ernée', country: 'France', date: '2023-10', championship: 'Yamaha bLU cRU SuperFinale', pos: 11, result: '' }
       ]
     },
     {
@@ -455,17 +440,17 @@ const SITE_DATA = {
       badge: 'Danish Vice Champion 85cc',
       summary: 'Official Yamaha contract rider. Danish vice champion in 85cc for the second year running, with two round wins and the red plate along the way, plus EMX85 and ADAC.',
       races: [
-        { id: '2022-dm85-round1', track: 'Round 1', flag: '🇩🇰', country: 'Denmark', date: '2022-04', championship: 'Danish Championship 85cc', pos: 3, result: '5-1' },
-        { id: '2022-emx85-round1', track: 'Lommel', flag: '🇧🇪', country: 'Belgium', date: '2022-05', championship: 'EMX85', pos: 14, result: '15-16' },
-        { id: '2022-emx85-round2', track: 'Emmen', flag: '🇳🇱', country: 'Netherlands', date: '2022-05', championship: 'EMX85', pos: null, result: 'Bike problem · 24' },
-        { id: '2022-adac-round1', track: 'ADAC round 1', flag: '🇩🇪', country: 'Germany', date: '2022-05', championship: 'ADAC MX Masters', pos: null, result: 'No points' },
-        { id: '2022-dm85-round2', track: 'Round 2', flag: '🇩🇰', country: 'Denmark', date: '2022-06', championship: 'Danish Championship 85cc', pos: 3, result: '3-4 · took the red plate' },
-        { id: '2022-emx85-round3', track: 'Kaplice', flag: '🇨🇿', country: 'Czech Republic', date: '2022-06', championship: 'EMX85', pos: null, result: '27-19' },
-        { id: '2022-adac-round2', track: 'Gaildorf', flag: '🇩🇪', country: 'Germany', date: '2022-08', championship: 'ADAC MX Masters', pos: 15, result: '17-15' },
-        { id: '2022-dm85-round3', track: 'Round 3', flag: '🇩🇰', country: 'Denmark', date: '2022-08', championship: 'Danish Championship 85cc', pos: null, result: '9-9' },
-        { id: '2022-dm85-round4', track: 'Round 4', flag: '🇩🇰', country: 'Denmark', date: '2022-08', championship: 'Danish Championship 85cc', pos: 1, result: '1-2' },
-        { id: '2022-dm85-round5', track: 'Round 5', flag: '🇩🇰', country: 'Denmark', date: '2022-09', championship: 'Danish Championship 85cc', pos: 1, result: '1-3' },
-        { id: '2022-adac-round3', track: 'ADAC final', flag: '🇩🇪', country: 'Germany', date: '2022-10', championship: 'ADAC MX Masters', pos: null, result: '18-14' }
+        { id: '2022-dm85-round1', track: 'Round 1', country: 'Denmark', date: '2022-04', championship: 'Danish Championship 85cc', pos: 3, result: '5-1' },
+        { id: '2022-emx85-round1', track: 'Lommel', country: 'Belgium', date: '2022-05', championship: 'EMX85', pos: 14, result: '15-16' },
+        { id: '2022-emx85-round2', track: 'Emmen', country: 'Netherlands', date: '2022-05', championship: 'EMX85', pos: null, result: 'Bike problem · 24' },
+        { id: '2022-adac-round1', track: 'ADAC round 1', country: 'Germany', date: '2022-05', championship: 'ADAC MX Masters', pos: null, result: 'No points' },
+        { id: '2022-dm85-round2', track: 'Round 2', country: 'Denmark', date: '2022-06', championship: 'Danish Championship 85cc', pos: 3, result: '3-4 · took the red plate' },
+        { id: '2022-emx85-round3', track: 'Kaplice', country: 'Czech Republic', date: '2022-06', championship: 'EMX85', pos: null, result: '27-19' },
+        { id: '2022-adac-round2', track: 'Gaildorf', country: 'Germany', date: '2022-08', championship: 'ADAC MX Masters', pos: 15, result: '17-15' },
+        { id: '2022-dm85-round3', track: 'Round 3', country: 'Denmark', date: '2022-08', championship: 'Danish Championship 85cc', pos: null, result: '9-9' },
+        { id: '2022-dm85-round4', track: 'Round 4', country: 'Denmark', date: '2022-08', championship: 'Danish Championship 85cc', pos: 1, result: '1-2' },
+        { id: '2022-dm85-round5', track: 'Round 5', country: 'Denmark', date: '2022-09', championship: 'Danish Championship 85cc', pos: 1, result: '1-3' },
+        { id: '2022-adac-round3', track: 'ADAC final', country: 'Germany', date: '2022-10', championship: 'ADAC MX Masters', pos: null, result: '18-14' }
       ]
     },
     {
@@ -476,21 +461,21 @@ const SITE_DATA = {
       bluCru: '2nd Yamaha bLU cRU SuperFinale · Mantova',
       summary: 'Danish vice champion in 85cc, Lytzen Cup winner and second at the Yamaha bLU cRU SuperFinale in Mantova. Joined Becker Racing mid-season and debuted in EMX85.',
       races: [
-        { id: '2021-club-round1', track: 'Season opener', flag: '🇩🇰', country: 'Denmark', date: '2021-04', championship: 'Club race', pos: 1, result: '1-1' },
-        { id: '2021-dm85-round1', track: 'Round 1', flag: '🇩🇰', country: 'Denmark', date: '2021-04', championship: 'Danish Championship 85cc', pos: null, result: '2-3' },
-        { id: '2021-lytzen-round1', track: 'Lytzen Cup round 1', flag: '🇩🇰', country: 'Denmark', date: '2021-05', championship: 'Lytzen Cup', pos: 2, result: '2-2' },
-        { id: '2021-dm85-round3', track: 'Qualifier round 3', flag: '🇩🇰', country: 'Denmark', date: '2021-05', championship: 'Danish Championship 85cc', pos: 1, result: '2-1' },
-        { id: '2021-lytzen-round2', track: 'Lytzen Cup round 2', flag: '🇩🇰', country: 'Denmark', date: '2021-05', championship: 'Lytzen Cup', pos: 2, result: '2-2' },
-        { id: '2021-randersgp-round1', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2021-06', championship: 'Randers Club GP', pos: 1, result: '' },
-        { id: '2021-lytzen-round3', track: 'Lytzen Cup final', flag: '🇩🇰', country: 'Denmark', date: '2021-06', championship: 'Lytzen Cup', pos: 1, result: '1-1 · series winner' },
-        { id: '2021-adac-round1', track: 'ADAC round 1', flag: '🇩🇪', country: 'Germany', date: '2021-07', championship: 'ADAC MX Masters', pos: null, result: 'Qualified 28th of 46' },
-        { id: '2021-dm85-round4', track: 'Qualifier final', flag: '🇩🇰', country: 'Denmark', date: '2021-07', championship: 'Danish Championship 85cc', pos: 3, result: '4-3' },
-        { id: '2021-adac-round2', track: 'Tensfeld', flag: '🇩🇪', country: 'Germany', date: '2021-07', championship: 'ADAC MX Masters', pos: 15, result: '15th of 39' },
-        { id: '2021-dm85-round5', track: 'Final round 1', flag: '🇩🇰', country: 'Denmark', date: '2021-08', championship: 'Danish Championship 85cc', pos: 2, result: '2-2' },
-        { id: '2021-emx85-round1', track: 'Slovakia', flag: '🇸🇰', country: 'Slovakia', date: '2021-09', championship: 'EMX85', pos: null, result: '17-16' },
-        { id: '2021-adac-round3', track: 'Drehna', flag: '🇩🇪', country: 'Germany', date: '2021-09', championship: 'ADAC MX Masters', pos: 15, result: '13-16' },
-        { id: '2021-adac-round4', track: 'Reutlingen', flag: '🇩🇪', country: 'Germany', date: '2021-09', championship: 'ADAC MX Masters', pos: 18, result: '29-15' },
-        { id: '2021-blucru-round1', track: 'Mantova', flag: '🇮🇹', country: 'Italy', date: '2021-09', championship: 'Yamaha bLU cRU SuperFinale', pos: 2, result: '' }
+        { id: '2021-club-round1', track: 'Season opener', country: 'Denmark', date: '2021-04', championship: 'Club race', pos: 1, result: '1-1' },
+        { id: '2021-dm85-round1', track: 'Round 1', country: 'Denmark', date: '2021-04', championship: 'Danish Championship 85cc', pos: null, result: '2-3' },
+        { id: '2021-lytzen-round1', track: 'Lytzen Cup round 1', country: 'Denmark', date: '2021-05', championship: 'Lytzen Cup', pos: 2, result: '2-2' },
+        { id: '2021-dm85-round3', track: 'Qualifier round 3', country: 'Denmark', date: '2021-05', championship: 'Danish Championship 85cc', pos: 1, result: '2-1' },
+        { id: '2021-lytzen-round2', track: 'Lytzen Cup round 2', country: 'Denmark', date: '2021-05', championship: 'Lytzen Cup', pos: 2, result: '2-2' },
+        { id: '2021-randersgp-round1', track: 'Randers', country: 'Denmark', date: '2021-06', championship: 'Randers Club GP', pos: 1, result: '' },
+        { id: '2021-lytzen-round3', track: 'Lytzen Cup final', country: 'Denmark', date: '2021-06', championship: 'Lytzen Cup', pos: 1, result: '1-1 · series winner' },
+        { id: '2021-adac-round1', track: 'ADAC round 1', country: 'Germany', date: '2021-07', championship: 'ADAC MX Masters', pos: null, result: 'Qualified 28th of 46' },
+        { id: '2021-dm85-round4', track: 'Qualifier final', country: 'Denmark', date: '2021-07', championship: 'Danish Championship 85cc', pos: 3, result: '4-3' },
+        { id: '2021-adac-round2', track: 'Tensfeld', country: 'Germany', date: '2021-07', championship: 'ADAC MX Masters', pos: 15, result: '15th of 39' },
+        { id: '2021-dm85-round5', track: 'Final round 1', country: 'Denmark', date: '2021-08', championship: 'Danish Championship 85cc', pos: 2, result: '2-2' },
+        { id: '2021-emx85-round1', track: 'Slovakia', country: 'Slovakia', date: '2021-09', championship: 'EMX85', pos: null, result: '17-16' },
+        { id: '2021-adac-round3', track: 'Drehna', country: 'Germany', date: '2021-09', championship: 'ADAC MX Masters', pos: 15, result: '13-16' },
+        { id: '2021-adac-round4', track: 'Reutlingen', country: 'Germany', date: '2021-09', championship: 'ADAC MX Masters', pos: 18, result: '29-15' },
+        { id: '2021-blucru-round1', track: 'Mantova', country: 'Italy', date: '2021-09', championship: 'Yamaha bLU cRU SuperFinale', pos: 2, result: '' }
       ]
     },
     {
@@ -500,12 +485,12 @@ const SITE_DATA = {
       badge: 'Randers Club GP Winner 85cc',
       summary: 'Moved up to the 85 with EasyMX and Yamaha, won the Randers Club GP series and made his ADAC MX Masters debut.',
       races: [
-        { id: '2020-randersgp-round1', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2020-06', championship: 'Randers Club GP', pos: 2, result: 'First race on the 85' },
-        { id: '2020-dm85-round1', track: 'Round 1', flag: '🇩🇰', country: 'Denmark', date: '2020-08', championship: 'Danish Championship 85cc', pos: null, result: 'Race 1 P6' },
-        { id: '2020-dm85-round2', track: 'Round 2', flag: '🇩🇰', country: 'Denmark', date: '2020-08', championship: 'Danish Championship 85cc', pos: null, result: '9-6' },
-        { id: '2020-randersgp-round2', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2020-09', championship: 'Randers Club GP', pos: 1, result: '' },
-        { id: '2020-adac-round1', track: 'ADAC debut', flag: '🇩🇪', country: 'Germany', date: '2020-10', championship: 'ADAC MX Masters', pos: 16, result: '18-14' },
-        { id: '2020-randersgp-round3', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2020-10', championship: 'Randers Club GP', pos: 1, result: 'Series winner' }
+        { id: '2020-randersgp-round1', track: 'Randers', country: 'Denmark', date: '2020-06', championship: 'Randers Club GP', pos: 2, result: 'First race on the 85' },
+        { id: '2020-dm85-round1', track: 'Round 1', country: 'Denmark', date: '2020-08', championship: 'Danish Championship 85cc', pos: null, result: 'Race 1 P6' },
+        { id: '2020-dm85-round2', track: 'Round 2', country: 'Denmark', date: '2020-08', championship: 'Danish Championship 85cc', pos: null, result: '9-6' },
+        { id: '2020-randersgp-round2', track: 'Randers', country: 'Denmark', date: '2020-09', championship: 'Randers Club GP', pos: 1, result: '' },
+        { id: '2020-adac-round1', track: 'ADAC debut', country: 'Germany', date: '2020-10', championship: 'ADAC MX Masters', pos: 16, result: '18-14' },
+        { id: '2020-randersgp-round3', track: 'Randers', country: 'Denmark', date: '2020-10', championship: 'Randers Club GP', pos: 1, result: 'Series winner' }
       ]
     },
     {
@@ -516,16 +501,16 @@ const SITE_DATA = {
       bluCru: '3rd Yamaha bLU cRU SuperFinale · Assen',
       summary: 'Third in the Danish 65cc championship and third at the Yamaha bLU cRU SuperFinale at the Motocross of Nations in Assen. Raced EMX65 and the FIM Junior World Championship in Italy.',
       races: [
-        { id: '2019-emx65-round1', track: 'Slagelse', flag: '🇩🇰', country: 'Denmark', date: '2019-05', championship: 'EMX65', pos: 15, result: '17-12' },
-        { id: '2019-dm65-round3', track: 'Round 3', flag: '🇩🇰', country: 'Denmark', date: '2019-05', championship: 'Danish Championship 65cc', pos: 3, result: '4-3' },
-        { id: '2019-emx65-round2', track: 'Arnhem', flag: '🇳🇱', country: 'Netherlands', date: '2019-06', championship: 'EMX65', pos: null, result: 'Two top-20 motos' },
-        { id: '2019-jwc-round1', track: 'Arco di Trento', flag: '🇮🇹', country: 'Italy', date: '2019-07', championship: 'FIM Junior World Championship 65cc', pos: null, result: 'Last chance qualifier' },
-        { id: '2019-dm65-round4', track: 'Round 4', flag: '🇩🇰', country: 'Denmark', date: '2019-08', championship: 'Danish Championship 65cc', pos: null, result: '4-5' },
-        { id: '2019-club-round1', track: 'Mors', flag: '🇩🇰', country: 'Denmark', date: '2019-08', championship: 'Club race', pos: 2, result: '1-2' },
-        { id: '2019-dm65-round5', track: 'Round 5', flag: '🇩🇰', country: 'Denmark', date: '2019-09', championship: 'Danish Championship 65cc', pos: 2, result: '2-2' },
-        { id: '2019-randersgp-round1', track: 'Randers', flag: '🇩🇰', country: 'Denmark', date: '2019-09', championship: 'Randers Club GP', pos: 1, result: 'Series winner' },
-        { id: '2019-dm65-round6', track: 'Final', flag: '🇩🇰', country: 'Denmark', date: '2019-09', championship: 'Danish Championship 65cc', pos: 2, result: '1-3 · 3rd in championship' },
-        { id: '2019-blucru-round1', track: 'Assen (MXoN)', flag: '🇳🇱', country: 'Netherlands', date: '2019-09', championship: 'Yamaha bLU cRU SuperFinale', pos: 3, result: '' }
+        { id: '2019-emx65-round1', track: 'Slagelse', country: 'Denmark', date: '2019-05', championship: 'EMX65', pos: 15, result: '17-12' },
+        { id: '2019-dm65-round3', track: 'Round 3', country: 'Denmark', date: '2019-05', championship: 'Danish Championship 65cc', pos: 3, result: '4-3' },
+        { id: '2019-emx65-round2', track: 'Arnhem', country: 'Netherlands', date: '2019-06', championship: 'EMX65', pos: null, result: 'Two top-20 motos' },
+        { id: '2019-jwc-round1', track: 'Arco di Trento', country: 'Italy', date: '2019-07', championship: 'FIM Junior World Championship 65cc', pos: null, result: 'Last chance qualifier' },
+        { id: '2019-dm65-round4', track: 'Round 4', country: 'Denmark', date: '2019-08', championship: 'Danish Championship 65cc', pos: null, result: '4-5' },
+        { id: '2019-club-round1', track: 'Mors', country: 'Denmark', date: '2019-08', championship: 'Club race', pos: 2, result: '1-2' },
+        { id: '2019-dm65-round5', track: 'Round 5', country: 'Denmark', date: '2019-09', championship: 'Danish Championship 65cc', pos: 2, result: '2-2' },
+        { id: '2019-randersgp-round1', track: 'Randers', country: 'Denmark', date: '2019-09', championship: 'Randers Club GP', pos: 1, result: 'Series winner' },
+        { id: '2019-dm65-round6', track: 'Final', country: 'Denmark', date: '2019-09', championship: 'Danish Championship 65cc', pos: 2, result: '1-3 · 3rd in championship' },
+        { id: '2019-blucru-round1', track: 'Assen (MXoN)', country: 'Netherlands', date: '2019-09', championship: 'Yamaha bLU cRU SuperFinale', pos: 3, result: '' }
       ]
     }
   ],
@@ -621,7 +606,10 @@ const SITE_DATA = {
       tier: 'title',
       name: 'No Fear Motocross',
       type: 'Riding Gear',
-      summary: 'Motocross gear partner for the 2026 season.'
+      summary: 'Motocross gear partner for the 2026 season.',
+      // Taken from vectorseek.com; ask No Fear for a copy to keep in
+      // images/.
+      logo: { src: 'https://vectorseek.com/wp-content/uploads/2021/01/No-Fear-Logo-Vector.jpg', alt: 'No Fear logo' }
     }
   ],
 
@@ -636,14 +624,13 @@ const SITE_DATA = {
   packages: {
     tiers: [
       { id: 'support', name: 'Bronze Partner', short: 'Bronze' },
-      { id: 'major', name: 'Silver Partner', short: 'Silver', featured: true },
+      { id: 'major', name: 'Silver Partner', short: 'Silver' },
       { id: 'title', name: 'Gold Partner', short: 'Gold' }
     ],
     sponsorValue: [
       {
         tier: 'support',
         intro: 'For a local business or a fan of the sport who wants to help with the basics and follow the season up close.',
-        ctaStyle: 'outline',
         features: [
           { text: 'Name or logo on the jersey — arm / back', included: true },
           { text: 'Thank-you announcement on Instagram', included: true },
@@ -658,7 +645,6 @@ const SITE_DATA = {
       {
         tier: 'major',
         intro: 'Helps cover a real part of the season, such as getting to the Pro MX rounds, with your logo on the bike at every race.',
-        ctaStyle: 'primary',
         features: [
           { text: 'Logo on the bike plastics — side panels', included: true },
           { text: 'Jersey logo — chest', included: true },
@@ -673,7 +659,6 @@ const SITE_DATA = {
       {
         tier: 'title',
         intro: 'The main partner of Frederik\'s season, including the trailer or van that gets him to every race.',
-        ctaStyle: 'outline',
         features: [
           { text: 'Name on the race transport — trailer or van', included: true },
           { text: 'Main logo on the bike, jersey and helmet', included: true },
@@ -705,10 +690,10 @@ const SITE_DATA = {
       { month: 'Aug', value: '45K', heightPct: 100, highlight: true }
     ],
     platforms: [
-      { icon: '📸', name: 'Instagram', followers: '12,400', reach: '18,200', engagement: '8.2%', growth: '+320 / mo', growthColor: 'success' },
-      { icon: '🎵', name: 'TikTok', followers: '18,700', reach: '22,400', engagement: '11.4%', growth: '+890 / mo', growthColor: 'success' },
-      { icon: '▶', name: 'YouTube', followers: '4,200', reach: '3,800', engagement: '5.1%', growth: '+140 / mo', growthColor: 'success' },
-      { icon: '📘', name: 'Facebook', followers: '3,100', reach: '2,600', engagement: '3.2%', growth: '+45 / mo', growthColor: 'dim' }
+      { name: 'Instagram', followers: '12,400', reach: '18,200', engagement: '8.2%', growth: '+320 / mo', growthColor: 'success' },
+      { name: 'TikTok', followers: '18,700', reach: '22,400', engagement: '11.4%', growth: '+890 / mo', growthColor: 'success' },
+      { name: 'YouTube', followers: '4,200', reach: '3,800', engagement: '5.1%', growth: '+140 / mo', growthColor: 'success' },
+      { name: 'Facebook', followers: '3,100', reach: '2,600', engagement: '3.2%', growth: '+45 / mo', growthColor: 'dim' }
     ],
     campaigns: [
       { name: 'Round 8 Race Coverage', impressions: '24,800', clicks: '640', ctr: '2.6%', status: 'Active', statusColor: 'green' },
