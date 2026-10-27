@@ -127,8 +127,7 @@ function getSeasonStats(season = getCurrentSeason()) {
     racesDone: completed.length,
     podiums: completed.filter(r => r.pos && r.pos <= 3).length,
     wins: completed.filter(r => r.pos === 1).length,
-    countryCount: countries.length,
-    countryNames: countries.join(', ')
+    countryCount: countries.length
   };
 }
 
@@ -141,8 +140,7 @@ function getCareerStats() {
     races: all.length,
     podiums: all.filter(r => r.pos && r.pos <= 3).length,
     wins: all.filter(r => r.pos === 1).length,
-    countryCount: countries.length,
-    countryNames: countries.join(', ')
+    countryCount: countries.length
   };
 }
 
@@ -283,9 +281,6 @@ function renderBacking() {
   bindField('backing-needs-label', b.needsLabel);
   bindField('backing-needs-heading', b.needsHeading);
   bindField('backing-needs-subtitle', b.needsSubtitle);
-  bindField('backing-commit-label', b.commitLabel);
-  bindField('backing-commit-heading', b.commitHeading);
-  bindField('backing-commit-subtitle', b.commitSubtitle);
   bindField('backing-network-label', b.networkLabel);
   bindField('backing-network-heading', b.networkHeading);
   bindField('backing-packages-label', b.packagesLabel);
@@ -313,31 +308,23 @@ function renderBacking() {
       </div>`).join('');
   };
   cards('backing-needs-container', b.needs);
-  cards('backing-commit-container', b.commitments);
 }
 
 function renderSeasonStats() {
   const s = getSeasonStats();
   const c = getCareerStats();
-  const m = SITE_DATA.seasonMetrics;
   bindField('current-season', SITE_DATA.currentSeason);
   bindField('season-rounds', s.rounds);
   bindField('season-races-done', s.racesDone);
   bindField('season-podiums', s.podiums);
   bindField('season-wins', s.wins);
   bindField('season-country-count', s.countryCount);
-  bindField('season-country-names', s.countryNames);
   bindField('career-seasons', c.seasons);
   bindField('career-first-year', c.firstYear);
-  bindField('season-focus', getCurrentSeason().focus || '');
   bindField('career-races', c.races);
   bindField('career-podiums', c.podiums);
   bindField('career-wins', c.wins);
   bindField('career-country-count', c.countryCount);
-  bindField('career-country-names', c.countryNames);
-  bindField('instagram-followers', `${m.instagramFollowers}${m.instagramFollowersSuffix}`);
-  bindField('top-reel-likes', m.topReelLikes);
-  if (SITE_DATA.socials[0]) bindField('main-social', SITE_DATA.socials[0].label);
 }
 
 function renderSeasonMetrics() {

@@ -14,7 +14,7 @@
                       on the Story page and the timeline subtitle
      backing        — the partner pitch: Partnership page headings,
                       the family's letter, what partners make possible,
-                      what we commit to, the partner network, the tier
+                      the partner network, the tier
                       wording and the "become a partner" wording on
                       the Partners page
      home           — home page text: the proof line under the name
@@ -113,20 +113,6 @@ const SITE_DATA = {
       { title: 'Tyres and race entries', desc: 'The everyday costs of a race season, round after round.' }
     ],
 
-    // "What we commit to" cards: what Frederik and the family give
-    // back. The subtitle says what partners bring.
-    commitLabel: 'A two-way partnership',
-    commitHeading: 'WHAT WE COMMIT TO',
-    commitSubtitle: 'Partners bring cash, products or services, and share the journey with their customers and staff. This is what Frederik and the family bring in return.',
-    commitments: [
-      { title: 'Your name on the bike', desc: 'On the plastics or jersey at every race he rides.' },
-      { title: 'A thank-you post', desc: 'Every partner is announced on his Instagram, the way his Danish partners Ole Larsen Transport, TKP Byg and Sidelmann Bosch Car Service were.' },
-      { title: 'News from every race', desc: 'A personal update from Frederik after each round: how it went and what is next.' },
-      { title: 'A visit from Frederik', desc: 'Frederik and the bike at your shop, workshop or staff day.' },
-      { title: 'Introductions to other partners', desc: 'We introduce you to the other partners and invite you to our partner get-togethers.' },
-      { title: 'An honest season report', desc: 'At the end of the season: how it went, the photos, and what your partnership made possible.' }
-    ],
-
     // "The partner network" text. Each entry is one paragraph.
     networkLabel: 'The partner network',
     networkHeading: 'PARTNERS MEET PARTNERS.',
@@ -206,9 +192,7 @@ const SITE_DATA = {
      profile (Oct 2026). */
   seasonMetrics: {
     instagramFollowers: '3.1',
-    instagramFollowersSuffix: 'K',
-    // Likes on the most-watched reel
-    topReelLikes: '10K'
+    instagramFollowersSuffix: 'K'
   },
 
   /* Career highlight cards on the home page (four, best first; on a
@@ -276,7 +260,7 @@ const SITE_DATA = {
     storyStrip1: { src: 'images/gallery-11.jpg', alt: 'Close-up of Frederik in his helmet' },
     storyStrip2: { src: 'images/gallery-03.jpg', alt: 'Frederik exiting a corner on his Yamaha' },
     storyStrip3: { src: 'images/gallery-10.jpg', alt: 'Young Frederik on his number 5 Yamaha in the pits' },
-    partnersBanner: { src: 'images/gallery-08.jpg', alt: 'Frederik in the air at a race in Germany' },
+    partnersBanner: { src: 'images/gallery-01.jpg', alt: 'Frederik roosting the sand in a corner' },
     contact: { src: 'images/gallery-04.jpg', alt: 'Frederik on his number 215 Yamaha' }
   },
 
@@ -296,9 +280,6 @@ const SITE_DATA = {
        bluCru                — optional, the Yamaha bLU cRU SuperFinale
                                result, shown as its own badge next to
                                `badge` (podium or top 10 years)
-       focus                 — optional, the series raced, shown on
-                               the Partnership page for the
-                               current season
        summary               — one line for the Story timeline
        nextRace              — optional, only for the current season:
                                { raceId } — shown on the Get in Touch
@@ -367,7 +348,6 @@ const SITE_DATA = {
       title: '2026 SEASON',
       subtitle: 'First season in Australia — Victorian Motocross Championship (MX3 and MX2), Pro MX and the MXGP of Australia.',
       badge: 'P2 Victorian Motocross Championship MX3',
-      focus: 'Victorian Motocross Championship · Pro MX',
       summary: 'Moved to Melbourne. Second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, Pro MX debut and a trip to the MXGP of Australia.',
       races: [
         { id: '2026-vicmc-round1', track: 'Round 1', country: 'Australia', date: '2026-04', championship: 'Victorian Motocross Championship', pos: null, result: 'MX3 6-4-5 · MX2 7-6-5' },
