@@ -164,7 +164,6 @@ const SITE_DATA = {
     label: 'Say hello',
     heading: 'GET IN TOUCH',
     subtitle: 'Fan, fellow rider, club, journalist or business, we would love to hear from you. Send a message, or come and say hi at a race.',
-    replyTime: 'We will get back to you within a couple of days.',
     channels: [
       { platform: 'Instagram', desc: 'The quickest way to reach Frederik. Send him a direct message.', cta: 'Message on Instagram' },
       { platform: 'Email', desc: 'For partnerships, media and anything longer.', cta: 'Send an email' },

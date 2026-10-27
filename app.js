@@ -627,7 +627,6 @@ function renderGetInTouch() {
   bindField('touch-label', g.label);
   bindField('touch-heading', g.heading);
   bindField('touch-subtitle', g.subtitle);
-  bindField('touch-reply-time', g.replyTime);
 
   const channels = document.getElementById('touch-channels-container');
   if (channels) {
