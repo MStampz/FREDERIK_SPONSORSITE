@@ -3395,6 +3395,7 @@ footer {
   border-radius: 12px;
   margin: 8px 0 40px;
 }
+.page-photo-wide { height: 320px; margin: 0 0 48px; }
 .photo-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3427,20 +3428,6 @@ footer {
   .photo-strip { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 48px; }
   .photo-strip img { height: 180px; }
   .photo-strip img:first-child { grid-column: 1 / -1; height: 220px; }
-}
-
-/* Results page: photo on the right of the page title, at a size the
-   photo is sharp at; the table stays near the top */
-.page-header-photo {
-  width: 420px;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  border-radius: 12px;
-  flex-shrink: 0;
-}
-@media (max-width: 900px) {
-  .page-header-inner:has(.page-header-photo) { flex-direction: column; align-items: flex-start; }
-  .page-header-photo { width: 100%; max-width: 520px; aspect-ratio: 16 / 9; }
 }
 
 /* Partners page: "Become a partner" box with a photo on the left,

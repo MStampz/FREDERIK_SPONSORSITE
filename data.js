@@ -256,7 +256,7 @@ const SITE_DATA = {
     // One extra photo per page
     homeStory: { src: 'images/gallery-06.jpg', alt: 'Frederik in the air in front of the crowd' },
     partnershipLetter: { src: 'images/gallery-05.jpg', alt: 'Frederik cornering in the late light' },
-    resultsBanner: { src: 'images/gallery-07.jpg', alt: 'Frederik jumping over the rocks against a blue sky' },
+    resultsBanner: { src: 'images/story-banner.jpg', alt: 'Frederik in the air in front of a packed grandstand' },
     storyStrip1: { src: 'images/gallery-11.jpg', alt: 'Close-up of Frederik in his helmet' },
     storyStrip2: { src: 'images/gallery-03.jpg', alt: 'Frederik exiting a corner on his Yamaha' },
     storyStrip3: { src: 'images/gallery-10.jpg', alt: 'Young Frederik on his number 5 Yamaha in the pits' },
