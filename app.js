@@ -146,7 +146,9 @@ function getCareerStats() {
 
 /* Line icons for the social accounts in data.js, by `platform`. */
 const SOCIAL_ICONS = {
-  Instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></svg>'
+  Instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></svg>',
+  Facebook: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.5-1.3 1.3-1.3H17V2.5h-2.6C11.9 2.5 10.5 4 10.5 6.5v2H8v3h2.5v10H14v-10h2.6l.4-3H14z" fill="currentColor"/></svg>',
+  Email: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>'
 };
 
 /* One footer for every page: each <footer class="site-footer"> gets
@@ -612,29 +614,11 @@ function renderPackages() {
         <ul class="sv-pkg-list">
           ${pkg.features.map(f => `<li class="${f.included ? 'sv-feat-y' : 'sv-feat-n'}">${f.text}</li>`).join('')}
         </ul>
-        <button class="btn btn-primary sv-pkg-cta" data-goto="contact" data-tier="${t.id}">Ask about ${t.short}</button>
+        <button class="btn btn-primary sv-pkg-cta" data-goto="contact">Ask about ${t.short}</button>
       </div>`;
     }).join('');
   }
 
-  renderTierOptions();
-}
-
-/* Get in Touch form tier menu (shown for the Partnership topic):
-   one option per tier, inserted before the "in-kind" option that
-   stays in the HTML. */
-function renderTierOptions() {
-  const select = document.getElementById('tier');
-  if (!select) return;
-  select.querySelectorAll('option[data-tier]').forEach(o => o.remove());
-  const inKind = select.querySelector('option[value="in-kind"]');
-  SITE_DATA.packages.tiers.forEach(t => {
-    const option = document.createElement('option');
-    option.value = t.id;
-    option.dataset.tier = '';
-    option.textContent = t.name;
-    select.insertBefore(option, inKind);
-  });
 }
 
 /* ---- Get in Touch ---- */
@@ -645,18 +629,30 @@ function renderGetInTouch() {
   bindField('touch-subtitle', g.subtitle);
   bindField('touch-reply-time', g.replyTime);
 
+  const channels = document.getElementById('touch-channels-container');
+  if (channels) {
+    channels.innerHTML = g.channels.map((c, i) => {
+      const account = SITE_DATA.socials.find(s => s.platform === c.platform && s.url);
+      const isEmail = c.platform === 'Email';
+      if (!isEmail && !account) return '';
+      const handle = isEmail ? SITE_DATA.contact.email : account.label;
+      const link = isEmail
+        ? `<a class="btn btn-primary mailto-email-link">${c.cta}</a>`
+        : `<a class="btn btn-primary" href="${account.messageUrl || account.url}" target="_blank" rel="noopener">${c.cta}</a>`;
+      return `
+        <div class="contact-channel animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+          <div class="contact-channel-icon">${SOCIAL_ICONS[c.platform] || ''}</div>
+          <h3 class="contact-channel-name">${c.platform}</h3>
+          <div class="contact-channel-handle">${handle}</div>
+          <p class="contact-channel-desc">${c.desc}</p>
+          ${link}
+        </div>`;
+    }).join('');
+  }
+
   const ways = document.getElementById('touch-ways-container');
   if (ways) {
-    const instagram = SITE_DATA.socials.find(s => s.url);
-    ways.innerHTML = g.ways.map((w, i) => {
-      let button = '';
-      if (w.link === 'instagram' && instagram) {
-        button = `<a class="btn btn-outline btn-sm" href="${instagram.url}" target="_blank" rel="noopener">${w.cta}</a>`;
-      } else if (w.link === 'email') {
-        button = `<a class="btn btn-outline btn-sm mailto-email-link">${w.cta}</a>`;
-      } else if (w.goto) {
-        button = `<button class="btn btn-outline btn-sm" data-goto="${w.goto}"${w.scroll ? ` data-scroll="${w.scroll}"` : ''}>${w.cta}</button>`;
-      }
+    ways.innerHTML = g.ways.map(w => {
       // The next race lines are filled in by renderContactNextRace.
       const nextRace = w.nextRace ? `
           <div class="contact-way-race">
@@ -664,22 +660,12 @@ function renderGetInTouch() {
             <div id="contact-next-race-date"></div>
           </div>` : '';
       return `
-        <div class="contact-way animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        <div class="contact-way">
           <h3 class="contact-way-title">${w.title}</h3>
           <p class="contact-way-desc">${w.desc}</p>${nextRace}
-          ${button}
+          <button class="btn btn-outline btn-sm" data-goto="${w.goto}"${w.scroll ? ` data-scroll="${w.scroll}"` : ''}>${w.cta}</button>
         </div>`;
     }).join('');
-  }
-
-  const topic = document.getElementById('topic');
-  if (topic) {
-    g.topics.forEach(t => {
-      const option = document.createElement('option');
-      option.value = t.value;
-      option.textContent = t.label;
-      topic.appendChild(option);
-    });
   }
 }
 
@@ -1005,39 +991,6 @@ function initDashboardTabs() {
   });
 }
 
-/* =====================================================   CONTACT FORM
-   ============================================================ */
-function initContactForm() {
-  const form = document.getElementById('contactForm');
-  if (!form) return;
-
-  const topic = document.getElementById('topic');
-  const tierGroup = document.getElementById('tier-group');
-  if (topic && tierGroup) {
-    topic.addEventListener('change', () => { tierGroup.hidden = topic.value !== 'partnership'; });
-    form.addEventListener('reset', () => { tierGroup.hidden = true; });
-  }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]');
-    const originalText = btn.textContent;
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
-
-    setTimeout(() => {
-      btn.textContent = '✓ Message Sent!';
-      btn.style.background = 'var(--success)';
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-        btn.disabled = false;
-        form.reset();
-      }, 3000);
-    }, 1200);
-  });
-}
-
 /* =====================================================   PAGE-SPECIFIC ANIMATION TRIGGERS
    ============================================================ */
 function triggerPageAnimations(pageId) {
@@ -1099,8 +1052,7 @@ function initGallery() {
 /* =====================================================   PACKAGE CTA BUTTONS
    ============================================================ */
 /* data-goto buttons go to a page. data-scroll also scrolls to a
-   section on it, and data-tier picks the Partnership topic and that
-   tier in the Get in Touch form. */
+   section on it. */
 function initPackageButtons() {
   document.querySelectorAll('[data-goto]').forEach(bindGotoButton);
 }
@@ -1109,8 +1061,7 @@ function bindGotoButton(btn) {
   if (btn.dataset.bound) return;
   btn.dataset.bound = 'true';
   btn.addEventListener('click', () => {
-    const { goto, scroll, tier } = btn.dataset;
-    if (tier) selectPartnerTier(tier);
+    const { goto, scroll } = btn.dataset;
     const samePage = goto === currentPage;
     navigateTo(goto);
     if (scroll) {
@@ -1119,15 +1070,6 @@ function bindGotoButton(btn) {
       if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), samePage ? 0 : 400);
     }
   });
-}
-
-function selectPartnerTier(tierId) {
-  const topic = document.getElementById('topic');
-  const tier = document.getElementById('tier');
-  if (!topic || !tier) return;
-  topic.value = 'partnership';
-  topic.dispatchEvent(new Event('change'));
-  tier.value = tierId;
 }
 
 /* =====================================================   INIT
@@ -1170,7 +1112,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initSeasonTabs();
   initParallax();
   initDashboardTabs();
-  initContactForm();
   initGallery();
   initPackageButtons();
 
