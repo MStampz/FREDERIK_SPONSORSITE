@@ -318,10 +318,9 @@
             <!-- The season's most important results, filled from data.js -->
             <div class="season-key-results" id="results-key-results"></div>
           </div>
+          <img class="page-header-photo" data-image="resultsBanner" alt="" loading="lazy" />
         </div>
       </div>
-
-      <img class="page-photo page-photo-wide animate-fade-up" data-image="resultsBanner" alt="" loading="lazy" />
 
       <!-- Season picker -->
       <div class="season-tabs animate-fade-up" data-season-tabs aria-label="Choose a season"></div>
@@ -474,15 +473,16 @@
            SITE_DATA.partners -->
       <div class="sponsor-tiers" id="partner-tiers-container"></div>
 
-      <img class="page-photo page-photo-wide animate-fade-up" data-image="partnersBanner" alt="" loading="lazy" style="object-position: center 12%;" />
-
-      <!-- CTA -->
-      <div class="cta-section animate-fade-up">
-        <div class="section-label" style="justify-content:center; margin-bottom:16px;">Available Slots</div>
-        <div class="cta-title" data-field="backing-sponsors-cta-title"></div>
-        <p class="cta-text" data-field="backing-sponsors-cta-text"></p>
-        <div class="cta-actions">
-          <button class="btn btn-primary btn-lg" data-goto="sponsor-value" data-scroll="partner-tiers">Partner Tiers</button>
+      <!-- CTA, with a photo beside it -->
+      <div class="cta-section cta-photo-split animate-fade-up">
+        <img class="cta-photo" data-image="partnersBanner" alt="" loading="lazy" />
+        <div class="cta-photo-body">
+          <div class="section-label" style="margin-bottom:16px;">Available Slots</div>
+          <div class="cta-title" data-field="backing-sponsors-cta-title"></div>
+          <p class="cta-text" data-field="backing-sponsors-cta-text"></p>
+          <div class="cta-actions">
+            <button class="btn btn-primary btn-lg" data-goto="sponsor-value" data-scroll="partner-tiers">Partner Tiers</button>
+          </div>
         </div>
       </div>
     </div>
