@@ -636,91 +636,16 @@
         </div>
       </div>
 
-      <!-- Ways to connect -->
-      <div class="contact-ways animate-fade-up" id="touch-ways-container"></div>
+      <!-- Ways to reach Frederik: Instagram, email, Facebook -->
+      <div class="contact-channels animate-fade-up" id="touch-channels-container"></div>
+      <p class="contact-reply-time" data-field="touch-reply-time"></p>
 
-      <!-- Contact details -->
-      <div class="contact-details-row animate-fade-up">
-        <div class="contact-info-item">
-          <div class="contact-info-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
-          <div>
-            <div class="contact-info-label">Email</div>
-            <a class="contact-info-value mailto-email-link" data-field="contact-email">info@frederikstampe.com</a>
-          </div>
-        </div>
-        <div class="contact-info-item">
-          <div class="contact-info-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div>
-          <div>
-            <div class="contact-info-label">Phone</div>
-            <div class="contact-info-value" data-field="contact-phone">+61 472 625 887</div>
-          </div>
-        </div>
-        <div class="contact-info-item">
-          <div class="contact-info-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-          <div>
-            <div class="contact-info-label">Based In</div>
-            <div class="contact-info-value" data-field="contact-location">Melbourne, Australia</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Message form -->
-      <div class="contact-form-wrap animate-fade-up">
+      <!-- Photo beside the other ways to connect -->
+      <div class="contact-more animate-fade-up">
         <img class="contact-photo" data-image="contact" alt="" loading="lazy" />
-        <div class="contact-form-card">
-          <div style="margin-bottom:28px;">
-            <h2 style="font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:600; color:var(--text); margin-bottom:6px;">Send us a message</h2>
-            <p style="font-size:14px; color:var(--text-2);" data-field="touch-reply-time"></p>
-          </div>
-          <form id="contactForm">
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label" for="fname">First Name</label>
-                <input class="form-input" type="text" id="fname" name="fname" placeholder="John" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="lname">Last Name</label>
-                <input class="form-input" type="text" id="lname" name="lname" placeholder="Smith" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="email">Email</label>
-                <input class="form-input" type="email" id="email" name="email" placeholder="john@example.com" required />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="phone">Phone (optional)</label>
-                <input class="form-input" type="tel" id="phone" name="phone" placeholder="+61 4xx xxx xxx" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="company">Organisation (optional)</label>
-                <input class="form-input" type="text" id="company" name="company" placeholder="Club, business or media outlet" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="topic">What's it about?</label>
-                <select class="form-select" id="topic" name="topic" required>
-                  <option value="" disabled selected>Choose a topic...</option>
-                  <!-- Topics are added from getInTouch.topics in data.js -->
-                </select>
-              </div>
-              <div class="form-group full" id="tier-group" hidden>
-                <label class="form-label" for="tier">Partner tier (optional)</label>
-                <select class="form-select" id="tier" name="tier">
-                  <option value="" selected>Not sure yet</option>
-                  <!-- Tier options are added from packages.tiers in data.js -->
-                  <option value="in-kind">Products or services (in-kind)</option>
-                </select>
-              </div>
-              <div class="form-group full">
-                <label class="form-label" for="message">Message</label>
-                <textarea class="form-textarea" id="message" name="message" placeholder="What would you like to say?" required></textarea>
-              </div>
-              <div class="form-group full form-submit">
-                <button type="submit" class="btn btn-primary btn-lg" style="width:100%; justify-content:center;">
-                  Send Message
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-              </div>
-            </div>
-          </form>
+        <div>
+          <div class="contact-ways" id="touch-ways-container"></div>
+          <p class="contact-quiet"><span data-field="contact-phone"></span> &nbsp;·&nbsp; <span data-field="contact-location"></span></p>
         </div>
       </div>
     </div>

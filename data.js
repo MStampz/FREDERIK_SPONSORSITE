@@ -153,38 +153,36 @@ const SITE_DATA = {
     location: 'Melbourne, Australia'
   },
 
-  /* Get in Touch page (page id `contact`). `ways` are the cards under
-     the heading. A card's button does one of three things:
-       link: 'instagram' — opens the first account in `socials`
-       link: 'email'     — opens an email to contact.email
-       goto: '<page>'    — goes to that page, and to the section with
-                           id `scroll` on it when given
-     `nextRace: true` adds the current season's next race to the card.
-     `topics` fill the form's "What's it about?" menu; picking the
-     `partnership` topic shows the partner tier menu. */
+  /* Get in Touch page (page id `contact`). `channels` are the three
+     big cards under the heading: `platform` 'Email' opens an email to
+     contact.email, any other platform opens that account's
+     `messageUrl` (or `url`) in `socials`. `ways` are the smaller cards
+     beside the photo; their button goes to page `goto`, and to the
+     section with id `scroll` on it when given. `nextRace: true` adds
+     the current season's next race to the card. */
   getInTouch: {
     label: 'Say hello',
     heading: 'GET IN TOUCH',
     subtitle: 'Fan, fellow rider, club, journalist or business, we would love to hear from you. Send a message, or come and say hi at a race.',
     replyTime: 'We will get back to you within a couple of days.',
+    channels: [
+      { platform: 'Instagram', desc: 'The quickest way to reach Frederik. Send him a direct message.', cta: 'Message on Instagram' },
+      { platform: 'Email', desc: 'For partnerships, media and anything longer.', cta: 'Send an email' },
+      { platform: 'Facebook', desc: 'Follow the page or send a message on Messenger.', cta: 'Message on Facebook' }
+    ],
     ways: [
       { title: 'Come to a race', desc: 'Come and say hi in the paddock.', cta: 'See the races', goto: 'results', nextRace: true },
       { title: 'Partner with Frederik', desc: 'Want to be part of his next season? See what partners make possible and the partner tiers.', cta: 'See partner tiers', goto: 'sponsor-value', scroll: 'partner-tiers' }
-    ],
-    topics: [
-      { value: 'hello', label: 'Just saying hi' },
-      { value: 'partnership', label: 'Partnership' },
-      { value: 'media', label: 'Media or interview' },
-      { value: 'racing', label: 'Racing or team' },
-      { value: 'other', label: 'Something else' }
     ]
   },
 
-  /* Social accounts, shown as icons in the footer. `platform` picks
-     the icon (Instagram has one). Accounts without a `url` are left
-     out. */
+  /* Social accounts, shown as icons in the footer and as cards on Get
+     in Touch. `platform` picks the icon (Instagram and Facebook have
+     one). `messageUrl` opens a direct message. Accounts without a
+     `url` are left out. */
   socials: [
-    { platform: 'Instagram', label: '@frederik_stampe', url: 'https://www.instagram.com/frederik_stampe/' }
+    { platform: 'Instagram', label: '@frederik_stampe', url: 'https://www.instagram.com/frederik_stampe/', messageUrl: 'https://ig.me/m/frederik_stampe' },
+    { platform: 'Facebook', label: 'Frederik Rahn Stampe', url: 'https://www.facebook.com/FrederikRahnStampe/', messageUrl: 'https://m.me/FrederikRahnStampe' }
   ],
 
   /* Only numbers that can be checked go here. Races and podiums are
