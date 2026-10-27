@@ -1850,7 +1850,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   gap: 24px;
   align-items: stretch;
 }
-.contact-more .contact-ways { margin-bottom: 16px; }
+.contact-more .contact-ways { margin-bottom: 0; }
 .contact-photo {
   width: 100%;
   height: 100%;
@@ -1859,11 +1859,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   object-fit: cover;
   object-position: center 35%;
   border-radius: 16px;
-}
-.contact-quiet {
-  font-size: 14px;
-  color: var(--text-2);
-  margin: 0;
 }
 @media (max-width: 860px) {
   .contact-more { grid-template-columns: 1fr; }
