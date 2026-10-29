@@ -53,7 +53,7 @@ const SITE_DATA = {
   site: {
     name: 'FREDERIK RAHN STAMPE',
     raceNumber: '215',
-    raceClass: 'MX2',
+    raceClass: 'MX2 · MX3',
     country: 'Denmark',
     nationality: 'Danish',
     birthplace: 'Aarhus, Denmark',
@@ -62,7 +62,7 @@ const SITE_DATA = {
     basedInCity: 'Melbourne',
     homeClub: 'Randers Motor Sport',
     // Short line under the class in the home page hero
-    heroLine: 'Racing in Australia'
+    heroLine: 'Melbourne'
   },
 
   /* Headline titles. The first one is shown in the Partnership
@@ -351,7 +351,7 @@ const SITE_DATA = {
       year: 2026,
       title: '2026 SEASON',
       subtitle: 'First season in Australia — Victorian Motocross Championship (MX3 and MX2), Pro MX and the MXGP of Australia.',
-      badge: 'P2 Victorian Motocross Championship MX3',
+      badge: 'Victorian MX3 vice champion',
       summary: 'Moved to Melbourne. Second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, Pro MX debut and a trip to the MXGP of Australia.',
       races: [
         { id: '2026-vicmcmx2-round1', track: 'Round 1', country: 'Australia', date: '2026-04', championship: 'Victorian Motocross Championship MX2', pos: null, result: '7-6-5' },
