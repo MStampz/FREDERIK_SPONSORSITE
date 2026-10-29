@@ -1078,6 +1078,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: 220px;
+  grid-auto-flow: dense;
   gap: 12px;
   margin-bottom: 40px;
 }
@@ -1183,11 +1184,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(135deg, #fbfaf8 0%, #f3e9e6 50%, #f7f5f2 100%);
+  background: #0a0a08;
   padding: 80px 32px;
   position: relative;
   overflow: hidden;
 }
+/* Photo behind the quote, dimmed like the story banner */
+.story-quote > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+.story-quote-inner { position: relative; z-index: 1; }
 .story-quote::before {
   content: '"';
   position: absolute;
@@ -3121,8 +3132,8 @@ footer {
    RED ON WHITE THEME OVERRIDES
    ============================================================ */
 
-/* The story banner photo stays dark, so text there stays white */
-.story-banner, .story-banner * { --text:#ffffff; --text-2:rgba(255,255,255,0.8); --text-3:rgba(255,255,255,0.65); --sand:#e9ecef; --sand-light:#ffffff; --gold:#ff4d63; --gold-light:#ff6b7e; --accent:#ff4d63; }
+/* The story banner photos stay dark, so text there stays white */
+.story-banner, .story-banner *, .story-quote, .story-quote * { --text:#ffffff; --text-2:rgba(255,255,255,0.8); --text-3:rgba(255,255,255,0.65); --sand:#e9ecef; --sand-light:#ffffff; --gold:#ff4d63; --gold-light:#ff6b7e; --accent:#ff4d63; }
 
 /* Results badges and status chips tuned for readable contrast on white */
 .pos-2 { background: rgba(120,126,135,0.14); color: #4f555d; }
@@ -3385,4 +3396,39 @@ footer {
   .cta-photo-split { grid-template-columns: 1fr; gap: 24px; padding: 16px 16px 32px; text-align: center; }
   .cta-photo-split .section-label { justify-content: center; }
   .cta-photo-split .cta-actions { justify-content: center; }
+}
+
+/* Results on phones: each race becomes a compact card so the
+   championship and result are never cut off */
+@media (max-width: 640px) {
+  .results-table thead { display: none; }
+  .results-table, .results-table tbody { display: block; }
+  .results-table tr {
+    display: grid;
+    grid-template-columns: 28px auto 1fr auto;
+    grid-template-areas:
+      "num event   event   result"
+      "num champ   champ   result"
+      "num date    country result";
+    column-gap: 12px;
+    row-gap: 2px;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(21,23,27,0.06);
+  }
+  .results-table tr:last-child { border-bottom: none; }
+  .results-table td,
+  .results-table th:nth-child(3),
+  .results-table td:nth-child(3) { display: block; padding: 0; border: none; background: none; }
+  .results-table tr:hover td { background: none; }
+  .results-table td:nth-child(1) { grid-area: num; align-self: start; }
+  .results-table td:nth-child(2) { grid-area: event; }
+  .results-table td:nth-child(3) { grid-area: country; font-size: 12px; color: var(--text-3); }
+  .results-table td:nth-child(3) { margin-left: -8px; }
+  .results-table td:nth-child(3)::before { content: '· '; }
+  .results-table td:nth-child(4) { grid-area: date; font-size: 12px; color: var(--text-3); }
+  .results-table td:nth-child(5) { grid-area: champ; font-size: 13px; line-height: 1.35; }
+  .results-table td:nth-child(6) { grid-area: result; text-align: right; max-width: 120px; }
+  .results-table .pos-result { display: block; font-size: 12px; margin-top: 2px; }
+  .results-table .pos-badge + .pos-result { margin-top: 4px; }
 }
