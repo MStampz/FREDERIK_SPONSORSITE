@@ -360,7 +360,7 @@ const SITE_DATA = {
         { id: '2026-sandmasters-round1', track: 'Sandmasters', country: 'Australia', date: '2026-05', championship: 'Sandmasters', pos: null, result: '1-1-DNF-DNS' },
         { id: '2026-promx-round2', track: 'Gillman', country: 'Australia', date: '2026-05', championship: 'Pro MX', pos: null, result: '11-17' },
         { id: '2026-vicmcmx3-round2', track: 'Round 2', country: 'Australia', date: '2026-05', championship: 'Victorian Motocross Championship MX3', pos: 2, result: '3-2-2' },
-        { id: '2026-promx-round5', track: 'Appin', country: 'Australia', date: '2026-06', championship: 'Pro MX', pos: null, result: 'Round 5' },
+        { id: '2026-promx-round5', track: 'Appin', country: 'Australia', date: '2026-06', championship: 'Pro MX', pos: null, result: '15-21' },
         { id: '2026-vicmcmx2-round3', track: 'Round 3', country: 'Australia', date: '2026-07', championship: 'Victorian Motocross Championship MX2', pos: 2, result: '' },
         { id: '2026-vicmcmx3-round3', track: 'Round 3', country: 'Australia', date: '2026-07', championship: 'Victorian Motocross Championship MX3', pos: 3, result: '' },
         { id: '2026-vicmcmx2-round4', track: 'Round 4', country: 'Australia', date: '2026-08', championship: 'Victorian Motocross Championship MX2', pos: null, result: 'DNF' },
