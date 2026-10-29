@@ -136,7 +136,7 @@ const SITE_DATA = {
      first entry in `titles`, then the career podium count (counted
      from `seasons`). */
   home: {
-    heroResult: 'P2 Victorian Motocross Championship MX3 2026',
+    heroResult: '1× Victorian vice champion',
 
     storyLabel: 'His story',
     storyHeading: 'FROM DENMARK TO MELBOURNE.',
@@ -208,11 +208,11 @@ const SITE_DATA = {
      without it a race card uses its finishing position. */
   homeHighlights: [
     {
-      raceId: '2026-vicmc-round2',
-      label: 'P2',
+      label: '1×',
+      medal: 2,
       meta: '2026 &nbsp;·&nbsp; Final standings &nbsp;·&nbsp; Australia',
       image: 'images/hl-victorian-mx3.jpg',
-      title: 'VICTORIAN MOTOCROSS CHAMPIONSHIP MX3',
+      title: 'VICTORIAN VICE CHAMPION MX3',
       summary: 'Second overall in the 2026 Victorian Motocross Championship MX3, in his first season in Australia after five months off the bike.'
     },
     {
@@ -232,7 +232,8 @@ const SITE_DATA = {
       summary: '4× on the Danish Championship podium: vice champion in 85cc in 2021 and 2022, plus 3rd in 65cc (2019) and 3rd in 125cc (2024).'
     },
     {
-      label: '11',
+      label: '11 countries',
+      medal: 2,
       meta: '2019 – 2026 &nbsp;·&nbsp; 11 countries',
       image: 'images/hl-international.jpg',
       title: 'INTERNATIONAL EXPERIENCE',
@@ -249,7 +250,8 @@ const SITE_DATA = {
   images: {
     hero: { src: 'images/hero.jpg', alt: 'Frederik Rahn Stampe in action' },
     portrait: { src: 'images/portrait.jpg', alt: 'Frederik Rahn Stampe on his Yamaha, number 215' },
-    storyBanner: { src: 'images/story-banner.jpg', alt: 'Frederik in the air in front of a packed grandstand' },
+    storyQuote: { src: 'images/story-quote.jpg', alt: 'Frederik in the air in front of a crowd waving flags' },
+    storyBanner: { src: 'images/story-seasons.jpg', alt: 'Frederik high in the air against a blue sky' },
     // One extra photo per page
     homeStory: { src: 'images/gallery-06.jpg', alt: 'Frederik in the air in front of the crowd' },
     partnershipLetter: { src: 'images/gallery-05.jpg', alt: 'Frederik cornering in the late light' },
@@ -293,7 +295,7 @@ const SITE_DATA = {
                  page as Upcoming) */
   /* Race ids
      Every race has an id in the form  <year>-<series>-round<N>,
-     e.g. '2026-vicmc-round2'. Home page highlights and the next
+     e.g. '2026-vicmcmx3-round2'. Home page highlights and the next
      race point at races by this id, so adding or reordering races
      never moves them.
 
@@ -301,7 +303,9 @@ const SITE_DATA = {
        series  — one of the slugs in `series` below, lowercase letters
                  and digits only. Use the same slug for the same
                  series in every season; add a new slug to `series`
-                 before using it
+                 before using it. A meeting that runs separate
+                 classes gets one slug per class (vicmcmx2 and
+                 vicmcmx3), and lists the classes as separate races
        N       — the official round number of that series in that
                  season. When it isn't known, count on from the last
                  known round in the order listed here (from 1 if
@@ -311,9 +315,12 @@ const SITE_DATA = {
      the browser console for a malformed, duplicate or unknown id. */
   series: {
     // Australia
-    vicmc: 'Victorian Motocross Championship',
+    vicmcmx2: 'Victorian Motocross Championship MX2',
+    vicmcmx3: 'Victorian Motocross Championship MX3',
     promx: 'Pro MX Championship',
     sandmasters: 'Sandmasters',
+    sandmastersmx1: 'Sandmasters MX1',
+    sandmastersmx2: 'Sandmasters MX2',
     mxgp: 'MXGP World Championship',
     // Denmark
     dm65: 'Danish Championship 65cc',
@@ -347,14 +354,19 @@ const SITE_DATA = {
       badge: 'P2 Victorian Motocross Championship MX3',
       summary: 'Moved to Melbourne. Second overall in MX3 at the Victorian Motocross Championship and second in MX2 at a later round, Pro MX debut and a trip to the MXGP of Australia.',
       races: [
-        { id: '2026-vicmc-round1', track: 'Round 1', country: 'Australia', date: '2026-04', championship: 'Victorian Motocross Championship', pos: null, result: 'MX3 6-4-5 · MX2 7-6-5' },
+        { id: '2026-vicmcmx2-round1', track: 'Round 1', country: 'Australia', date: '2026-04', championship: 'Victorian Motocross Championship MX2', pos: null, result: '7-6-5' },
+        { id: '2026-vicmcmx3-round1', track: 'Round 1', country: 'Australia', date: '2026-04', championship: 'Victorian Motocross Championship MX3', pos: null, result: '6-4-5' },
         { id: '2026-promx-round1', track: 'Canberra', country: 'Australia', date: '2026-04', championship: 'Pro MX', pos: null, result: '27-25' },
         { id: '2026-sandmasters-round1', track: 'Sandmasters', country: 'Australia', date: '2026-05', championship: 'Sandmasters', pos: null, result: '1-1-DNF-DNS' },
         { id: '2026-promx-round2', track: 'Gillman', country: 'Australia', date: '2026-05', championship: 'Pro MX', pos: null, result: '11-17' },
-        { id: '2026-vicmc-round2', track: 'Round 2', country: 'Australia', date: '2026-05', championship: 'Victorian Motocross Championship MX3', pos: 2, result: '3-2-2' },
+        { id: '2026-vicmcmx3-round2', track: 'Round 2', country: 'Australia', date: '2026-05', championship: 'Victorian Motocross Championship MX3', pos: 2, result: '3-2-2' },
         { id: '2026-promx-round5', track: 'Appin', country: 'Australia', date: '2026-06', championship: 'Pro MX', pos: null, result: 'Round 5' },
-        { id: '2026-vicmc-round3', track: 'Round 3', country: 'Australia', date: '2026-07', championship: 'Victorian Motocross Championship MX2', pos: 2, result: 'MX3 P3' },
-        { id: '2026-vicmc-round4', track: 'Round 4', country: 'Australia', date: '2026-08', championship: 'Victorian Motocross Championship MX3', pos: 3, result: 'P2 in championship' },
+        { id: '2026-vicmcmx2-round3', track: 'Round 3', country: 'Australia', date: '2026-07', championship: 'Victorian Motocross Championship MX2', pos: 2, result: '' },
+        { id: '2026-vicmcmx3-round3', track: 'Round 3', country: 'Australia', date: '2026-07', championship: 'Victorian Motocross Championship MX3', pos: 3, result: '' },
+        { id: '2026-vicmcmx2-round4', track: 'Round 4', country: 'Australia', date: '2026-08', championship: 'Victorian Motocross Championship MX2', pos: null, result: 'DNF' },
+        { id: '2026-vicmcmx3-round4', track: 'Round 4', country: 'Australia', date: '2026-08', championship: 'Victorian Motocross Championship MX3', pos: 3, result: 'P2 in championship' },
+        { id: '2026-sandmastersmx1-round2', track: 'Sandmasters', country: 'Australia', date: '2026-09', championship: 'Sandmasters MX1', pos: 1, result: '' },
+        { id: '2026-sandmastersmx2-round2', track: 'Sandmasters', country: 'Australia', date: '2026-09', championship: 'Sandmasters MX2', pos: 1, result: '' },
         { id: '2026-mxgp-round1', track: 'Darwin', country: 'Australia', date: '2026-09', championship: 'MXGP of Australia', pos: null, result: 'DNS' }
       ]
     },
@@ -527,7 +539,20 @@ const SITE_DATA = {
       { image: 'images/gallery-09.jpg', size: 'large', label: 'Europe 2025' },
       { image: 'images/gallery-10.jpg', size: 'normal', label: 'In the pits, 2025' },
       { image: 'images/gallery-11.jpg', size: 'normal', label: 'Race face' },
-      { image: 'images/gallery-12.jpg', size: 'normal', label: 'Number 5 Yamaha, 2023' }
+      { image: 'images/gallery-12.jpg', size: 'normal', label: 'Number 5 Yamaha, 2023' },
+      { image: 'images/gallery-13.jpg', size: 'large', label: 'Roost in the corner, Australia 2026' },
+      { image: 'images/gallery-14.jpg', size: 'normal', label: 'Through the trees, Australia 2026' },
+      { image: 'images/gallery-15.jpg', size: 'normal', label: 'Number 215, Australia 2026' },
+      { image: 'images/gallery-16.jpg', size: 'normal', label: 'Over the top, Australia 2026' },
+      { image: 'images/gallery-17.jpg', size: 'normal', label: 'On the gas, Australia 2026' },
+      { image: 'images/gallery-18.jpg', size: 'normal', label: 'Berm, Australia 2026' },
+      { image: 'images/gallery-19.jpg', size: 'normal', label: 'Head down, Australia 2026' },
+      { image: 'images/gallery-20.jpg', size: 'large', label: 'Sand roost, Europe 2025' },
+      { image: 'images/gallery-21.jpg', size: 'normal', label: 'In front of the fans, Europe 2025' },
+      { image: 'images/gallery-22.jpg', size: 'normal', label: 'Europe 2025' },
+      { image: 'images/gallery-23.jpg', size: 'normal', label: 'Above the treeline, Europe' },
+      { image: 'images/gallery-24.jpg', size: 'normal', label: 'Full commitment, Europe' },
+      { image: 'images/gallery-25.jpg', size: 'normal', label: 'Big air, Australia 2026' }
     ]
   },
 
