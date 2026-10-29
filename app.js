@@ -186,8 +186,6 @@ function renderFooters() {
       <div class="footer-contact">
         <h4>Contact</h4>
         <p><a class="mailto-email-link" data-field="contact-email"></a></p>
-        <p data-field="contact-phone"></p>
-        <p data-field="contact-location"></p>
         <p><a class="nav-link" data-page="contact">Send a message</a></p>
       </div>
     </div>
@@ -202,7 +200,7 @@ function renderIdentity() {
   const { site, contact } = SITE_DATA;
   const num = `#${site.raceNumber}`;
   bindField('site-name', site.name);
-  bindField('site-sub', `${num} · ${site.raceClass} · ${site.country}`);
+  bindField('site-sub', `${num} · Danish rider in Melbourne`);
   bindField('site-footer-tag', `Stampe Racing · ${site.raceClass} · ${num}`);
   bindField('rider-number', site.raceNumber);
   bindField('rider-class', site.raceClass);
