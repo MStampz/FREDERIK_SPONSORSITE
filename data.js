@@ -642,19 +642,20 @@ const SITE_DATA = {
           'For a family that moved from Denmark to start over in Australia, having a brand with No Fear\'s history in his corner means a lot.'
         ],
 
-        // Shown top right of the page. From the No Fear Motocross website
-        // (assets/images/gear-002.jpg).
-        photo: { src: 'images/partner-nofear.jpg', alt: 'No Fear 002 motocross gear, Elektron Icon and Strike 2.0' },
+        // Shown top right of the page. From the No Fear Motocross 002
+        // lookbook (assets/images/catalog/002-30.jpg); ask No Fear to OK it.
+        photo: { src: 'images/partner-nofear.jpg', alt: 'A rider in orange No Fear motocross gear next to his bike' },
 
         aboutHeading: 'ABOUT NO FEAR',
         about: [
           'No Fear was started in 1989 by brothers Mark and Brian Simo, two motocross racers from Carlsbad, California. It began with beach shorts sold at the races and grew into one of the best-known names in action sports. In the 1990s the No Fear T-shirt was everywhere, and in 1999 Jeremy McGrath, the King of Supercross, took the brand onto the track in its own race gear.',
           'After years away from motocross, No Fear is back. In their words: "Not reimagined. Not reinvented. Revived." The new range was built from the ground up, and since May 2026 it is sold in Australia through Motorcycle Specialties.'
         ],
-        // Jeremy McGrath in No Fear gear, 1999. Found online; the photo
-        // belongs to its photographer, so swap it for one from No Fear's
-        // archive when they can send one.
-        aboutPhoto: { src: 'images/partner-nofear-mcgrath.jpg', alt: 'Jeremy McGrath racing supercross in No Fear gear in 1999', caption: 'Jeremy McGrath in No Fear gear, 1999.' },
+        // Jeremy McGrath in No Fear gear, 2000. From Racer X
+        // (rx.iscdn.net/2014/12/88967_carmcgrath-2000.jpg), all rights
+        // reserved; swap it for one from No Fear's archive when they can
+        // send one.
+        aboutPhoto: { src: 'images/partner-nofear-mcgrath.jpg', alt: 'Jeremy McGrath racing supercross on his number 1 Yamaha in No Fear gear in 2000', caption: 'Jeremy McGrath in No Fear gear, 2000.' },
         facts: [
           'Founded 1989 in Carlsbad, California',
           'Started by motocross racers Mark and Brian Simo',
