@@ -558,6 +558,7 @@ function renderPartnerPage(id) {
         <div class="section-label">The business</div>
         <h2 class="partner-section-title">${pg.aboutHeading}</h2>
         ${pg.about.map(p => `<p class="bio-text">${p}</p>`).join('')}
+        ${pg.aboutPhoto ? `<figure class="partner-about-photo"><img src="${pg.aboutPhoto.src}" alt="${pg.aboutPhoto.alt}" loading="lazy" onerror="this.parentNode.remove()"/>${pg.aboutPhoto.caption ? `<figcaption>${pg.aboutPhoto.caption}</figcaption>` : ''}</figure>` : ''}
       </div>
       <div class="partner-about-side animate-fade-up animate-delay-1">
         ${partner.logo ? `<div class="partner-logo-box"><img src="${partner.logo.src}" alt="${partner.logo.alt}" loading="lazy" onerror="this.parentNode.remove()"/></div>` : ''}
@@ -580,8 +581,10 @@ function renderPartnerPage(id) {
       </div>
       <dl class="partner-contact-list">
         <dt>${c.addressLabel || 'Workshop'}</dt><dd>${c.address}</dd>
-        <dt>Phone</dt><dd><a href="tel:${c.phone.replace(/\s/g, '')}">${c.phone}</a></dd>
-        <dt>Website</dt><dd>${link(c.website)} · ${link(c.services)}</dd>
+        ${c.extra ? `<dt>${c.extra.label}</dt><dd>${c.extra.html}</dd>` : ''}
+        ${c.phone ? `<dt>Phone</dt><dd><a href="tel:${c.phone.replace(/\s/g, '')}">${c.phone}</a></dd>` : ''}
+        ${c.email ? `<dt>Email</dt><dd><a href="mailto:${c.email}">${c.email}</a></dd>` : ''}
+        <dt>Website</dt><dd>${[link(c.website), link(c.services)].filter(Boolean).join(' · ')}</dd>
         <dt>Instagram</dt><dd>${link(c.instagram)}</dd>
       </dl>
     </div>`;
