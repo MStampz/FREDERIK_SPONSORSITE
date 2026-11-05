@@ -579,7 +579,7 @@ function renderPartnerPage(id) {
         <h2 class="partner-section-title">GET IN TOUCH WITH THEM</h2>
       </div>
       <dl class="partner-contact-list">
-        <dt>Workshop</dt><dd>${c.address}</dd>
+        <dt>${c.addressLabel || 'Workshop'}</dt><dd>${c.address}</dd>
         <dt>Phone</dt><dd><a href="tel:${c.phone.replace(/\s/g, '')}">${c.phone}</a></dd>
         <dt>Website</dt><dd>${link(c.website)} · ${link(c.services)}</dd>
         <dt>Instagram</dt><dd>${link(c.instagram)}</dd>

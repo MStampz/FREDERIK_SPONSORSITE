@@ -632,6 +632,60 @@ const SITE_DATA = {
       // Taken from vectorseek.com; ask No Fear for a copy to keep in
       // images/.
       logo: { src: 'https://vectorseek.com/wp-content/uploads/2021/01/No-Fear-Logo-Vector.jpg', alt: 'No Fear logo' }
+    },
+    {
+      id: 'emil',
+      tier: 'title',
+      name: 'Emil Larsen Training',
+      type: 'Rider Coaching',
+      summary: 'Frederik\'s personal coach, a former pro rider and Danish national MX coach.',
+      // Logo and photo are from the Emil Larsen Training website; ask
+      // Emil to confirm they can be used here.
+      logo: { src: 'images/partner-emil-logo.png', alt: 'Emil Larsen Training logo' },
+      page: {
+        fullName: 'Emil Larsen Training',
+        tagline: 'Motocross, physical and mental coaching, worldwide',
+
+        withFrederikHeading: 'HOW EMIL COACHES FREDERIK',
+        withFrederik: [
+          'Emil is Frederik\'s personal coach. He builds Frederik\'s physical and technical training programme, which sets out how his training on and off the track is structured. He then reviews Frederik\'s training data online and fine-tunes the programme from there.',
+          'He also gives Frederik feedback on his riding style and technique.'
+        ],
+
+        photo: { src: 'images/partner-emil.jpg', alt: 'Emil Larsen coaching at a red-dirt motocross track' },
+
+        aboutHeading: 'ABOUT EMIL',
+        about: [
+          'Emil Larsen Training is the coaching business of Emil Larsen, based in Solrød Strand just outside Copenhagen. Emil raced professionally from 2005 to 2007, started coaching in 2010 and was national coach for the Danish MX elite from 2017 to 2024. Today he works with riders and other athletes around the world.',
+          'At 19, a crash in the US broke his neck and left him with a body that did not work from the neck down. He fought his way back out of the bed and the wheelchair, and he draws on that in his coaching and his talks. Riders such as Thomas Kjer Olsen and Magnus Smith credit him for the calm and support he gives them as much as for the training.'
+        ],
+        facts: [
+          'Danish national MX coach, 2017 to 2024',
+          'Former professional MX rider, 2005 to 2007',
+          'Team Danmark International Coaching Academy, 2015 to 2016',
+          'Diploma coach, Danish Sports Confederation (DIF), 2014'
+        ],
+
+        servicesHeading: 'WHAT EMIL DOES',
+        services: [
+          { title: 'MX training', desc: 'Individual lessons or shared group days, wherever you want to ride, in Denmark or abroad.' },
+          { title: 'Training days and camps', desc: 'Scheduled training days and camps with other dedicated riders.' },
+          { title: 'Club training', desc: 'Your local MX club can book him for evening or weekend sessions.' },
+          { title: 'Physical training', desc: 'A personal strength plan that he keeps fine-tuning through an online platform, usually based at a private training facility in Solrød.' },
+          { title: 'Mental coaching', desc: 'Staying calm in competition and handling setbacks, in person or online.' },
+          { title: 'Talks for businesses', desc: 'A talk of about two hours on performance, adversity and motivation, drawn from elite sport, with reflection exercises for your team.' }
+        ],
+
+        contact: {
+          addressLabel: 'Based in',
+          address: 'Møllebjerg 33, 2680 Solrød Strand, Denmark',
+          phone: '+45 29 90 60 95',
+          website: { label: 'emillarsentraining.com', url: 'https://www.emillarsentraining.com/en/' },
+          services: { label: 'Services and prices', url: 'https://www.emillarsentraining.com/en/#Doforyou' },
+          instagram: { label: '@emillarsen', url: 'https://www.instagram.com/emillarsen/' },
+          booking: { label: 'Book a talk with Emil', url: 'https://calendly.com/emil-emillarsentraining/30min' }
+        }
+      }
     }
   ],
 

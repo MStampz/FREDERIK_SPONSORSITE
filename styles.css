@@ -3460,3 +3460,9 @@ footer {
   .sv-pkg-grid::-webkit-scrollbar { display: none; }
   .sv-pkg-grid > * { flex: 0 0 84%; scroll-snap-align: start; }
 }
+
+/* Three partners in a tier sit in one row on wide screens, so the
+   third card is not left alone with an empty space beside it. */
+@media (min-width: 901px) {
+  .partners-grid:has(> :nth-child(3):last-child) { grid-template-columns: repeat(3, 1fr); }
+}
