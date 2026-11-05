@@ -629,9 +629,9 @@ const SITE_DATA = {
       name: 'No Fear Motocross',
       type: 'Riding Gear',
       summary: 'Motocross gear partner for the 2026 season.',
-      // Taken from vectorseek.com; ask No Fear for a copy to keep in
-      // images/.
-      logo: { src: 'https://vectorseek.com/wp-content/uploads/2021/01/No-Fear-Logo-Vector.jpg', alt: 'No Fear logo' }
+      // From vectorseek.com, cropped to remove its wide margins; ask
+      // No Fear for an official copy.
+      logo: { src: 'images/partner-nofear-logo.jpg', alt: 'No Fear logo' }
     },
     {
       id: 'emil',
