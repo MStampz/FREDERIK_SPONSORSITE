@@ -628,10 +628,60 @@ const SITE_DATA = {
       tier: 'title',
       name: 'No Fear Motocross',
       type: 'Riding Gear',
-      summary: 'Motocross gear partner for the 2026 season.',
+      summary: 'The motocross brand behind Frederik\'s race gear, on the track since 1989.',
       // From vectorseek.com, cropped to remove its wide margins; ask
       // No Fear for an official copy.
-      logo: { src: 'images/partner-nofear-logo.jpg', alt: 'No Fear logo' }
+      logo: { src: 'images/partner-nofear-logo.jpg', alt: 'No Fear logo' },
+      page: {
+        fullName: 'No Fear Motocross',
+        tagline: 'Be Everything. Fear Nothing.',
+
+        withFrederikHeading: 'HOW NO FEAR BACKS FREDERIK',
+        withFrederik: [
+          'No Fear supplies Frederik\'s riding gear, the kit he races in every weekend.',
+          'For a family that moved from Denmark to start over in Australia, having a brand with No Fear\'s history in his corner means a lot.'
+        ],
+
+        // Shown top right of the page. From the No Fear Motocross website
+        // (assets/images/gear-002.jpg).
+        photo: { src: 'images/partner-nofear.jpg', alt: 'No Fear 002 motocross gear, Elektron Icon and Strike 2.0' },
+
+        aboutHeading: 'ABOUT NO FEAR',
+        about: [
+          'No Fear was started in 1989 by brothers Mark and Brian Simo, two motocross racers from Carlsbad, California. It began with beach shorts sold at the races and grew into one of the best-known names in action sports. In the 1990s the No Fear T-shirt was everywhere, and in 1999 Jeremy McGrath, the King of Supercross, took the brand onto the track in its own race gear.',
+          'After years away from motocross, No Fear is back. In their words: "Not reimagined. Not reinvented. Revived." The new range was built from the ground up, and since May 2026 it is sold in Australia through Motorcycle Specialties.'
+        ],
+        // Jeremy McGrath in No Fear gear, 1999. Found online; the photo
+        // belongs to its photographer, so swap it for one from No Fear's
+        // archive when they can send one.
+        aboutPhoto: { src: 'images/partner-nofear-mcgrath.jpg', alt: 'Jeremy McGrath racing supercross in No Fear gear in 1999', caption: 'Jeremy McGrath in No Fear gear, 1999.' },
+        facts: [
+          'Founded 1989 in Carlsbad, California',
+          'Started by motocross racers Mark and Brian Simo',
+          'Jeremy McGrath raced in No Fear gear from 1999',
+          'Back in Australia and New Zealand since 2026'
+        ],
+
+        servicesHeading: 'WHAT NO FEAR MAKES',
+        services: [
+          { title: 'Gear sets', desc: 'Matching jersey and pants for racing, in the Elektron and Strike 2.0 lines.' },
+          { title: 'Gloves', desc: 'Formula, Strike 2.0 and Rogue Series race gloves.' },
+          { title: 'Youth gear', desc: 'Gear sets and gloves sized for younger riders.' },
+          { title: 'Apparel', desc: 'T-shirts, hoodies and hats with the classic No Fear graphics.' },
+          { title: 'Rider support', desc: 'A programme for racers who want to ride in No Fear.' },
+          { title: 'Dealers', desc: 'Sold in Australia through Motorcycle Specialties, and in New Zealand through Crown Kiwi.' }
+        ],
+
+        contact: {
+          addressLabel: 'Based in',
+          address: 'Carlsbad, California, USA',
+          extra: { label: 'In Australia', html: '<a href="https://www.mcsonline.com.au" target="_blank" rel="noopener">Motorcycle Specialties</a>' },
+          email: 'info@nofearmotocross.com',
+          website: { label: 'nofearmotocross.com', url: 'https://www.nofearmotocross.com/' },
+          instagram: { label: '@nofearmotocross', url: 'https://www.instagram.com/nofearmotocross/' },
+          booking: { label: 'Follow on Instagram', url: 'https://www.instagram.com/nofearmotocross/' }
+        }
+      }
     },
     {
       id: 'emil',
