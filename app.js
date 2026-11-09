@@ -538,8 +538,8 @@ function renderPartners() {
           <div class="partner-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
             <div class="partner-card-tier">${tier.name}</div>
             ${p.logo
-              ? `<img class="partner-card-logo" src="${p.logo.src}" alt="${p.logo.alt}" loading="lazy" onerror="this.outerHTML='<div class=&quot;partner-logo-text&quot;>${p.name}</div>'"/>`
-              : `<div class="partner-logo-text">${p.name}</div>`}
+              ? `<img class="partner-card-logo" src="${p.logo.src}" alt="${p.logo.alt}" loading="lazy" onerror="this.remove()"/>`
+              : ''}
             <h3 class="partner-card-name">${p.name}</h3>
             <div class="partner-type">${p.type}</div>
             <p class="partner-summary">${p.summary}</p>
