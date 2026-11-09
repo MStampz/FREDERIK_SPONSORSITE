@@ -81,8 +81,8 @@
       <p class="hp-hero-proof" id="hero-proof"></p>
 
       <div class="hp-hero-btns">
-        <button class="btn btn-primary btn-lg" data-goto="sponsor-value">
-          Become a Partner
+        <button class="btn btn-primary btn-lg" data-goto="sponsors">
+          Our Partners
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -211,14 +211,14 @@
     <div class="sv-hero-graphic" data-field="rider-number">215</div>
     <div class="container sv-hero-inner">
       <div class="sv-hero-text">
-        <div class="section-label animate-fade-up"><span data-field="backing-hero-label"></span> · <span data-field="current-season">2026</span> Season</div>
+        <div class="section-label animate-fade-up"><span data-field="backing-hero-label"></span> · <span data-field="packages-season">2027</span> Season</div>
         <h1 class="sv-hero-title animate-fade-up animate-delay-1">
           <span data-field="backing-hero-title" style="color:inherit;"></span><br><span data-field="backing-hero-highlight"></span>
         </h1>
-        <p class="sv-hero-sub animate-fade-up animate-delay-2" data-field="story-pitch"></p>
+        <div class="sv-hero-intro animate-fade-up animate-delay-2" id="backing-intro-container"></div>
         <div class="sv-hero-btns animate-fade-up animate-delay-3">
-          <button class="btn btn-primary btn-lg" data-goto="sponsor-value" data-scroll="partner-tiers">Become a Partner</button>
-          <button class="btn btn-outline btn-lg" data-goto="story">His Story</button>
+          <button class="btn btn-primary btn-lg" data-goto="sponsor-value" data-scroll="partner-tiers">See the Packages</button>
+          <button class="btn btn-outline btn-lg" data-goto="sponsors">Our Partners</button>
         </div>
       </div>
       <div class="sv-hero-kpis animate-fade-up animate-delay-2">
@@ -245,12 +245,20 @@
   <!-- ── PARTNER TIERS ─────────────────────────────────────── -->
   <section class="sv-section" id="partner-tiers" style="background:var(--bg);">
     <div class="container">
-      <div class="section-label" data-field="backing-packages-label"></div>
-      <h2 class="section-title" data-field="backing-packages-heading"></h2>
-      <p class="section-subtitle" data-field="backing-packages-subtitle"></p>
+      <div class="section-label" data-field="packages-label"></div>
+      <h2 class="section-title" data-field="packages-heading"></h2>
+      <p class="section-subtitle" data-field="packages-subtitle"></p>
 
+      <!-- One card per tier, built from SITE_DATA.packages.tiers -->
       <div class="sv-pkg-grid" id="sv-packages-container"></div>
 
+      <div class="sv-pkg-enquire">
+        <a class="btn btn-primary btn-lg sv-pkg-enquire-btn" id="packages-enquire-btn"></a>
+        <p class="sv-pkg-enquire-text" data-field="packages-enquire-text"></p>
+        <button class="sv-pkg-link" data-goto="sponsors">See how our partners are shown on the site →</button>
+      </div>
+
+      <ul class="sv-pkg-notes" id="sv-packages-notes"></ul>
       <p class="sv-pkg-note" data-field="backing-packages-note"></p>
     </div>
   </section>
@@ -462,7 +470,7 @@
           <div>
             <div class="section-label">Team</div>
             <h1 class="section-title" style="font-size: clamp(40px,6vw,80px);">OUR PARTNERS</h1>
-            <p class="section-subtitle">The partners behind Frederik's <span data-field="current-season">2026</span> season in Australia.</p>
+            <p class="section-subtitle">The businesses behind Frederik's racing in Australia. Get to know them.</p>
           </div>
         </div>
       </div>
@@ -475,11 +483,11 @@
       <div class="cta-section cta-photo-split animate-fade-up">
         <img class="cta-photo" data-image="partnersBanner" alt="" loading="lazy" />
         <div class="cta-photo-body">
-          <div class="section-label" style="margin-bottom:16px;">Available Slots</div>
+          <div class="section-label" style="margin-bottom:16px;">2027 Season</div>
           <div class="cta-title" data-field="backing-sponsors-cta-title"></div>
           <p class="cta-text" data-field="backing-sponsors-cta-text"></p>
           <div class="cta-actions">
-            <button class="btn btn-primary btn-lg" data-goto="sponsor-value" data-scroll="partner-tiers">Partner Tiers</button>
+            <button class="btn btn-primary btn-lg" data-goto="sponsor-value" data-scroll="partner-tiers">See Partner Packages</button>
           </div>
         </div>
       </div>

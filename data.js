@@ -40,9 +40,9 @@
      partners       — current partners by tier: the Partners page,
                       the home page logo strip, and a page of its
                       own for each partner that has `page` content
-     packages       — partner tiers (one place), plus
-                      the wording for the tier cards on the
-                      Partnership page — see note below
+     packages       — the partner packages (one place): tiers,
+                      prices and benefits on the Become a Partner
+                      page — see note below
      dashboard      — dashboard page data. PLACEHOLDER numbers: the
                       page is hidden from the nav until real
                       Instagram Insights figures replace them
@@ -87,7 +87,13 @@ const SITE_DATA = {
      to see Frederik make it, often people who have made a move like
      this themselves, rather than at brands buying reach. */
   backing: {
-    heroLabel: 'Join the journey',
+    heroLabel: 'Become a Partner',
+    // Business-focused intro at the top of the Become a Partner page.
+    // Each entry is one paragraph. No promises of leads or returns.
+    intro: [
+      'Partnering with Frederik is a chance to back an ambitious motocross racer competing in Australian national MX2 racing in 2027, while your brand is seen through his racing, his social media and this website.',
+      'Beyond a traditional partnership, we also aim to introduce our partners to other relevant businesses where there may be a chance to work together.'
+    ],
     heroTitle: 'From Denmark to',
     heroTitleHighlight: 'Australia',
 
@@ -121,15 +127,12 @@ const SITE_DATA = {
       'Every partner is invited to a couple of get-togethers each season, one at a race and one at a partner\'s business, and we introduce you to the other partners. It is a small group of people who love the sport, and a good way to meet other business owners in Melbourne.'
     ],
 
-    packagesLabel: 'Ways to partner',
-    packagesHeading: 'PARTNER TIERS',
-    packagesSubtitle: 'Three tiers to start a conversation. Every partnership is tailored, so get in touch and we will find what fits.',
     packagesNote: 'Would you rather bring something specific, such as your products or services, a trip to a Pro MX round or a set of tyres? Get in touch and we will work it out together.',
 
     ctaTitle: 'Want to be part of it?',
     ctaText: 'Partner places are open for next season. Join a young rider who moved across the world to chase it, and follow every step with him.',
     sponsorsCtaTitle: 'BECOME A PARTNER',
-    sponsorsCtaText: 'Partner places are open for next season. Be part of a young Dane making it in Australia and follow every race with him.'
+    sponsorsCtaText: 'Partner places are open for 2027. See the four packages and how your business would be shown here.'
   },
 
   /* Home page text. The hero proof line is `heroResult`, then the
@@ -171,7 +174,7 @@ const SITE_DATA = {
     ],
     ways: [
       { title: 'Come to a race', desc: 'Come and say hi in the paddock.', cta: 'See the races', goto: 'results', nextRace: true },
-      { title: 'Partner with Frederik', desc: 'Want to be part of his next season? See what partners make possible and the partner tiers.', cta: 'See partner tiers', goto: 'sponsor-value', scroll: 'partner-tiers' }
+      { title: 'Partner with Frederik', desc: 'Want to be part of his 2027 season? See the partner packages and what partners make possible.', cta: 'See partner packages', goto: 'sponsor-value', scroll: 'partner-tiers' }
     ]
   },
 
@@ -556,22 +559,22 @@ const SITE_DATA = {
     ]
   },
 
-  /* Current partners. `lead` is the large card at the top of the
-     Sponsors page; `partners` are the cards below it. */
-  /* Current partners. `tier` is a tier id from packages.tiers. The
-     Partners page shows one section per tier that has partners,
-     highest tier first, and the home page logo strip lists them all.
+  /* Current partners. `tier` is a tier id from packages.tiers
+     (bronze, silver, gold or title). The Partners page lists each
+     partner under its tier, and the home page logo strip lists them
+     all. `website` is the link on the partner's card (for partners
+     with a page it comes from page.contact.website).
 
-     A partner with `page` content gets a page of its own at
-     #partner-<id>, opened from its card on the Partners page. It is
-     not in the top menu. Every Gold partner should get one; until
-     its content is written the card simply has no page button.
+     A Silver, Gold or Title partner with `page` content gets a
+     "Meet <name>" page of its own at #partner-<id>, opened from its
+     card on the Partners page. It is not in the top menu. Bronze
+     partners get a card only.
 
      Images can be a file in images/ or a full https:// address. */
   partners: [
     {
       id: 'onpoint',
-      tier: 'title',
+      tier: 'gold',
       name: 'OnPoint Suspension',
       type: 'Suspension',
       summary: 'Suspension specialists in Croydon South who set up Frederik\'s bike and look after him at the track.',
@@ -625,7 +628,7 @@ const SITE_DATA = {
     },
     {
       id: 'nofear',
-      tier: 'title',
+      tier: 'gold',
       name: 'No Fear Motocross',
       type: 'Riding Gear',
       summary: 'The motocross brand behind Frederik\'s race gear, on the track since 1989.',
@@ -686,7 +689,7 @@ const SITE_DATA = {
     },
     {
       id: 'emil',
-      tier: 'title',
+      tier: 'gold',
       name: 'Emil Larsen Training',
       type: 'Rider Coaching',
       summary: 'Frederik\'s personal coach, a former pro rider and Danish national MX coach.',
@@ -740,63 +743,61 @@ const SITE_DATA = {
     }
   ],
 
-  /* Partner tiers, smallest first. `tiers` is the single place for
-     each tier's name, short name and optional badge: the Partnership page cards
-     (title and "Ask about <short>" button) and the tier menu on the
-     Get in Touch form are built from it. No prices are shown on the
-     site: every partnership is tailored.
+  /* Partner packages for the coming season, smallest first. `tiers`
+     is the single place for each tier: its name, price and whether
+     its partners get a "Meet <company>" page of their own (`page`).
+     The Partners page shows one section per tier, highest first.
 
-     `sponsorValue` holds the card wording for each tier (with an
-     included/excluded feature list), matched by `tier` id. */
+     `features` are the rows on every package card, in the same order
+     on each card so they can be compared. For each tier a row is
+     `true` (included, shown with a tick and `text`), a string
+     (included, shown with a tick and that wording) or `false` (not
+     included, shown with a dash and `text`). Do not add benefits here
+     that Martin has not approved. */
   packages: {
+    season: '2027',
+    label: '2027 Partner packages',
+    heading: 'PARTNER PACKAGES',
+    subtitle: 'Four packages for the 2027 season. A tick shows what is included, a dash what is not.',
     tiers: [
-      { id: 'support', name: 'Bronze Partner', short: 'Bronze' },
-      { id: 'major', name: 'Silver Partner', short: 'Silver' },
-      { id: 'title', name: 'Gold Partner', short: 'Gold' }
+      { id: 'bronze', name: 'Bronze Partner', short: 'Bronze', price: 'A$1,000', page: false },
+      { id: 'silver', name: 'Silver Partner', short: 'Silver', price: 'A$2,500', page: true },
+      { id: 'gold', name: 'Gold Partner', short: 'Gold', price: 'A$5,000', page: true },
+      { id: 'title', name: 'Title Partner', short: 'Title', price: 'A$10,000', page: true, featured: true }
     ],
-    sponsorValue: [
-      {
-        tier: 'support',
-        intro: 'For a local business or a fan of the sport who wants to help with the basics and follow the season up close.',
-        features: [
-          { text: 'Name or logo on the jersey — arm / back', included: true },
-          { text: 'Thank-you announcement on Instagram', included: true },
-          { text: 'Listed on the website\'s Partners page', included: true },
-          { text: 'Personal update after every race', included: true },
-          { text: 'Season photo pack (digital)', included: true },
-          { text: 'Logo on the bike plastics', included: false },
-          { text: 'A visit from Frederik', included: false },
-          { text: 'Name on the race transport', included: false }
-        ]
-      },
-      {
-        tier: 'major',
-        intro: 'Helps cover a real part of the season, such as getting to the Pro MX rounds, with your logo on the bike at every race.',
-        features: [
-          { text: 'Logo on the bike plastics — side panels', included: true },
-          { text: 'Jersey logo — chest', included: true },
-          { text: 'Thank-you announcement and tags in race reports', included: true },
-          { text: 'Featured on the website\'s Partners page', included: true },
-          { text: 'Personal update after every race', included: true },
-          { text: 'Full season photo pack (hi-res)', included: true },
-          { text: 'A visit from Frederik to your business', included: true },
-          { text: 'Name on the race transport', included: false }
-        ]
-      },
-      {
-        tier: 'title',
-        intro: 'The main partner of Frederik\'s season, including the trailer or van that gets him to every race.',
-        features: [
-          { text: 'Name on the race transport — trailer or van', included: true },
-          { text: 'Main logo on the bike, jersey and helmet', included: true },
-          { text: 'Tagged in every race report', included: true },
-          { text: 'Homepage feature on the website', included: true },
-          { text: 'Personal update after every race, plus a season review', included: true },
-          { text: 'Full season photo pack (hi-res)', included: true },
-          { text: 'Visits from Frederik during the season', included: true },
-          { text: 'First say on the following season', included: true }
-        ]
-      }
+    features: [
+      { text: 'Company tagged in every race post',
+        bronze: true, silver: true, gold: true, title: true },
+      { text: 'Individual partner announcement post',
+        bronze: true, silver: true, gold: true, title: true },
+      { text: 'Listed on the Partners page',
+        bronze: 'Listed under Bronze on the Partners page', silver: 'Listed under Silver on the Partners page',
+        gold: 'Listed under Gold on the Partners page', title: 'Listed under Title on the Partners page' },
+      { text: 'Introductions to relevant businesses to work with',
+        bronze: true, silver: true, gold: true, title: true },
+      { text: 'Company logo on the bike',
+        bronze: 'Company logo on the bike, normal placement', silver: 'Company logo on the bike, normal placement',
+        gold: 'Company logo on the bike, normal placement', title: 'Premium logo position on the bike' },
+      { text: 'Updates from Frederik',
+        bronze: 'Season highlight updates', silver: 'Race-weekend updates',
+        gold: 'Race-weekend updates', title: 'Race-weekend updates' },
+      { text: 'Dedicated "Meet [your company]" page on this website',
+        bronze: false, silver: true, gold: true, title: true },
+      { text: 'Dedicated social media promotions',
+        bronze: false, silver: '1 dedicated social media promotion',
+        gold: '3 dedicated social media promotions', title: '6 dedicated social media promotions' },
+      { text: 'Company logo on the riding gear',
+        bronze: false, silver: false, gold: true, title: 'Prominent logo on the riding gear' },
+      { text: 'Company featured in Frederik\'s social media bio',
+        bronze: false, silver: false, gold: false, title: true }
+    ],
+    enquireLabel: 'Enquire About Partnership',
+    enquireSubject: '2027 Partnership Enquiry',
+    enquireText: 'Tell us a little about your business and which package interests you. We will get back to you.',
+    notes: [
+      'All prices are in AUD for the 2027 season.',
+      'Each package includes everything in the one before it. Promotion numbers are totals for the season, not added on top of the package before.',
+      'Logos on the riding gear depend on Frederik\'s existing team and equipment agreements.'
     ]
   },
 

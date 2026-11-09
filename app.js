@@ -9,19 +9,35 @@
    Insights numbers (see the dashboard section in data.js). Add
    'dashboard' back here and to the nav to show it again. */
 const PAGES = ['home', 'sponsor-value', 'results', 'media', 'story', 'sponsors', 'contact']
-  .concat(SITE_DATA.partners.filter(p => p.page).map(p => 'partner-' + p.id));
+  .concat(SITE_DATA.partners.filter(hasPartnerPage).map(p => 'partner-' + p.id));
 const NAV_MAP = {
   'home': 'Home',
-  'sponsor-value': 'Partnership',
+  'sponsor-value': 'Become a Partner',
   'results': 'Results',
   'media': 'Media',
   'story': 'Story',
-  'sponsors': 'Partners',
+  'sponsors': 'Our Partners',
   'dashboard': 'Dashboard',
   'contact': 'Get in Touch'
 };
 
 let currentPage = 'home';
+
+/* Only Silver, Gold and Title partners get a "Meet <name>" page,
+   and only once its content is written in data.js. Declared as a
+   function so PAGES above can use it. */
+function hasPartnerPage(p) {
+  const tier = SITE_DATA.packages.tiers.find(t => t.id === p.tier);
+  return Boolean(p.page && tier && tier.page);
+}
+
+/* mailto link for partnership enquiries, with the subject filled in.
+   `tier` (optional) is added to the subject. */
+function enquiryMailto(tier) {
+  const pk = SITE_DATA.packages;
+  const subject = tier ? `${pk.enquireSubject}: ${tier.name}` : pk.enquireSubject;
+  return `mailto:${SITE_DATA.contact.email}?subject=${encodeURIComponent(subject)}`;
+}
 
 /* Every partner page shares one page element, #page-partner, and
    counts as the Partners menu item. */
@@ -179,7 +195,7 @@ function renderFooters() {
           <h4>Partnership</h4>
           <ul>
             <li><a class="nav-link" data-page="sponsor-value">Become a Partner</a></li>
-            <li><a class="nav-link" data-page="sponsors">Partners</a></li>
+            <li><a class="nav-link" data-page="sponsors">Our Partners</a></li>
           </ul>
         </div>
       </div>
@@ -283,10 +299,10 @@ function renderBacking() {
   bindField('backing-needs-subtitle', b.needsSubtitle);
   bindField('backing-network-label', b.networkLabel);
   bindField('backing-network-heading', b.networkHeading);
-  bindField('backing-packages-label', b.packagesLabel);
-  bindField('backing-packages-heading', b.packagesHeading);
-  bindField('backing-packages-subtitle', b.packagesSubtitle);
   bindField('backing-packages-note', b.packagesNote);
+
+  const intro = document.getElementById('backing-intro-container');
+  if (intro) intro.innerHTML = b.intro.map(p => `<p class="sv-hero-sub">${p}</p>`).join('');
   bindField('backing-cta-title', b.ctaTitle);
   bindField('backing-cta-text', b.ctaText);
   bindField('backing-sponsors-cta-title', b.sponsorsCtaTitle);
@@ -375,9 +391,10 @@ function renderCarousel() {
   // Each partner's logo, or its name until there is a logo file.
   // Repeated so a short partner list still fills the strip.
   const partners = SITE_DATA.partners;
-  const once = partners.map(p => `<div class="hp-carousel-item">${p.logo
-    ? `<img class="hp-carousel-img" src="${p.logo.src}" alt="${p.logo.alt}" onerror="this.outerHTML='<div class=&quot;hp-carousel-logo&quot;>${p.name.toUpperCase()}</div>'"/>`
-    : `<div class="hp-carousel-logo">${p.name.toUpperCase()}</div>`}</div>`).join('');
+  // Each logo opens the Partners page.
+  const once = partners.map(p => `<button type="button" class="hp-carousel-item" data-goto="sponsors" aria-label="${p.name}, see our partners">${p.logo
+    ? `<img class="hp-carousel-img" src="${p.logo.src}" alt="" onerror="this.outerHTML='<div class=&quot;hp-carousel-logo&quot;>${p.name.toUpperCase()}</div>'"/>`
+    : `<div class="hp-carousel-logo">${p.name.toUpperCase()}</div>`}</button>`).join('');
   const items = once.repeat(Math.max(1, Math.ceil(8 / partners.length)));
   track.innerHTML = items + items; // duplicated for seamless loop
 }
@@ -489,28 +506,49 @@ function toTitleCase(str) {
   return str.split(' ').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ');
 }
 
-/* Partners page: one section per tier that has partners, highest
-   tier first. Partners with page content get a button to it. */
+/* Partners page: one section per tier, highest tier first (Title,
+   Gold, Silver, Bronze). Each card has the logo, name, tier and a
+   website link; Silver, Gold and Title partners with page content
+   also get a "Meet <name>" button. A tier without partners yet shows
+   one short line with a link to its package. */
 function renderPartners() {
   const container = document.getElementById('partner-tiers-container');
   if (!container) return;
   const tiers = [...SITE_DATA.packages.tiers].reverse();
   container.innerHTML = tiers.map(tier => {
     const partners = SITE_DATA.partners.filter(p => p.tier === tier.id);
-    if (!partners.length) return '';
+    const heading = `<h2 class="sponsor-tier-label">${tier.short} Partners</h2>`;
+    if (!partners.length) {
+      return `
+      <div class="sponsor-tier sponsor-tier-empty">
+        ${heading}
+        <div class="partner-empty">
+          <span>No ${tier.short} partner yet. Could it be your business?</span>
+          <button class="sv-pkg-link" data-goto="sponsor-value" data-scroll="partner-tiers">See the ${tier.short} package →</button>
+        </div>
+      </div>`;
+    }
     return `
-      <div>
-        <div class="sponsor-tier-label">${tier.short} Partners</div>
+      <div class="sponsor-tier">
+        ${heading}
         <div class="partners-grid">
-          ${partners.map((p, i) => `
+          ${partners.map((p, i) => {
+            const site = p.website || (p.page && p.page.contact && p.page.contact.website);
+            return `
           <div class="partner-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+            <div class="partner-card-tier">${tier.name}</div>
             ${p.logo
-              ? `<img class="partner-card-logo" src="${p.logo.src}" alt="${p.logo.alt}" loading="lazy" onerror="this.outerHTML='<div class=&quot;partner-logo-text&quot;>${p.name}</div>'"/>`
-              : `<div class="partner-logo-text">${p.name}</div>`}
+              ? `<img class="partner-card-logo" src="${p.logo.src}" alt="${p.logo.alt}" loading="lazy" onerror="this.remove()"/>`
+              : ''}
+            <h3 class="partner-card-name">${p.name}</h3>
             <div class="partner-type">${p.type}</div>
             <p class="partner-summary">${p.summary}</p>
-            ${p.page ? `<button class="btn btn-primary" data-goto="partner-${p.id}">Meet ${p.name}</button>` : ''}
-          </div>`).join('')}
+            <div class="partner-card-actions">
+              ${hasPartnerPage(p) ? `<button class="btn btn-primary" data-goto="partner-${p.id}">Meet ${p.name}</button>` : ''}
+              ${site ? `<a class="partner-card-site" href="${site.url}" target="_blank" rel="noopener">${site.label} ↗</a>` : ''}
+            </div>
+          </div>`;
+          }).join('')}
         </div>
       </div>`;
   }).join('');
@@ -520,7 +558,7 @@ function renderPartners() {
 function renderPartnerPage(id) {
   const container = document.getElementById('partner-page-container');
   const partner = SITE_DATA.partners.find(p => p.id === id);
-  if (!container || !partner || !partner.page) return;
+  if (!container || !partner || !hasPartnerPage(partner)) return;
   const pg = partner.page;
   const tier = getTier(partner.tier);
   const c = pg.contact;
@@ -537,7 +575,8 @@ function renderPartnerPage(id) {
     <div class="partner-hero animate-fade-up">
       <div class="partner-hero-text">
         <div class="section-label">${tier.name}</div>
-        <h1 class="section-title partner-hero-title">${pg.fullName}</h1>
+        <h1 class="section-title partner-hero-title">Meet ${partner.name}</h1>
+        <p class="partner-hero-fullname">${[pg.fullName !== partner.name ? pg.fullName : '', partner.type].filter(Boolean).join(' · ')}</p>
         <p class="section-subtitle">${pg.tagline}</p>
         <div class="partner-hero-actions">
           <a class="btn btn-primary" href="${c.booking.url}" target="_blank" rel="noopener">${c.booking.label}</a>
@@ -601,25 +640,50 @@ function getTier(id) {
 
 function renderPackages() {
   const p = SITE_DATA.packages;
+  bindField('packages-season', p.season);
+  bindField('packages-label', p.label);
+  bindField('packages-heading', p.heading);
+  bindField('packages-subtitle', p.subtitle);
+  bindField('packages-enquire-text', p.enquireText);
 
+  // Every card lists the same rows, so they line up and compare.
   const svContainer = document.getElementById('sv-packages-container');
   if (svContainer) {
-    svContainer.innerHTML = p.sponsorValue.map((pkg, i) => {
-      const t = getTier(pkg.tier);
-      return `
-      <div class="sv-pkg-card animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
-        ${t.badge ? `<div class="sv-pkg-popular-badge">${t.badge}</div>` : ''}
-        <h3 class="sv-pkg-name">${t.name}</h3>
-        <p class="sv-pkg-intro">${pkg.intro}</p>
-        <div class="sv-pkg-sep"></div>
+    svContainer.innerHTML = p.tiers.map((t, i) => `
+      <div class="sv-pkg-card${t.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
+        <div class="sv-pkg-head">
+          <h3 class="sv-pkg-name">${t.name}</h3>
+          <div class="sv-pkg-price">${t.price}</div>
+          <div class="sv-pkg-price-note">${p.season} season</div>
+        </div>
         <ul class="sv-pkg-list">
-          ${pkg.features.map(f => `<li class="${f.included ? 'sv-feat-y' : 'sv-feat-n'}">${f.text}</li>`).join('')}
+          ${p.features.map(f => {
+            const v = f[t.id];
+            return v
+              ? `<li class="sv-feat-y">${typeof v === 'string' ? v : f.text}</li>`
+              : `<li class="sv-feat-n"><span class="sr-only">Not included: </span>${f.text}</li>`;
+          }).join('')}
         </ul>
-        <button class="btn btn-primary sv-pkg-cta" data-goto="contact">Ask about ${t.short}</button>
-      </div>`;
-    }).join('');
+        <a class="btn ${t.featured ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" href="${enquiryMailto(t)}">Enquire about ${t.short}</a>
+      </div>`).join('');
   }
 
+  // Cards share the grid's rows (CSS subgrid), so the same benefit
+  // sits at the same height on every card.
+  if (svContainer) {
+    const n = p.features.length;
+    svContainer.querySelectorAll('.sv-pkg-card').forEach(c => { c.style.gridRow = `span ${n + 2}`; });
+    svContainer.querySelectorAll('.sv-pkg-list').forEach(l => { l.style.gridRow = `span ${n}`; });
+  }
+
+  const notes = document.getElementById('sv-packages-notes');
+  if (notes) notes.innerHTML = p.notes.map(n => `<li>${n}</li>`).join('');
+
+  const enquire = document.getElementById('packages-enquire-btn');
+  if (enquire) {
+    enquire.href = enquiryMailto();
+    enquire.textContent = p.enquireLabel;
+  }
 }
 
 /* ---- Get in Touch ---- */
