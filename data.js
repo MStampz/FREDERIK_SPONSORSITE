@@ -808,6 +808,7 @@ const SITE_DATA = {
         ],
         upgrades: [
           'Listed under Title instead of Gold',
+          'Premium announcement post, pinned to the top of Frederik\'s Instagram',
           'Premium logo position on the bike instead of normal placement',
           'Prominent logo on the riding gear',
           '6 dedicated social media promotions instead of 3'
