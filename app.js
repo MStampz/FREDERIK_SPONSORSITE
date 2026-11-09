@@ -646,37 +646,38 @@ function renderPackages() {
   bindField('packages-subtitle', p.subtitle);
   bindField('packages-enquire-text', p.enquireText);
 
-  const shared = document.getElementById('sv-packages-shared');
-  if (shared) {
-    shared.innerHTML = `
-      <h3 class="sv-pkg-shared-title">${p.sharedHeading}</h3>
-      <ul class="sv-pkg-shared-list">${p.shared.map(s => `<li>${s}</li>`).join('')}</ul>`;
-  }
-
-  const list = (items, cls) => items.map(t => `<li class="${cls}">${t}</li>`).join('');
+  // Every card lists the same rows, so they line up and compare.
   const svContainer = document.getElementById('sv-packages-container');
   if (svContainer) {
     svContainer.innerHTML = p.tiers.map((t, i) => `
       <div class="sv-pkg-card${t.featured ? ' sv-pkg-featured' : ''} animate-fade-up${i > 0 ? ' animate-delay-' + i : ''}">
-        <h3 class="sv-pkg-name">${t.name}</h3>
-        <div class="sv-pkg-price">${t.price}</div>
-        <div class="sv-pkg-price-note">${p.season} season</div>
-        <div class="sv-pkg-sep"></div>
-        <div class="sv-pkg-includes">${t.includesLabel}</div>
+        <div class="sv-pkg-head">
+          <h3 class="sv-pkg-name">${t.name}</h3>
+          <div class="sv-pkg-price">${t.price}</div>
+          <div class="sv-pkg-price-note">${p.season} season</div>
+        </div>
         <ul class="sv-pkg-list">
-          ${list(t.adds, 'sv-feat-add')}
-          ${list(t.upgrades, 'sv-feat-up')}
+          ${p.features.map(f => {
+            const v = f[t.id];
+            return v
+              ? `<li class="sv-feat-y">${typeof v === 'string' ? v : f.text}</li>`
+              : `<li class="sv-feat-n"><span class="sr-only">Not included: </span>${f.text}</li>`;
+          }).join('')}
         </ul>
         <a class="btn ${t.featured ? 'btn-primary' : 'btn-outline'} sv-pkg-cta" href="${enquiryMailto(t)}">Enquire about ${t.short}</a>
       </div>`).join('');
   }
 
-  const legend = document.getElementById('sv-packages-notes');
-  if (legend) {
-    legend.innerHTML = p.notes.map(n => `<li>${n}</li>`).join('');
+  // Cards share the grid's rows (CSS subgrid), so the same benefit
+  // sits at the same height on every card.
+  if (svContainer) {
+    const n = p.features.length;
+    svContainer.querySelectorAll('.sv-pkg-card').forEach(c => { c.style.gridRow = `span ${n + 2}`; });
+    svContainer.querySelectorAll('.sv-pkg-list').forEach(l => { l.style.gridRow = `span ${n}`; });
   }
-  const key = document.getElementById('sv-packages-legend');
-  if (key) key.innerHTML = `<span class="sv-feat-add">New in this package</span><span class="sv-feat-up">Upgrades a benefit from the package before</span>`;
+
+  const notes = document.getElementById('sv-packages-notes');
+  if (notes) notes.innerHTML = p.notes.map(n => `<li>${n}</li>`).join('');
 
   const enquire = document.getElementById('packages-enquire-btn');
   if (enquire) {

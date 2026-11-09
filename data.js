@@ -744,83 +744,59 @@ const SITE_DATA = {
   ],
 
   /* Partner packages for the coming season, smallest first. `tiers`
-     is the single place for each tier: its name, price, whether its
-     partners get a "Meet <company>" page of their own (`page`), and
-     what the package card lists. The Partners page shows one section
-     per tier, highest first.
+     is the single place for each tier: its name, price and whether
+     its partners get a "Meet <company>" page of their own (`page`).
+     The Partners page shows one section per tier, highest first.
 
-     A card lists only what a tier changes on top of the tier before
-     it: `adds` are new benefits, `upgrades` replace a lower-tier
-     version. `shared` is shown once, above the cards, because every
-     partner gets it. Do not add benefits here that Martin has not
-     approved. */
+     `features` are the rows on every package card, in the same order
+     on each card so they can be compared. For each tier a row is
+     `true` (included, shown with a tick and `text`), a string
+     (included, shown with a tick and that wording) or `false` (not
+     included, shown with a dash and `text`). Do not add benefits here
+     that Martin has not approved. */
   packages: {
     season: '2027',
     label: '2027 Partner packages',
     heading: 'PARTNER PACKAGES',
-    subtitle: 'Four packages for the 2027 season. Each one includes everything in the package before it.',
-    sharedHeading: 'Every partner gets',
-    shared: [
-      'Your company tagged in every race post',
-      'An individual partner announcement post',
-      'A listing in the partner directory on this website',
-      'Introductions to relevant businesses where there may be a chance to work together'
-    ],
+    subtitle: 'Four packages for the 2027 season. A tick shows what is included, a dash what is not.',
     tiers: [
-      {
-        id: 'bronze', name: 'Bronze Partner', short: 'Bronze', price: 'A$1,000', page: false,
-        includesLabel: 'Every partner benefit, plus',
-        adds: [
-          'Listed under Bronze on the Partners page',
-          'Company logo on the bike, normal placement',
-          'Season highlight updates'
-        ],
-        upgrades: []
-      },
-      {
-        id: 'silver', name: 'Silver Partner', short: 'Silver', price: 'A$2,500', page: true,
-        includesLabel: 'Everything in Bronze, plus',
-        adds: [
-          'A dedicated "Meet [your company]" page on this website',
-          '1 dedicated social media promotion during the season'
-        ],
-        upgrades: [
-          'Listed under Silver instead of Bronze',
-          'Race-weekend updates instead of season highlight updates'
-        ]
-      },
-      {
-        id: 'gold', name: 'Gold Partner', short: 'Gold', price: 'A$5,000', page: true,
-        includesLabel: 'Everything in Silver, plus',
-        adds: [
-          'Company logo on the riding gear'
-        ],
-        upgrades: [
-          'Listed under Gold instead of Silver',
-          '3 dedicated social media promotions instead of 1'
-        ]
-      },
-      {
-        id: 'title', name: 'Title Partner', short: 'Title', price: 'A$10,000', page: true, featured: true,
-        includesLabel: 'Everything in Gold, plus',
-        adds: [
-          'Your company in Frederik\'s social media bio'
-        ],
-        upgrades: [
-          'Listed under Title instead of Gold',
-          'Premium announcement post, pinned to the top of Frederik\'s Instagram',
-          'Premium logo position on the bike instead of normal placement',
-          'Prominent logo on the riding gear',
-          '6 dedicated social media promotions instead of 3'
-        ]
-      }
+      { id: 'bronze', name: 'Bronze Partner', short: 'Bronze', price: 'A$1,000', page: false },
+      { id: 'silver', name: 'Silver Partner', short: 'Silver', price: 'A$2,500', page: true },
+      { id: 'gold', name: 'Gold Partner', short: 'Gold', price: 'A$5,000', page: true },
+      { id: 'title', name: 'Title Partner', short: 'Title', price: 'A$10,000', page: true, featured: true }
+    ],
+    features: [
+      { text: 'Company tagged in every race post',
+        bronze: true, silver: true, gold: true, title: true },
+      { text: 'Individual partner announcement post',
+        bronze: true, silver: true, gold: true, title: true },
+      { text: 'Listed on the Partners page',
+        bronze: 'Listed under Bronze on the Partners page', silver: 'Listed under Silver on the Partners page',
+        gold: 'Listed under Gold on the Partners page', title: 'Listed under Title on the Partners page' },
+      { text: 'Introductions to relevant businesses to work with',
+        bronze: true, silver: true, gold: true, title: true },
+      { text: 'Company logo on the bike',
+        bronze: 'Company logo on the bike, normal placement', silver: 'Company logo on the bike, normal placement',
+        gold: 'Company logo on the bike, normal placement', title: 'Premium logo position on the bike' },
+      { text: 'Updates from Frederik',
+        bronze: 'Season highlight updates', silver: 'Race-weekend updates',
+        gold: 'Race-weekend updates', title: 'Race-weekend updates' },
+      { text: 'Dedicated "Meet [your company]" page on this website',
+        bronze: false, silver: true, gold: true, title: true },
+      { text: 'Dedicated social media promotions',
+        bronze: false, silver: '1 dedicated social media promotion',
+        gold: '3 dedicated social media promotions', title: '6 dedicated social media promotions' },
+      { text: 'Company logo on the riding gear',
+        bronze: false, silver: false, gold: true, title: 'Prominent logo on the riding gear' },
+      { text: 'Company featured in Frederik\'s social media bio',
+        bronze: false, silver: false, gold: false, title: true }
     ],
     enquireLabel: 'Enquire About Partnership',
     enquireSubject: '2027 Partnership Enquiry',
     enquireText: 'Tell us a little about your business and which package interests you. We will get back to you.',
     notes: [
       'All prices are in AUD for the 2027 season.',
-      'Promotion numbers are totals for the season, not added on top of the tier before.',
+      'Each package includes everything in the one before it. Promotion numbers are totals for the season, not added on top of the package before.',
       'Logos on the riding gear depend on Frederik\'s existing team and equipment agreements.'
     ]
   },
