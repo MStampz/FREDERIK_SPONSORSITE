@@ -865,6 +865,8 @@ function navigateTo(pageId, pushState = true) {
     history.pushState({ page: pageId }, '', '#' + pageId);
   }
 
+  trackPageView(pageId);
+
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'instant' });
 
@@ -875,6 +877,27 @@ function navigateTo(pageId, pushState = true) {
   setTimeout(() => {
     triggerPageAnimations(pageId);
   }, 250);
+}
+
+/* Visitor stats (GoatCounter). The site switches pages without
+   reloading, so each page switch is counted here as its own visit,
+   e.g. /partners or /partner-nofear. Only counts on the live site. */
+let pendingPageView = null;
+
+function trackPageView(pageId) {
+  if (!/(^|\.)frederikstampe\.com$/.test(window.location.hostname)) return;
+  pendingPageView = {
+    path: pageId === 'home' ? '/' : '/' + pageId,
+    title: document.title,
+  };
+  flushPageView();
+}
+
+function flushPageView() {
+  const gc = window.goatcounter;
+  if (!pendingPageView || !gc || typeof gc.count !== 'function') return;
+  gc.count(pendingPageView);
+  pendingPageView = null;
 }
 
 window.addEventListener('popstate', (e) => {
@@ -1159,6 +1182,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   currentPage = initialPage;
+  trackPageView(initialPage);
 
   // Update nav active state
   document.querySelectorAll('.nav-link').forEach(link => {
