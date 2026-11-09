@@ -390,7 +390,7 @@ function renderCarousel() {
   if (!track) return;
   // Each partner's logo, or its name until there is a logo file.
   // Repeated so a short partner list still fills the strip.
-  const partners = SITE_DATA.partners;
+  const partners = SITE_DATA.partners.filter(p => !p.preview);
   // Each logo opens the Partners page.
   const once = partners.map(p => `<button type="button" class="hp-carousel-item" data-goto="sponsors" aria-label="${p.name}, see our partners">${p.logo
     ? `<img class="hp-carousel-img" src="${p.logo.src}" alt="" onerror="this.outerHTML='<div class=&quot;hp-carousel-logo&quot;>${p.name.toUpperCase()}</div>'"/>`
@@ -516,7 +516,7 @@ function renderPartners() {
   if (!container) return;
   const tiers = [...SITE_DATA.packages.tiers].reverse();
   container.innerHTML = tiers.map(tier => {
-    const partners = SITE_DATA.partners.filter(p => p.tier === tier.id);
+    const partners = SITE_DATA.partners.filter(p => p.tier === tier.id && !p.preview);
     const heading = `<h2 class="sponsor-tier-label">${tier.short} Partners</h2>`;
     if (!partners.length) {
       return `
@@ -570,7 +570,9 @@ function renderPartnerPage(id) {
     </div>`).join('');
 
   container.innerHTML = `
-    <button class="partner-back" data-goto="sponsors">← All partners</button>
+    ${partner.preview
+      ? '<button class="partner-back" data-goto="sponsor-value" data-scroll="partner-tiers">← See the partner packages</button>'
+      : '<button class="partner-back" data-goto="sponsors">← All partners</button>'}
 
     <div class="partner-hero animate-fade-up">
       <div class="partner-hero-text">
@@ -624,7 +626,7 @@ function renderPartnerPage(id) {
         ${c.phone ? `<dt>Phone</dt><dd><a href="tel:${c.phone.replace(/\s/g, '')}">${c.phone}</a></dd>` : ''}
         ${c.email ? `<dt>Email</dt><dd><a href="mailto:${c.email}">${c.email}</a></dd>` : ''}
         <dt>Website</dt><dd>${[link(c.website), link(c.services)].filter(Boolean).join(' · ')}</dd>
-        <dt>Instagram</dt><dd>${link(c.instagram)}</dd>
+        ${c.instagram ? `<dt>Instagram</dt><dd>${link(c.instagram)}</dd>` : ''}
       </dl>
     </div>`;
 

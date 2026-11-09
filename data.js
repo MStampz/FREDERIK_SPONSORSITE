@@ -570,6 +570,11 @@ const SITE_DATA = {
      card on the Partners page. It is not in the top menu. Bronze
      partners get a card only.
 
+     A partner with `preview: true` is a pitch for a business that is
+     not a partner yet. Its page works at #partner-<id>, but it is left
+     off the Partners page and the home page logo strip, so it can only
+     be reached by the direct link.
+
      Images can be a file in images/ or a full https:// address. */
   partners: [
     {
@@ -738,6 +743,65 @@ const SITE_DATA = {
           services: { label: 'Services and prices', url: 'https://www.emillarsentraining.com/en/#Doforyou' },
           instagram: { label: '@emillarsen', url: 'https://www.instagram.com/emillarsen/' },
           booking: { label: 'Book a talk with Emil', url: 'https://calendly.com/emil-emillarsentraining/30min' }
+        }
+      }
+    },
+    {
+      id: 'ppfencing',
+      tier: 'gold',
+      // Pitch page only. Remove this line once PP Fencing signs on.
+      preview: true,
+      name: 'PP Fencing',
+      type: 'Fencing',
+      summary: 'Melbourne fencing company for homes and businesses, from timber and Colorbond to slat and commercial fencing.',
+      // No logo file yet; add images/partner-ppfencing-logo.png here
+      // when PP Fencing sends one.
+      logo: null,
+      page: {
+        fullName: 'Prime Perimeter Fencing',
+        tagline: 'Security you can trust. Protection you deserve.',
+
+        withFrederikHeading: 'PP FENCING AND FREDERIK',
+        withFrederik: [
+          'PP Fencing calls itself "the fencing company built for families". Frederik\'s family moved from Denmark to Melbourne to give him his shot at racing in Australia, and building something here from scratch is a story Melbourne families recognise.',
+          'As a Gold partner for 2027, PP Fencing\'s logo would go on Frederik\'s bike and riding gear. The company would be tagged in every race post and get its own partner announcement, plus three dedicated social media promotions over the season. Partners also get race-weekend updates from Frederik and introductions to other businesses in our partner group.'
+        ],
+
+        // From the PP Fencing website; ask them for files to keep in
+        // images/ and to OK their use here.
+        photo: { src: 'https://www.pp-fencing.com.au/colorbond-fence-installation-melbourne-prime-perimeter-fencing.webp', alt: 'A Colorbond steel fence installed by Prime Perimeter Fencing in Melbourne' },
+
+        aboutHeading: 'ABOUT PP FENCING',
+        about: [
+          'Prime Perimeter Fencing builds fences for homes and businesses across Melbourne, Geelong, the Casey region and regional Victoria. Their promise is simple: "No ghosts. No excuses. We show up, clean up, and finish when we say we will."',
+          'Every quote is free, with honest, upfront pricing and a 3D preview of the new fence before work starts. Every fence is built to council requirements, or in their words: "Council approved. Neighbour proof."'
+        ],
+        aboutPhoto: { src: 'https://www.pp-fencing.com.au/timber-paling-fence-installation-melbourne-prime-perimeter-fencing.webp', alt: 'A timber paling fence installed by Prime Perimeter Fencing', caption: 'A timber paling fence by PP Fencing.' },
+        facts: [
+          '12-month workmanship guarantee',
+          'Council-compliant installation',
+          'Free quote with a 3D fence preview',
+          'Reply to every enquiry within 24 hours'
+        ],
+
+        servicesHeading: 'WHAT THEY BUILD',
+        services: [
+          { title: 'Timber fencing', desc: 'Classic timber paling boundary fences for homes.' },
+          { title: 'Colorbond steel fencing', desc: 'Low-maintenance steel fences in the Colorbond colour range.' },
+          { title: 'Slat fencing', desc: 'Modern slat fences in timber, steel or aluminium.' },
+          { title: 'Chain mesh and commercial', desc: 'Security fencing for schools, councils and warehouses.' },
+          { title: 'Picket fences', desc: 'Traditional picket fences for the front of the house.' },
+          { title: 'Gates', desc: 'Gates on their own, built to match a new or existing fence.' }
+        ],
+
+        contact: {
+          addressLabel: 'Area',
+          address: 'Melbourne, Geelong, Casey and regional Victoria',
+          phone: '0400 267 247',
+          email: 'admin@pp-fencing.com.au',
+          website: { label: 'pp-fencing.com.au', url: 'https://www.pp-fencing.com.au/' },
+          services: { label: 'Services and prices', url: 'https://www.pp-fencing.com.au/services' },
+          booking: { label: 'Get a free quote', url: 'https://www.pp-fencing.com.au/contact' }
         }
       }
     }
